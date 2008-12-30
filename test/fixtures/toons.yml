@@ -1,0 +1,21 @@
+# == Schema Information
+# Schema version: 20081219192707
+#
+# Table name: toons
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  main_id    :integer
+#  job_id     :integer
+#  level      :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value

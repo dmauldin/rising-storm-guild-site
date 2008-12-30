@@ -1,0 +1,33 @@
+# == Schema Information
+# Schema version: 20081219192707
+#
+# Table name: items
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  wow_id     :integer
+#  icon       :string(255)
+#  level      :integer
+#  quality    :integer
+#  item_type  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  wow_id: 1
+  icon: MyString
+  level: 1
+  quality: 1
+  item_type: MyString
+
+two:
+  name: MyString
+  wow_id: 1
+  icon: MyString
+  level: 1
+  quality: 1
+  item_type: MyString

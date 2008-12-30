@@ -1,0 +1,31 @@
+!!! XML
+!!!
+%html
+  %head
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag "http://www.wowhead.com/widgets/power.js"
+  %body
+    .topbar
+      .logo
+        Guild Site
+      / .userbar
+      /   - unless params[:controller]=='sessions' && ['new', 'create'].include?(params[:action])
+      /     = render :partial => 'users/user_bar'
+      .endfloats
+    .navbar
+      .navlink= link_to "Raids", raids_path
+      .navlink= link_to "Loots", loots_path
+      .navlink= link_to "Items", items_path
+      / - if logged_in?
+      /   .navlink= link_to "Messages (#{current_user.unread_messages.count})", messages_path
+      / .navlink= link_to "Addons"
+      / .navlink= link_to "Members", users_path
+      / - if logged_in?
+      /   .inboxstatus
+      /     You have 
+      /     = current_user.unread_messages.count
+      /     unread
+      /     = link_to "messages", messages_path
+      .endfloats
+    .content
+      = yield

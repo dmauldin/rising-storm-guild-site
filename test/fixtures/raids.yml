@@ -1,0 +1,28 @@
+# == Schema Information
+# Schema version: 20081219192707
+#
+# Table name: raids
+#
+#  id         :integer         not null, primary key
+#  start_at   :datetime
+#  end_at     :datetime
+#  zone_id    :integer
+#  note       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  key        :string(255)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  start_at: 2008-12-18 07:33:02
+  end_at: 2008-12-18 07:33:02
+  zone_id: 1
+  note: MyString
+
+two:
+  start_at: 2008-12-18 07:33:02
+  end_at: 2008-12-18 07:33:02
+  zone_id: 1
+  note: MyString

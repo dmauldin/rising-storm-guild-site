@@ -1,0 +1,190 @@
+<tradeskill name="engineering" level="171" maxlevel="240">
+  <item id="12345" name="moonsight rifle"/>
+</tradeskill>
+<H1>Engineering (171/240)</H1>
+<DIV class='linkbar'><A HREF='#Guns'>Guns</A> | <A HREF='#Miscellaneous'>Miscellaneous</A> | <A HREF='#Cloth'>Cloth</A> | <A HREF='#Miscellaneous'>Miscellaneous</A> | <A HREF='#Bullet'>Bullet</A> | <A HREF='#Devices'>Devices</A> | <A HREF='#Explosives'>Explosives</A> | <A HREF='#Parts'>Parts</A> | <A HREF='#Junk'>Junk</A></DIV>
+<H2><A NAME='Guns'>Guns</A></H2>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4383'>Moonsight Rifle</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Ranged<BR />
+19 - 35 Damage<BR />
+(15.9 damage per second)<BR />
+Requires Level 24<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4379'>Silver-plated Shotgun</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Ranged<BR />
+27 - 50 Damage<BR />
+(14.3 damage per second)<BR />
+Requires Level 21<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4369'>Deadly Blunderbuss</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Ranged<BR />
+21 - 39 Damage<BR />
+(11.5 damage per second)<BR />
+Requires Level 16<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4362'>Rough Boomstick</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Ranged<BR />
+10 - 19 Damage<BR />
+(6.3 damage per second)<BR />
+Requires Level 5<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Miscellaneous'>Miscellaneous</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i6219'>Arclight Spanner</A><BR />
+<BLOCKQUOTE>Main Hand<BR />
+7 - 14 Damage<BR />
+(4.4 damage per second)<BR />
+Requires Engineering (50)<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Cloth'>Cloth</A></H2>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4385'>Green Tinted Goggles</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Head<BR />
+35 Armor<BR />
++8 Stamina<BR />
++7 Spirit<BR />
+Requires Engineering (150)<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4373'>Shadow Goggles</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Head<BR />
+31 Armor<BR />
++5 Intellect<BR />
++6 Spirit<BR />
+Requires Engineering (120)<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4368'>Flying Tiger Goggles</A><BR />
+<BLOCKQUOTE>Binds when equipped<BR />
+Head<BR />
+27 Armor<BR />
++4 Stamina<BR />
++4 Spirit<BR />
+Requires Engineering (100)<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Miscellaneous'>Miscellaneous</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i7148'>Goblin Jumper Cables</A><BR />
+<BLOCKQUOTE>Requires Engineering (165)<BR />
+Use: Jumper Cables will sometimes be able to shock a dead player back to life.  Cannot be used when in combat. (30 Min Cooldown)<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='uncommon'><A HREF='http://thottbot.com/i4381'>Minor Recombobulator</A><BR />
+<BLOCKQUOTE>Trinket<BR />
+Requires Engineering (140)<BR />
+Use: Restores 150 to 250 health and mana to a friendly target and attempts to dispel any polymorph effects from them.  Reduced effectiveness against polymorph effects from casters of level 31 and higher. (5 Min Cooldown)<BR />
+10 Charges<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Bullet'>Bullet</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i8069'>Crafted Solid Shot</A><BR />
+<BLOCKQUOTE>Projectile<BR />
+Adds 8.5 damage per second<BR />
+Requires Level 30<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i8068'>Crafted Heavy Shot</A><BR />
+<BLOCKQUOTE>Projectile<BR />
+Adds 4.5 damage per second<BR />
+Requires Level 15<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i8067'>Crafted Light Shot</A><BR />
+<BLOCKQUOTE>Projectile<BR />
+Adds 2 damage per second<BR />
+Requires Level 5<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Devices'>Devices</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i4403'>Portable Bronze Mortar</A><BR />
+<BLOCKQUOTE>Requires Engineering (165)<BR />
+Use: Inflicts 85 to 115 Fire damage and incapacitates targets in a 5 yard radius for 2 sec.  Any damage will break the effect.  Unreliable against targets higher than level 44.<BR />
+8 Charges<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4388'>Discombobulator Ray</A><BR />
+<BLOCKQUOTE>Use: Transforms the target into a Leper Gnome, reducing its melee damage and spell power by 40 and its movement rate by 20% for 12 sec.<BR />
+5 Charges<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i5507'>Ornate Spyglass</A><BR />
+<BLOCKQUOTE>Use: Allows you to look far into the distance.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i6533'>Aquadynamic Fish Attractor</A><BR />
+<BLOCKQUOTE>Requires Fishing (100)<BR />
+Use: When applied to your fishing pole, increases Fishing by 100 for 10 minutes.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4406'>Standard Scope</A><BR />
+<BLOCKQUOTE>Requires Level 10<BR />
+Use: Attaches a permanent scope to a bow or gun that increases its damage by 2.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4366'>Target Dummy</A><BR />
+<BLOCKQUOTE>Requires Engineering (85)<BR />
+Use: Drops a target dummy on the ground that attracts nearby monsters to attack it.  Lasts for 15 seconds or until killed.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4405'>Crude Scope</A><BR />
+<BLOCKQUOTE>Requires Level 5<BR />
+Use: Attaches a permanent scope to a bow or gun that increases its damage by 1.<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Explosives'>Explosives</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i4384'>Explosive Sheep</A><BR />
+<BLOCKQUOTE>Requires Engineering (150)<BR />
+Use: Summons an Explosive Sheep which will charge at a nearby enemy and explode for 135 to 165 damage.  Lasts for 3 min or until it explodes.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4380'>Big Bronze Bomb</A><BR />
+<BLOCKQUOTE>Requires Engineering (140)<BR />
+Use: Inflicts 85 to 115 Fire damage and incapacitates targets in a 5 yard radius for 2 sec.  Any damage will break the effect.  Unreliable against targets higher than level 44.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4374'>Small Bronze Bomb</A><BR />
+<BLOCKQUOTE>Requires Engineering (120)<BR />
+Use: Inflicts 73 to 97 Fire damage and incapacitates targets in a 3 yard radius for 2 sec.  Any damage will break the effect. Unreliable against targets higher than level 39.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4378'>Heavy Dynamite</A><BR />
+<BLOCKQUOTE>Requires Engineering (125)<BR />
+Use: Inflicts 128 to 172 Fire damage in a 5 yard radius.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4370'>Large Copper Bomb</A><BR />
+<BLOCKQUOTE>Requires Engineering (105)<BR />
+Use: Inflicts 43 to 57 Fire damage and incapacitates targets in a 5 yard radius for 1 sec.  Any damage will break the effect. Unreliable against targets higher than level 36.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i6714'>EZ-Thro Dynamite</A><BR />
+<BLOCKQUOTE>Requires Level 10<BR />
+Use: The dynamite for Non-Engineers that nearly always gets to the target!  Inflicts 51 to 69 Fire damage in a 5 yard radius.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4365'>Coarse Dynamite</A><BR />
+<BLOCKQUOTE>Requires Engineering (75)<BR />
+Use: Inflicts 51 to 69 Fire damage in a 5 yard radius.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4360'>Rough Copper Bomb</A><BR />
+<BLOCKQUOTE>Requires Engineering (30)<BR />
+Use: Inflicts 22 to 28 Fire damage and incapacitates targets in a 3 yard radius for 1 sec.  Any damage will break the effect.  Unreliable against targets higher than level 24.<BR />
+</BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4358'>Rough Dynamite</A><BR />
+<BLOCKQUOTE>Requires Engineering (1)<BR />
+Use: Inflicts 26 to 34 Fire damage in a 5 yard radius.<BR />
+</BLOCKQUOTE></DIV>
+<H2><A NAME='Parts'>Parts</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i4387'>Iron Strut</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i10558'>Gold Power Core</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4382'>Bronze Framework</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4375'>Whirring Bronze Gizmo</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4377'>Heavy Blasting Powder</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4371'>Bronze Tube</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4404'>Silver Contact</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4364'>Coarse Blasting Powder</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4363'>Copper Modulator</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4361'>Copper Tube</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4359'>Handful of Copper Bolts</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<DIV class='normal'><A HREF='http://thottbot.com/i4357'>Rough Blasting Powder</A><BR />
+<BLOCKQUOTE></BLOCKQUOTE></DIV>
+<H2><A NAME='Junk'>Junk</A></H2>
+<DIV class='normal'><A HREF='http://thottbot.com/i6712'>Practice Lock</A><BR />
+<BLOCKQUOTE>Locked<BR />
+Requires Lockpicking (1)<BR />
+</BLOCKQUOTE></DIV>
+<P><I>This listing generated automatically by <a href='http://www.syndicomm.com/wowstuff/tsl/'>TradeSkillList</a> by Eric Shepherd.</I></P></BODY>

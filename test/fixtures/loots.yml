@@ -1,0 +1,31 @@
+# == Schema Information
+# Schema version: 20081219192707
+#
+# Table name: loots
+#
+#  id         :integer         not null, primary key
+#  raid_id    :integer
+#  toon_id    :integer
+#  mob_id     :integer
+#  item_id    :integer
+#  looted_at  :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  primary    :boolean         default(TRUE)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  raid_id: 1
+  character_id: 1
+  mob_id: 1
+  item_id: 1
+  looted_at: 2008-12-18 07:36:51
+
+two:
+  raid_id: 1
+  character_id: 1
+  mob_id: 1
+  item_id: 1
+  looted_at: 2008-12-18 07:36:51
