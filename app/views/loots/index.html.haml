@@ -8,6 +8,7 @@
     %th Actions
     %th P-Count
     %th S-Count
+    %th Date
   - @loots.each do |loot|
     %tr
       %td= loot.toon.name
@@ -17,4 +18,4 @@
       %td= link_to "Edit", edit_loot_path(loot)
       %td= loot.toon.loots.count(:conditions => {:primary => true})
       %td= loot.toon.loots.count(:conditions => {:primary => false})
-      
+      %td= loot.raid.start_at.to_s(:short)
