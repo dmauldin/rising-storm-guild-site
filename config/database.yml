@@ -3,8 +3,8 @@ development:
    database: guild_development
    username: root
    host: localhost
- development:
-    adapter: mysql
-    database: guild_production
-    username: root
-    host: localhost
+production:
+  adapter: mysql
+  database: guild_production
+  username: root
+  host: localhost
