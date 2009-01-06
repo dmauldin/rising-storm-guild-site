@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  toon_id: 1
+  skill_id: 1
+  level: 1
+  maxlevel: 1
+
+two:
+  toon_id: 1
+  skill_id: 1
+  level: 1
+  maxlevel: 1

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081219192707) do
+ActiveRecord::Schema.define(:version => 20081231020535) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(:version => 20081219192707) do
     t.integer  "level"
     t.integer  "quality"
     t.string   "item_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", :force => true do |t|
+    t.string   "name"
+    t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -57,6 +64,8 @@ ActiveRecord::Schema.define(:version => 20081219192707) do
     t.integer  "level"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "gender"
+    t.string   "race"
   end
 
   create_table "zones", :force => true do |t|

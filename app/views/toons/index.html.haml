@@ -1,0 +1,13 @@
+%h3 Showing all toons
+
+%table
+  %tr
+    %th Name
+    %th Primaries
+    %th Secondaries
+    %th Actions
+  - @toons.each do |toon|
+    %tr
+      %td= toon.name
+      %td= toon.primary_loots.count
+      %td= toon.secondary_loots.count

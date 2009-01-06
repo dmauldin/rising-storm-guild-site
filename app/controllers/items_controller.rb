@@ -4,6 +4,6 @@ class ItemsController < ApplicationController
   end
   
   def show
-    @item = Item.find_by_wow_id(params[:id])
+    @item = Item.find(params[:id])
   end
 end

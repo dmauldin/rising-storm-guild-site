@@ -1,2 +1,5 @@
+%p= link_to "Import New Raid from XML", new_raid_path
+
 - @raids.each do |raid|
   .raid= link_to raid.start_at, raid
+

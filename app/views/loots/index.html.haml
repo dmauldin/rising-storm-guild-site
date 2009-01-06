@@ -1,10 +1,20 @@
 %h1 Listing Loots
 
 %table
-  - for loot in @loots
+  %tr
+    %th Toon
+    %th Priority
+    %th Name
+    %th Actions
+    %th P-Count
+    %th S-Count
+  - @loots.each do |loot|
     %tr
       %td= loot.toon.name
       %td= loot.primary ? "Primary" : "Secondary"
-      / %td= link_to loot.item.name, wowhead_url(loot.item.wow_id)
-      %td= link_to loot.item.name, item_path(loot.item)
+      %td= link_to loot.item.name, wowhead_url(loot.item_id)
+      / %td= link_to loot.item.name, item_path(loot.item_id)
       %td= link_to "Edit", edit_loot_path(loot)
+      %td= loot.toon.loots.count(:conditions => {:primary => true})
+      %td= loot.toon.loots.count(:conditions => {:primary => false})
+      
