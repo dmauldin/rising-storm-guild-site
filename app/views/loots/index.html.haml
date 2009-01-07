@@ -1,21 +1,29 @@
+= javascript_include_tag 'tablefilter'
+
 %h1 Listing Loots
 
-%table
-  %tr
-    %th Toon
-    %th Priority
-    %th Name
-    %th Actions
-    %th P-Count
-    %th S-Count
-    %th Date
-  - @loots.each do |loot|
+%p
+  Filter by:
+  %input{:type=>'text', :name=>'filter_box', :id=>'filter_box', :size=>'40'}
+
+%table.filterable
+  %tablehead
     %tr
-      %td= loot.toon.name
-      %td= loot.primary ? "Primary" : "Secondary"
-      %td= link_to loot.item.name, wowhead_url(loot.item_id)
-      / %td= link_to loot.item.name, item_path(loot.item_id)
-      %td= link_to "Edit", edit_loot_path(loot)
-      %td= loot.toon.loots.count(:conditions => {:primary => true})
-      %td= loot.toon.loots.count(:conditions => {:primary => false})
-      %td= loot.raid.start_at.to_s(:short)
+      %th Toon
+      %th Priority
+      %th Name
+      %th Actions
+      %th P-Count
+      %th S-Count
+      %th Date
+  %tablebody
+    - @loots.each do |loot|
+      %tr
+        %td= loot.toon.name
+        %td= loot.primary ? "Primary" : "Secondary"
+        %td= link_to loot.item.name, wowhead_url(loot.item_id)
+        / %td= link_to loot.item.name, item_path(loot.item_id)
+        %td= link_to "Edit", edit_loot_path(loot)
+        %td= loot.toon.loots.count(:conditions => {:primary => true})
+        %td= loot.toon.loots.count(:conditions => {:primary => false})
+        %td= loot.raid.start_at.to_s(:short)
