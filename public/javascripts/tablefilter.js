@@ -1,16 +1,26 @@
-$(document).ready(function(){  
-  //add index column with all content.  
-  $(".filterable tr:has(td)").each(function(){  
-    var t = $(this).text().toLowerCase(); //all row text  
-    $("<td class='indexColumn'></td>").hide().text(t).appendTo(this);  
-  });//each tr  
-  $("#filter_box").keyup(function(){  
-      var s = $(this).val().toLowerCase().split(" ");  
-      //show all rows.  
-      $(".filterable tr:visible").hide();  
-      $.each(s, function(){  
-        $(".filterable tr:hidden .indexColumn:contains('"  
-          + this + "')").parent().show();  
-      });//each  
-  });//key up.  
-});//document.ready
+jQuery.extend(  
+  jQuery.expr[':'], {  
+    contains : "jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0"  
+});
+
+$(document).ready(function(){
+  $("#toon_filter").keyup(filter_loot);
+  $("#item_filter").keyup(filter_loot);
+  filter_loot();
+});
+
+filter_loot = function(){
+  toons = $("#toon_filter").val().toLowerCase().split(" ");
+  items = $("#item_filter").val().toLowerCase().split(" ");
+  $(".filterable tr:visible").hide();
+  $.each(toons, function(){
+    if (this.length > 2) {
+      $(".filterable tr:hidden .toon_name:contains('" + this + "')").parent().show();
+    }
+  });
+  $.each(items, function(){
+    if (this.length > 2) {
+      $(".filterable tr:visible .item_name:not(:contains('" + this + "'))").parent().hide();
+    }
+  });
+}

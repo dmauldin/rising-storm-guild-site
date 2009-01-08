@@ -3,27 +3,42 @@
 %h1 Listing Loots
 
 %p
-  Filter by:
-  %input{:type=>'text', :name=>'filter_box', :id=>'filter_box', :size=>'40'}
+  Toon:
+  %input{:type => 'text', :name => 'toon_filter', :id => 'toon_filter', :size => '30'}
 
-%table.filterable
-  %tablehead
+  &nbsp;&nbsp;
+
+  Item:
+  %input{:type => 'text', :name => 'item_filter', :id => 'item_filter', :size => '30'}
+
+  &nbsp;&nbsp;
+
+  Primary:
+  %input{:type => 'checkbox', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
+
+  &nbsp;&nbsp;
+
+  Secondary:
+  %input{:type => 'checkbox', :name => 'secondary_filter', :checked => true, :style => 'vertical-align:middle'}
+  
+%table
+  %thead
     %tr
       %th Toon
       %th Priority
       %th Name
       %th Actions
-      %th P-Count
-      %th S-Count
-      %th Date
-  %tablebody
+      %th PC
+      %th SC
+      %th Raid Date
+  %tbody.filterable
     - @loots.each do |loot|
       %tr
-        %td= loot.toon.name
-        %td= loot.primary ? "Primary" : "Secondary"
-        %td= link_to loot.item.name, wowhead_url(loot.item_id)
+        %td.toon_name= loot.toon.name
+        %td.primary_secondary= loot.primary ? "Primary" : "Secondary"
+        %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
         / %td= link_to loot.item.name, item_path(loot.item_id)
         %td= link_to "Edit", edit_loot_path(loot)
         %td= loot.toon.loots.count(:conditions => {:primary => true})
         %td= loot.toon.loots.count(:conditions => {:primary => false})
-        %td= loot.raid.start_at.to_s(:short)
+        %td.raid_date= loot.raid.start_at.strftime('%Y-%m-%d (%a)')
