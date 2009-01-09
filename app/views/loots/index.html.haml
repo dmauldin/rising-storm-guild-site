@@ -35,8 +35,8 @@
       %th Priority
       %th Name
       %th Actions
-      %th PC
-      %th SC
+      / %th PC
+      / %th SC
       %th Raid Date
   %tbody.filterable
     - @loots.each do |loot|
@@ -46,7 +46,7 @@
         %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
         / %td= link_to loot.item.name, item_path(loot.item_id)
         %td= link_to "Edit", edit_loot_path(loot)
-        %td= loot.toon.loots.count(:conditions => {:primary => true})
-        %td= loot.toon.loots.count(:conditions => {:primary => false})
+        / %td= loot.toon.loots.count(:conditions => {:primary => true})
+        / %td= loot.toon.loots.count(:conditions => {:primary => false})
         %td.raid_date= loot.raid.start_at.to_s(:raid)
         %td.raid_id{:style => "display:none"}= loot.raid.id

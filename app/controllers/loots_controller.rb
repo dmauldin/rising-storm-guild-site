@@ -2,7 +2,7 @@ class LootsController < ApplicationController
   # GET /loots
   # GET /loots.xml
   def index
-    @loots = Loot.find(:all, :include => [:toon, :item], :order => 'toons.name')
+    @loots = Loot.find(:all, :include => [:toon, :item, :raid], :order => 'toons.name')
 
     respond_to do |format|
       format.html # index.html.erb
