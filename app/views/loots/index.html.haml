@@ -13,6 +13,11 @@
 
   &nbsp;&nbsp;
 
+  Raid:
+  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(Raid.all(:order => "start_at desc"), "id", "formatted_start_at"), :class => 'raid_filter'
+
+  %br
+
   Primary:
   %input{:type => 'checkbox', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
 
@@ -23,8 +28,7 @@
   
   &nbsp;&nbsp;
 
-  Raid:
-  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(Raid.all(:order => "start_at desc"), "id", "formatted_start_at"), :class => 'raid_filter'
+  %input{:type => 'button', :value => 'Reset Filters', :name => 'reset_filters', :onclick => "reset_filters();"}
 
 %table#loot
   %thead

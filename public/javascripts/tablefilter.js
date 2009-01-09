@@ -3,6 +3,13 @@ jQuery.extend(
     contains : "jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0"  
 });
 
+reset_filters = function(){
+  $('#toon_filter').val('');
+  $('#item_filter').val('');
+  $('#raid_filter').val('all');
+  $("input:checkbox").val(["primary_filter","secondary_filter" ]);
+  filter_loot();
+}
 $(document).ready(function(){
   $("#loot").tablesorter(); 
   $("#toon_filter").keyup(filter_loot);
