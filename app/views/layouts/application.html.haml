@@ -3,6 +3,7 @@
 %html
   %head
     = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'tablesorter-style'
     = javascript_include_tag "http://www.wowhead.com/widgets/power.js"
     = javascript_include_tag :defaults
     = javascript_include_tag 'jquery.tablesorter.js'
@@ -10,7 +11,7 @@
   %body
     .topbar
       .logo
-        Guild Site
+        Rising Storm
       / .userbar
       /   - unless params[:controller]=='sessions' && ['new', 'create'].include?(params[:action])
       /     = render :partial => 'users/user_bar'
@@ -18,8 +19,8 @@
     .navbar
       .navlink= link_to "Raids", raids_path
       .navlink= link_to "Loots", loots_path
-      .navlink= link_to "Items", items_path
-      .navlink= link_to "Toons", toons_path
+      / .navlink= link_to "Items", items_path
+      / .navlink= link_to "Toons", toons_path
       / - if logged_in?
       /   .navlink= link_to "Messages (#{current_user.unread_messages.count})", messages_path
       / .navlink= link_to "Addons"

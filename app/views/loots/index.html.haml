@@ -1,7 +1,5 @@
 = javascript_include_tag 'tablefilter'
 
-%h1 Listing Loots
-
 %p
   Toon:
   %input{:type => 'text', :name => 'toon_filter', :id => 'toon_filter', :size => '20'}
@@ -30,7 +28,7 @@
 
   %input{:type => 'button', :value => 'Reset Filters', :name => 'reset_filters', :onclick => "reset_filters();"}
 
-%table#loot
+%table#loot.tablesorter
   %thead
     %tr
       %th Toon
