@@ -19,12 +19,12 @@
   %br
 
   Primary:
-  %input{:type => 'checkbox', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
+  %input{:type => 'checkbox', :id => 'primary_filter', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
 
   &nbsp;&nbsp;
 
   Secondary:
-  %input{:type => 'checkbox', :name => 'secondary_filter', :checked => true, :style => 'vertical-align:middle'}
+  %input{:type => 'checkbox', :id => 'secondary_filter', :name => 'secondary_filter', :checked => true, :style => 'vertical-align:middle'}
   
   &nbsp;&nbsp;
 
@@ -44,7 +44,7 @@
     - @loots.each do |loot|
       %tr
         %td.toon_name= loot.toon.name
-        %td.primary_secondary= loot.primary ? "Primary" : "Secondary"
+        %td.priority= loot.primary ? "Primary" : "Secondary"
         %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
         / %td= link_to loot.item.name, item_path(loot.item_id)
         %td= link_to "Edit", edit_loot_path(loot)

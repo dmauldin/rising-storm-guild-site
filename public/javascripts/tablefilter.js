@@ -15,6 +15,8 @@ $(document).ready(function(){
   $("#toon_filter").keyup(filter_loot);
   $("#item_filter").keyup(filter_loot);
   $("#raid_filter").change(filter_loot);
+  $("#primary_filter").change(filter_loot);
+  $("#secondary_filter").change(filter_loot);
   filter_loot();
 });
 
@@ -43,5 +45,11 @@ filter_loot = function(){
   }
   if (raid != "all") {
     $(".filterable tr:visible .raid_id:not(:contains('" + raid + "'))").parent().hide();
+  }
+  if (!$('#primary_filter').attr('checked')) {
+    $(".filterable tr:visible .priority:contains('Primary')").parent().hide();
+  }
+  if (!$('#secondary_filter').attr('checked')) {
+    $(".filterable tr:visible .priority:contains('Secondary')").parent().hide();
   }
 }
