@@ -79,6 +79,4 @@ Rails::Initializer.run do |config|
   
   GUILD_NAME = "Rising Storm"
   REALM_NAME = "Lightbringer"
-  
-  Time::DATE_FORMATS[:raid] = '%Y-%m-%d (%a)'
 end
