@@ -4,6 +4,7 @@ jQuery.extend(
 });
 
 $(document).ready(function(){
+  $("#loot").tablesorter(); 
   $("#toon_filter").keyup(filter_loot);
   $("#item_filter").keyup(filter_loot);
   filter_loot();
