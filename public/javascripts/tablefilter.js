@@ -7,12 +7,14 @@ $(document).ready(function(){
   $("#loot").tablesorter(); 
   $("#toon_filter").keyup(filter_loot);
   $("#item_filter").keyup(filter_loot);
+  $("#raid_filter").change(filter_loot);
   filter_loot();
 });
 
 filter_loot = function(){
   toons = $("#toon_filter").val().toLowerCase().split(" ");
   items = $("#item_filter").val().toLowerCase().split(" ");
+  raid = $("#raid_filter option:selected").val();
   if ($("#toon_filter").val() == "" && $("#item_filter").val() == "") {
     $(".filterable tr").show();
   } else {
@@ -31,5 +33,8 @@ filter_loot = function(){
         $(".filterable tr:visible .item_name:not(:contains('" + this + "'))").parent().hide();
       }
     });
+  }
+  if (raid != "all") {
+    $(".filterable tr:visible .raid_id:not(:contains('" + raid + "'))").parent().hide();
   }
 }

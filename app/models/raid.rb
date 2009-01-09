@@ -16,6 +16,10 @@
 class Raid < ActiveRecord::Base
   has_many :loots
   
+  def formatted_start_at
+    self.start_at.to_s(:raid)
+  end
+  
   def self.create_from_xml(xml)
     raid = self.new
     doc = Hpricot::XML(xml)

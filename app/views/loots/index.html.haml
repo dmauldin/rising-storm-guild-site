@@ -21,6 +21,11 @@
   Secondary:
   %input{:type => 'checkbox', :name => 'secondary_filter', :checked => true, :style => 'vertical-align:middle'}
   
+  &nbsp;&nbsp;
+
+  Raid:
+  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(Raid.all(:order => "start_at desc"), "id", "formatted_start_at"), :class => 'raid_filter'
+
 %table#loot
   %thead
     %tr
@@ -41,4 +46,5 @@
         %td= link_to "Edit", edit_loot_path(loot)
         %td= loot.toon.loots.count(:conditions => {:primary => true})
         %td= loot.toon.loots.count(:conditions => {:primary => false})
-        %td.raid_date= loot.raid.start_at.strftime('%Y-%m-%d (%a)')
+        %td.raid_date= loot.raid.start_at.to_s(:raid)
+        %td.raid_id{:style => "display:none"}= loot.raid.id
