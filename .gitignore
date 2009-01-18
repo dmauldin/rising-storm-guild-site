@@ -1,4 +1,7 @@
+.svn
 .DS_Store
 log/*.log
 tmp/**/*
 db/*.sqlite3
+config/database.yml
+config/initializers/site_keys.rb

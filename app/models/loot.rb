@@ -18,4 +18,7 @@ class Loot < ActiveRecord::Base
   belongs_to :raid
   belongs_to :toon
   belongs_to :item
+  
+  named_scope :primary, :conditions => {:primary => true}
+  named_scope :secondary, :conditions => {:primary => false}
 end

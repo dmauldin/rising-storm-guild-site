@@ -1,21 +1,23 @@
 body {
+  background-color: #EEE;
+}
+#site {
+  background-color: white;
   width:800px;
 	margin:0px;
 	margin-left:auto;
 	margin-right:auto;
 	font-family: "helvetica neue", verdana, sans-serif;
 	font-size: small;
-	border-left:1px dotted #743;
-	border-right:1px dotted #743;
-  border-bottom:1px dotted #743;
+  border:1px solid #EBA;
 }
-.content{margin:5px;}
+.content{margin:5px; background-color: white;}
 .footer{}
 .topbar{padding:5px;background-color:#FED;}
 .logo {
 	padding-left: 5px;
 	font-size: 36px;
-	color: #911;
+	color: #D63;
 	float: left;
 }
 .userbar {

@@ -16,8 +16,12 @@
 
 class Item < ActiveRecord::Base
   has_many :loots
+  belongs_to :token_cost, :class_name => 'Item'
   
-  def to_param
-    wow_id.to_s
+  def currency_for
+    Item.all(:conditions => {:token_cost_id => self.id})
+  end
+  
+  def update_from_armory
   end
 end

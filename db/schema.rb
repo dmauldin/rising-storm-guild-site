@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081231020535) do
+ActiveRecord::Schema.define(:version => 20090116005750) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -20,7 +20,12 @@ ActiveRecord::Schema.define(:version => 20081231020535) do
     t.string   "item_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "token_cost_id"
+    t.integer  "cost"
+    t.integer  "honor_cost"
   end
+
+  add_index "items", ["token_cost_id"], :name => "index_items_on_token_cost_id"
 
   create_table "jobs", :force => true do |t|
     t.string   "name"
@@ -47,6 +52,15 @@ ActiveRecord::Schema.define(:version => 20081231020535) do
     t.datetime "updated_at"
   end
 
+  create_table "professions", :force => true do |t|
+    t.integer  "toon_id"
+    t.integer  "skill_id"
+    t.integer  "level"
+    t.integer  "maxlevel"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "raids", :force => true do |t|
     t.datetime "start_at"
     t.datetime "end_at"
@@ -55,6 +69,13 @@ ActiveRecord::Schema.define(:version => 20081231020535) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "key"
+  end
+
+  create_table "skills", :force => true do |t|
+    t.string   "name"
+    t.integer  "maxlevel"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "toons", :force => true do |t|
@@ -67,6 +88,20 @@ ActiveRecord::Schema.define(:version => 20081231020535) do
     t.string   "gender"
     t.string   "race"
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "login",                     :limit => 40
+    t.string   "name",                      :limit => 100, :default => ""
+    t.string   "email",                     :limit => 100
+    t.string   "crypted_password",          :limit => 40
+    t.string   "salt",                      :limit => 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "remember_token",            :limit => 40
+    t.datetime "remember_token_expires_at"
+  end
+
+  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
   create_table "zones", :force => true do |t|
     t.string   "name"

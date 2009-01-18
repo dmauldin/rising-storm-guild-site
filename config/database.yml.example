@@ -1,0 +1,17 @@
+development:
+  adapter: mysql
+  database: guild_development
+  username: root
+  host: localhost
+
+test:
+  adapter: mysql
+  database: guild_test
+  username: root
+  host: localhost
+
+production:
+  adapter: mysql
+  database: guild_production
+  username: root
+  host: localhost
