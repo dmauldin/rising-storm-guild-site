@@ -21,4 +21,16 @@ class RaidsController < ApplicationController
     flash[:notice] = "New raid created."
     redirect_to raids_path
   end
+  
+  # DELETE /raids/1
+  # DELETE /raids/1.xml
+  def destroy
+    @raid = Raid.find(params[:id])
+    @raid.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(raids_url) }
+      format.xml  { head :ok }
+    end
+  end
 end

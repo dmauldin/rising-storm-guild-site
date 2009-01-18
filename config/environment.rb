@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   WOWR_DEFAULTS = {
     :character_name => API_CHARACTER_NAME,
     :guild_name     => GUILD_NAME,
-    :realm_name     => REALM_NAME,
+    :realm          => REALM_NAME,
     :caching        => false
   }
 end

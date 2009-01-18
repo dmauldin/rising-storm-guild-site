@@ -32,13 +32,17 @@ class Toon < ActiveRecord::Base
   
   def update_from_armory
     wowr = Wowr::API.new(WOWR_DEFAULTS)
-    unless ['bank', 'disenchant'].include?(self.name)
+    begin
       toon = wowr.get_character(self.name)
-      self.level = toon.level
-      self.job_id = toon.klass_id
-      self.gender = toon.gender
-      self.race = toon.race
+      if toon
+        self.level = toon.level
+        self.job_id = toon.klass_id
+        self.gender = toon.gender
+        self.race = toon.race
+        # add professions update here
+      end
+    rescue
+      nil
     end
   end
-
 end

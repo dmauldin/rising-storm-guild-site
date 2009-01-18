@@ -14,7 +14,7 @@
 #
 
 class Raid < ActiveRecord::Base
-  has_many :loots
+  has_many :loots, :dependent => :destroy
   
   def formatted_start_at
     self.start_at.to_s(:raid)
@@ -25,40 +25,40 @@ class Raid < ActiveRecord::Base
     doc = Hpricot::XML(xml)
     # TODO: throw error on invalid xml
     
-    # zone_name = (doc/"RaidInfo/Zone").innerHTML
-    # zone = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
+    zone_name = (doc/"raidinfo/zone").inner_text
     
-    raid_key   = (doc/"RaidInfo/key").innerHTML.to_time
+    instance_id = (doc/"raidinfo/instanceid").inner_text.to_i
     if Raid.find_by_key(raid_key)
       # TODO: throw error if raid has already been imported
     else
-      raid.key = raid_key
-      raid.start_at = (doc/"RaidInfo/start").innerHTML.to_time
-      raid.end_at = (doc/"RaidInfo/end").innerHTML.to_time
+      raid.key = instance_id
+      raid.start_at = Time.at((doc/"raidinfo/start").inner_text.to_i)
+      raid.end_at = Time.at((doc/"raidinfo/end").inner_text.to_i)
+      raid.zone = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
       raid.save
       
-      loots = doc.at(:Loot).containers
-
-      loots.each do |loot|
-        item_id = (loot/"ItemID").innerHTML.split(":")[0]
-        item_name = (loot/"ItemName").innerHTML
-        player_name = (loot/"Player").innerHTML
-        loot_time = (loot/"Time").innerHTML.to_time
-        primary = (loot/"Costs").innerHTML=="0" ? true : false
+      (doc/:loot).each do |loot|
+        unless %w(d b).include? (loot/:note).inner_text # disenchanted or banked
+          item_id = (loot/"itemid").inner_text.split(":")[0]
+          item_name = (loot/"itemname").inner_text
+          player_name = (loot/"player").inner_text
+          loot_time = (loot/"time").inner_text
+          primary = (loot/"note").inner_text == "s" ? false : true
         
-        unless player_name == "disenchant" || player_name == "bank"
-          item = Item.find_by_id(item_id)
-          unless item
-            item = Item.new
-            item.name = item_name
-            item.id = item_id
-            item.save
-          end
-          toon = Toon.find_by_name(player_name) || Toon.create(:name => player_name)
-          raid.loots.create(:toon_id => toon.id, :item_id => item.id,
-                            :looted_at => loot_time, :primary => primary)
-        end
-      end
+          unless player_name == "disenchant" || player_name == "bank"
+            item = Item.find_by_id(item_id)
+            unless item
+              item = Item.new
+              item.name = item_name
+              item.id = item_id
+              item.save
+            end
+            toon = Toon.find_by_name(player_name) || Toon.create(:name => player_name)
+            raid.loots.create(:toon_id => toon.id, :item_id => item.id,
+                              :looted_at => loot_time, :primary => primary)
+          end # player_name = disenchanted or banked
+        end # note = d or b
+      end # each loot
     end
     return raid
   end

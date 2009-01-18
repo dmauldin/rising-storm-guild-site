@@ -15,7 +15,7 @@
 #
 
 class Item < ActiveRecord::Base
-  has_many :loots
+  has_many :loots, :dependent => :destroy
   belongs_to :token_cost, :class_name => 'Item'
   
   def currency_for
