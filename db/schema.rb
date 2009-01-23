@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090116005750) do
+ActiveRecord::Schema.define(:version => 20090123122546) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(:version => 20090116005750) do
     t.integer  "token_cost_id"
     t.integer  "cost"
     t.integer  "honor_cost"
+    t.string   "subclass_name"
+    t.integer  "inventory_type"
+    t.integer  "required_level"
   end
 
   add_index "items", ["token_cost_id"], :name => "index_items_on_token_cost_id"

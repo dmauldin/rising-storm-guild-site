@@ -155,7 +155,7 @@ module Wowr
 									:allowable_classes,
 									:armor, :durability,
 									:sockets, :socket_match_enchant,
-									:gem_properties
+									:gem_properties, :equip_data, :slot
 			alias_method :description, :desc
 
 			def initialize(elem, api = nil)
@@ -171,8 +171,8 @@ module Wowr
 				@class_id						= (elem%'classId').html.to_i
 				@required_level			= (elem%'requiredLevel').html.to_i if (elem%'requiredLevel')
 				
-				@equipData					= ItemEquipData.new(elem%'equipData')
-				
+				@equip_data					= ItemEquipData.new(elem%'equipData')
+        
 				# TODO: This appears to be a plain string at the moment
 				#<gemProperties>+26 Healing +9 Spell Damage and 2% Reduced Threat</gemProperties>
 				@gem_properties			= (elem%'gemProperties').html if (elem%'gemProperties')
