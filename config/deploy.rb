@@ -31,7 +31,7 @@ end
 
 desc "Symlink host specific config files"
 task :after_update_code do
-  run "ln -s #{deploy_to}/#{shared_dir}/config/database.yml #{deploy_to}/#{current_dir}/config/database.yml"
-  run "ln -s #{deploy_to}/#{shared_dir}/config/initializers/site_keys.rb #{deploy_to}/#{current_dir}/config/initializers/site_keys.rb"
-  run "ln -s #{deploy_to}/#{shared_dir}/config/initializers/hoptoad.rb #{deploy_to}/#{current_dir}/config/initializers/hoptoad.rb"
+  run "ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  run "ln -s #{shared_path}/config/initializers/site_keys.rb #{release_path}/config/initializers/site_keys.rb"
+  run "ln -s #{shared_path}/config/initializers/hoptoad.rb #{release_path}/config/initializers/hoptoad.rb"
 end
