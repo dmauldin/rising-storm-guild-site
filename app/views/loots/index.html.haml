@@ -35,6 +35,7 @@
   %thead
     %tr
       %th Toon
+      %th Class
       %th Priority
       %th Name
       %th Slot
@@ -47,6 +48,7 @@
     - @loots.each do |loot|
       %tr
         %td.toon_name= loot.toon.name
+        %td.toon_job= formatted_job(loot.toon.job)
         %td.priority= loot.primary ? "Primary" : "Secondary"
         %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
         %td.item_slot= inventory_type_name(loot.item.inventory_type)
