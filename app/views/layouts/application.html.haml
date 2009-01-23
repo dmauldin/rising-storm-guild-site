@@ -2,27 +2,67 @@
 !!!
 %html
   %head
-    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'base'
     = javascript_include_tag "http://www.wowhead.com/widgets/power.js"
     = javascript_include_tag :defaults
     = javascript_include_tag 'misc'
   %body
-    #site
-      .topbar
-        .logo
-          Rising Storm
-        - if logged_in?
-          .userbar= link_to "Logout", logout_path
-          .userbar
-            Logged in as:
-            = current_user.login
-        - else
-          .userbar= link_to "Signup", signup_path
-          .userbar= link_to "Login", login_path
-        .endfloats
-      .navbar
-        .navlink= link_to "Raids", raids_path
-        .navlink= link_to "Loots", loots_path
-        .endfloats
-      .content
-        = yield
+    #container
+      #header
+        #user-navigation
+          %ul
+            - if logged_in?
+              %li= "Logged in as: #{current_user.login}"
+              %li= link_to "Logout", logout_path
+            - else
+              %li= link_to "Login", login_path
+              %li= link_to "Signup", signup_path
+          .clear
+        %h1= link_to "Rising Storm"
+        #main-navigation
+          %ul
+            = navtab "Raids", raids_path
+            = navtab "Loots", loots_path
+            = navtab "Toons", toons_path
+            = navtab "Users", users_path
+          .clear
+        / .logo
+        /   Rising Storm
+        / - if logged_in?
+        /   .userbar= link_to "Logout", logout_path
+        /   .userbar
+        /     Logged in as:
+        /     = current_user.login
+        / - else
+        /   .userbar= link_to "Signup", signup_path
+        /   .userbar= link_to "Login", login_path
+        / .endfloats
+        / .navbar
+        /   .navlink= link_to "Raids", raids_path
+        /   .navlink= link_to "Loots", loots_path
+        /   .endfloats
+      #wrapper
+        #content
+          / #secondary-navigation
+          /   %ul
+          /     %li= link_to "Users"
+          /     %li= link_to "Tickets"
+          /     %li= link_to "Categories"
+          /     %li= link_to "Other"
+          /   .clear
+          / %h1.title All users
+          / %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          / %h2 Users
+          #main
+            = yield
+        / #sidebar
+        /   #sidebar-navigation
+        /     %h3 Sidebar
+        /     %ul
+        /       %li= link_to "Link 1"
+        /       %li= link_to "Link 2"
+        /       %li= link_to "Link 3"
+        /       %li= link_to "Link 4"
+        .clear
+      #footer
+        Copyright &copy; 2009 wheee.org

@@ -17,6 +17,7 @@
   = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(Raid.all(:order => "start_at desc"), "id", "formatted_start_at"), :class => 'raid_filter'
 
   %br
+  %br
 
   Primary:
   %input{:type => 'checkbox', :id => 'primary_filter', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
