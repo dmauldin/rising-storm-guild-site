@@ -1,0 +1,3 @@
+HoptoadNotifier.configure do |config|
+  config.api_key = 'your hoptoad key goes here'
+end

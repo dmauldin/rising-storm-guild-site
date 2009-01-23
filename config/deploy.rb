@@ -28,3 +28,10 @@ namespace :deploy do
     task t, :roles => :app do ; end
   end
 end
+
+desc "Symlink host specific config files"
+task :after_update_code do
+  run "ln -s #{deploy_to}/#{shared_dir}/config/database.yml #{deploy_to}/#{current_dir}/config/database.yml"
+  run "ln -s #{deploy_to}/#{shared_dir}/config/initializers/site_keys.rb #{deploy_to}/#{current_dir}/config/initializers/site_keys.rb"
+  run "ln -s #{deploy_to}/#{shared_dir}/config/initializers/hoptoad.rb #{deploy_to}/#{current_dir}/config/initializers/hoptoad.rb"
+end
