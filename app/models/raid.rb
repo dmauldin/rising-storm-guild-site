@@ -15,6 +15,7 @@
 
 class Raid < ActiveRecord::Base
   has_many :loots, :dependent => :destroy
+  belongs_to :zone
   
   def formatted_start_at
     self.start_at.to_s(:raid)
@@ -28,7 +29,7 @@ class Raid < ActiveRecord::Base
     zone_name = (doc/"raidinfo/zone").inner_text
     
     instance_id = (doc/"raidinfo/instanceid").inner_text.to_i
-    if Raid.find_by_key(raid_key)
+    if Raid.find_by_key(instance_id)
       # TODO: throw error if raid has already been imported
     else
       raid.key = instance_id
@@ -38,7 +39,8 @@ class Raid < ActiveRecord::Base
       raid.save
       
       (doc/:loot).each do |loot|
-        unless %w(d b).include? (loot/:note).inner_text # disenchanted or banked
+        note = loot/:note
+        unless (note.length>0) && %w(d b).include?(note.inner_text) # disenchanted or banked
           item_id = (loot/"itemid").inner_text.split(":")[0]
           item_name = (loot/"itemname").inner_text
           player_name = (loot/"player").inner_text
