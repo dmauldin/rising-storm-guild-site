@@ -1,15 +1,20 @@
+= stylesheet_link_tag 'tablesorter-style'
+= javascript_include_tag 'jquery.tablesorter.js'
+
 %h3 Showing all toons
 
 %table
-  %tr
-    %th Name
-    %th Class
-    %th Primaries
-    %th Secondaries
-    %th Actions
-  - @toons.each do |toon|
+  %thead
     %tr
-      %td= toon.name
-      %td= formatted_job(toon.job)
-      %td= toon.primary_loots.count
-      %td= toon.secondary_loots.count
+      %th Name
+      %th Class
+      %th Primaries
+      %th Secondaries
+      %th Actions
+  %tbody
+    - @toons.each do |toon|
+      %tr
+        %td= toon.name
+        %td= formatted_job(toon.job)
+        %td= toon.primary_loots.count
+        %td= toon.secondary_loots.count

@@ -48,4 +48,9 @@ module ApplicationHelper
     options = {:class => "active"} if link_title.downcase == controller_name
     content_tag(:li, link_to(link_title, link_path), options)
   end
+  
+  def show_admin_content?
+    signed_in_as_admin?
+  end
+  
 end

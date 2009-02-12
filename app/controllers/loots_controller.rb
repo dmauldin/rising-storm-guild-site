@@ -1,10 +1,11 @@
 class LootsController < ApplicationController
-  # before_filter :admin_required, :except => [:index, :show]
+  before_filter :admin_only, :except => [ :index, :show ]
 
   # GET /loots
   # GET /loots.xml
   def index
-    @loots = Loot.find(:all, :include => [:toon, :item, :raid], :order => 'toons.name')
+    @loots = Loot.all(:include => [:toon, :item, :raid],
+        :order => 'toons.name, raids.start_at desc, items.inventory_type')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -83,5 +84,9 @@ class LootsController < ApplicationController
       format.html { redirect_to(loots_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def loot_test_method?
+    true
   end
 end

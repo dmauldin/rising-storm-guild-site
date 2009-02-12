@@ -3,13 +3,6 @@ jQuery.extend(
     contains : "jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0"  
 });
 
-reset_filters = function(){
-  $('#toon_filter').val('');
-  $('#item_filter').val('');
-  $('#raid_filter').val('all');
-  $("input:checkbox").val(["primary_filter","secondary_filter" ]);
-  filter_loot();
-}
 $(document).ready(function(){
   $("#loot").tablesorter(); 
   $("#toon_filter").keyup(filter_loot);
@@ -17,8 +10,26 @@ $(document).ready(function(){
   $("#raid_filter").change(filter_loot);
   $("#primary_filter").change(filter_loot);
   $("#secondary_filter").change(filter_loot);
+  load_filters_from_cookie();
   filter_loot();
 });
+
+reset_filters = function(){
+  $('#toon_filter').val('');
+  $('#item_filter').val('');
+  $('#raid_filter').val('all');
+  $('#primary_filter').attr('checked', true);
+  $('#secondary_filter').attr('checked', false);
+  filter_loot();
+}
+
+load_filters_from_cookie = function(){
+  $('#toon_filter').val($.cookie('toon_filter') || '');
+  $('#item_filter').val($.cookie('item_filter') || '');
+  $('#raid_filter').val($.cookie('raid_filter') || 'all');
+  $('#primary_filter').attr('checked', ($.cookie('primary_filter') == 'unchecked') ? false : true);
+  $('#secondary_filter').attr('checked', ($.cookie('secondary_filter') == 'unchecked') ? false : true);
+}
 
 filter_loot = function(){
   toons = $("#toon_filter").val().toLowerCase().split(" ");
@@ -52,4 +63,9 @@ filter_loot = function(){
   if (!$('#secondary_filter').attr('checked')) {
     $(".filterable tr:visible .priority:contains('Secondary')").parent().hide();
   }
+  $.cookie('toon_filter', $("#toon_filter").val());
+  $.cookie('item_filter', $("#item_filter").val());
+  $.cookie('raid_filter', $("#raid_filter").val());
+  $.cookie('primary_filter', $("#primary_filter").attr('checked') ? 'checked' : 'unchecked');
+  $.cookie('secondary_filter', $("#secondary_filter").attr('checked') ? 'checked' : 'unchecked');
 }

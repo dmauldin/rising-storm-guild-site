@@ -1,16 +1,28 @@
-<h1>Log In</h1>
+<h2>Sign in</h2>
 
-<% form_tag session_path do -%>
-<p><%= label_tag 'login' %><br />
-<%= text_field_tag 'login', @login %></p>
+<% form_for :session, :url => session_path, :html => {:class => 'form'} do |form| %>
+  <div class="text_field group">
+    <%= form.label :email %>
+    <%= form.text_field :email %>  
+  </div>
+  <div class="text_field group">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+  <div class="text_field group">
+    <%= form.check_box :remember_me %>
+    <%= form.label :remember_me %>
+  </div>
+  <div class="submit_field group">
+    <%= form.submit "Sign in", :disable_with => "Please wait..." %>
+  </div>
+<% end %>
 
-<p><%= label_tag 'password' %><br/>
-<%= password_field_tag 'password', nil %></p>
-
-<!-- Uncomment this if you want this functionality
-<p><%= label_tag 'remember_me', 'Remember me' %>
-<%= check_box_tag 'remember_me', '1', @remember_me %></p>
--->
-
-<p><%= submit_tag 'Log in' %></p>
-<% end -%>
+<ul>
+  <li>
+    <%= link_to "Register", new_user_path %>
+  </li>
+  <li>
+    <%= link_to "Forgot password?", new_password_path %>
+  </li>
+</ul>

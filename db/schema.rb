@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090123122546) do
+ActiveRecord::Schema.define(:version => 20090212120426) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,9 @@ ActiveRecord::Schema.define(:version => 20090123122546) do
     t.string   "subclass_name"
     t.integer  "inventory_type"
     t.integer  "required_level"
+    t.text     "armory_item_xml"
+    t.text     "armory_tooltip_xml"
+    t.datetime "armory_updated_at"
   end
 
   add_index "items", ["token_cost_id"], :name => "index_items_on_token_cost_id"
@@ -93,18 +96,19 @@ ActiveRecord::Schema.define(:version => 20090123122546) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
+    t.string   "email"
+    t.string   "encrypted_password", :limit => 128
+    t.string   "salt",               :limit => 128
+    t.string   "token",              :limit => 128
+    t.datetime "token_expires_at"
+    t.boolean  "email_confirmed",                   :default => false, :null => false
+    t.boolean  "admin",                             :default => false, :null => false
   end
 
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["admin"], :name => "index_users_on_admin"
+  add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["id", "token"], :name => "index_users_on_id_and_token"
+  add_index "users", ["token"], :name => "index_users_on_token"
 
   create_table "zones", :force => true do |t|
     t.string   "name"

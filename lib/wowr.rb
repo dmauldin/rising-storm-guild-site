@@ -671,6 +671,8 @@ module Wowr
 			defaults.merge!(options)
 		end
 		
+    public
+    
 		# Return an Hpricot document for the given URL
 		# TODO: Tidy up?
 		def get_xml(url, options = {})
@@ -724,6 +726,8 @@ module Wowr
 			end
 		end
 		
+		
+		protected
 		
 		# Perform an HTTP request and return the contents of the document
 		def http_request(url, options = {})

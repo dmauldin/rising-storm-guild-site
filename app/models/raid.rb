@@ -32,27 +32,27 @@ class Raid < ActiveRecord::Base
     if Raid.find_by_key(instance_id)
       # TODO: throw error if raid has already been imported
     else
-      raid.key = instance_id
+      raid.key      = instance_id
       raid.start_at = Time.at((doc/"raidinfo/start").inner_text.to_i)
-      raid.end_at = Time.at((doc/"raidinfo/end").inner_text.to_i)
-      raid.zone = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
+      raid.end_at   = Time.at((doc/"raidinfo/end").inner_text.to_i)
+      raid.zone     = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
       raid.save
       
       (doc/:loot).each do |loot|
         note = loot/:note
         unless (note.length>0) && %w(d b).include?(note.inner_text) # disenchanted or banked
-          item_id = (loot/"itemid").inner_text.split(":")[0]
-          item_name = (loot/"itemname").inner_text
+          item_id     = (loot/"itemid").inner_text.split(":")[0]
+          item_name   = (loot/"itemname").inner_text
           player_name = (loot/"player").inner_text
-          loot_time = (loot/"time").inner_text
-          primary = (loot/"note").inner_text == "s" ? false : true
+          loot_time   = (loot/"time").inner_text
+          primary     = (loot/"note").inner_text == "s" ? false : true
         
           unless player_name == "disenchant" || player_name == "bank"
             item = Item.find_by_id(item_id)
             unless item
-              item = Item.new
+              item      = Item.new
               item.name = item_name
-              item.id = item_id
+              item.id   = item_id
               item.save
             end
             toon = Toon.find_by_name(player_name) || Toon.create(:name => player_name)
