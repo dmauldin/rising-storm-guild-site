@@ -1,17 +1,26 @@
 # == Schema Information
-# Schema version: 20081219192707
+# Schema version: 20090302152543
 #
 # Table name: items
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  wow_id     :integer
-#  icon       :string(255)
-#  level      :integer
-#  quality    :integer
-#  item_type  :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id                 :integer(4)      not null, primary key
+#  name               :string(255)
+#  wow_id             :integer(4)
+#  icon               :string(255)
+#  level              :integer(4)
+#  quality            :integer(4)
+#  item_type          :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  token_cost_id      :integer(4)
+#  cost               :integer(4)
+#  honor_cost         :integer(4)
+#  subclass_name      :string(255)
+#  inventory_type     :integer(4)
+#  required_level     :integer(4)
+#  armory_item_xml    :text
+#  armory_tooltip_xml :text
+#  armory_updated_at  :datetime
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

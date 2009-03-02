@@ -1,12 +1,12 @@
 # == Schema Information
-# Schema version: 20081219192707
+# Schema version: 20090302152543
 #
 # Table name: raids
 #
-#  id         :integer         not null, primary key
+#  id         :integer(4)      not null, primary key
 #  start_at   :datetime
 #  end_at     :datetime
-#  zone_id    :integer
+#  zone_id    :integer(4)
 #  note       :string(255)
 #  created_at :datetime
 #  updated_at :datetime

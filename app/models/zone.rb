@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 20081219192707
+# Schema version: 20090302152543
 #
 # Table name: zones
 #
-#  id         :integer         not null, primary key
+#  id         :integer(4)      not null, primary key
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime

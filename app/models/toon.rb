@@ -1,15 +1,17 @@
 # == Schema Information
-# Schema version: 20081219192707
+# Schema version: 20090302152543
 #
 # Table name: toons
 #
-#  id         :integer         not null, primary key
+#  id         :integer(4)      not null, primary key
 #  name       :string(255)
-#  main_id    :integer
-#  job_id     :integer
-#  level      :integer
+#  main_id    :integer(4)
+#  job_id     :integer(4)
+#  level      :integer(4)
 #  created_at :datetime
 #  updated_at :datetime
+#  gender     :string(255)
+#  race       :string(255)
 #
 
 class Toon < ActiveRecord::Base

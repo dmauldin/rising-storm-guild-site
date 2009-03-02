@@ -1,17 +1,17 @@
 # == Schema Information
-# Schema version: 20081219192707
+# Schema version: 20090302152543
 #
 # Table name: loots
 #
-#  id         :integer         not null, primary key
-#  raid_id    :integer
-#  toon_id    :integer
-#  mob_id     :integer
-#  item_id    :integer
+#  id         :integer(4)      not null, primary key
+#  raid_id    :integer(4)
+#  toon_id    :integer(4)
+#  mob_id     :integer(4)
+#  item_id    :integer(4)
 #  looted_at  :datetime
 #  created_at :datetime
 #  updated_at :datetime
-#  primary    :boolean         default(TRUE)
+#  primary    :boolean(1)      default(TRUE)
 #
 
 class Loot < ActiveRecord::Base
