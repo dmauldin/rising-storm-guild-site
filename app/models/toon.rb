@@ -18,6 +18,8 @@ class Toon < ActiveRecord::Base
   belongs_to :user
   has_many :professions
   belongs_to :job
+  has_many :attendances
+  has_many :raids, :through => :attendances
 
   has_many :primary_loots, :class_name => 'Loot', :conditions => {:primary => true}
   has_many :secondary_loots, :class_name => 'Loot', :conditions => {:primary => false}

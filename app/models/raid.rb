@@ -16,6 +16,8 @@
 class Raid < ActiveRecord::Base
   has_many :loots, :dependent => :destroy
   belongs_to :zone
+  has_many :attendances
+  has_many :toons, :through => :attendances
   
   def formatted_start_at
     self.start_at.to_s(:raid)
@@ -38,6 +40,12 @@ class Raid < ActiveRecord::Base
       raid.zone     = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
       raid.save
       
+      (doc/"playerinfos/player").each do |player|
+        player_name = (player/"name").inner_text
+        toon = Toon.find_or_create_by_name(player_name)
+        raid.attendances.create(:toon_id => toon.id)
+      end
+
       (doc/:loot).each do |loot|
         note = loot/:note
         unless (note.length>0) && %w(d b).include?(note.inner_text) # disenchanted or banked
@@ -55,7 +63,7 @@ class Raid < ActiveRecord::Base
               item.id   = item_id
               item.save
             end
-            toon = Toon.find_by_name(player_name) || Toon.create(:name => player_name)
+            toon = Toon.find_or_create_by_name(player_name)
             raid.loots.create(:toon_id => toon.id, :item_id => item.id,
                               :looted_at => loot_time, :primary => primary)
           end # player_name = disenchanted or banked

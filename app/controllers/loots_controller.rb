@@ -85,8 +85,4 @@ class LootsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  def loot_test_method?
-    true
-  end
 end
