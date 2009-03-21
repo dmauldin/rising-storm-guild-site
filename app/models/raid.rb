@@ -32,7 +32,7 @@ class Raid < ActiveRecord::Base
     
     instance_id = (doc/"raidinfo/instanceid").inner_text.to_i
     if Raid.find_by_key(instance_id)
-      # TODO: throw error if raid has already been imported
+      raise "Raid has already been imported!"
     else
       raid.key      = instance_id
       raid.start_at = Time.at((doc/"raidinfo/start").inner_text.to_i)

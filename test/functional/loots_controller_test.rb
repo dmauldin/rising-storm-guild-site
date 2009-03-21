@@ -13,10 +13,13 @@ class LootsControllerTest < ActionController::TestCase
   # end
 
   context "Given a non-admin user" do
-    setup { 
+    setup do
       @user = Factory(:user)
-    }
+    end
     context "a POST to #create" do
+      setup do
+        post :create
+      end
       should_deny_access
     end
   end

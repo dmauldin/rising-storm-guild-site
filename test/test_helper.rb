@@ -37,5 +37,5 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
-  include Clearance::Test::TestHelper
+  # include Clearance::Test::TestHelper
 end

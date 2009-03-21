@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.gem "thoughtbot-clearance", 
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
-    :version => '>= 0.4.5'
+    :version => '>= 0.5.2'
 
   config.action_controller.session = {
     :session_key => '_guild_session',

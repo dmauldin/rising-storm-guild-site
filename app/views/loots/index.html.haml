@@ -14,7 +14,7 @@
   &nbsp;&nbsp;
 
   Raid:
-  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(Raid.all(:order => "start_at desc"), "id", "formatted_start_at"), :class => 'raid_filter'
+  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(@raids, "id", "formatted_start_at"), :class => 'raid_filter'
 
   %br
   %br

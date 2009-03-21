@@ -5,8 +5,9 @@ class LootsController < ApplicationController
   # GET /loots.xml
   def index
     @loots = Loot.all(:include => [:toon, :item, :raid],
+        :conditions => {:raid => {:start_at => 2.months.ago..Time.now}},
         :order => 'toons.name, raids.start_at desc, items.inventory_type')
-
+    @raids = Raid.all(:conditions => {:id => @loots.map{|loot| loot.raid.id}.uniq})
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @loots }
