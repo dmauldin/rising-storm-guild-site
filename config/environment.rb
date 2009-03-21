@@ -19,7 +19,8 @@ Rails::Initializer.run do |config|
     :secret      => '2bf36eeeb12568f4d17fff024e73df0927fdd9291b57339985026b1f075bec4f21519ad19922624d5232d591858a85d496708ea3d2117ca014a9cc627eaee20d'
   }
   
-  DO_NOT_REPLY = "admin@example.com"
+  DO_NOT_REPLY = "admin@wheee.org"
+  HOST = "wheee.org"
   
   GUILD_NAME = "Rising Storm"
   REALM_NAME = "Lightbringer"
