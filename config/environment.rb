@@ -31,4 +31,15 @@ Rails::Initializer.run do |config|
     :realm          => REALM_NAME,
     :caching        => false
   }
+  MENU = {
+    'Forums' => ['forums', 'topics', 'posts'],
+    'Raids' => ['raids'],
+    'Loots' => ['loots'],
+    'Toons' => ['toons'],
+    'Guild Bank' => ['guild_bank'],
+    'Calendar' => ['calendar'],
+    'Achievements' => ['achievements']
+  }
+  RANKS = ['Guild Master', 'Officer', 'Organizer', 'Raider', 'Trial', 'Alt', 'Member']
+  
 end

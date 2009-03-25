@@ -2,7 +2,7 @@ class RaidsController < ApplicationController
   before_filter :admin_only
   
   def index
-    @raids = Raid.all(:order => 'start_at')
+    @raids = Raid.all(:order => 'start_at desc')
   end
   
   def show

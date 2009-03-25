@@ -53,7 +53,7 @@ class Raid < ActiveRecord::Base
           item_name   = (loot/"itemname").inner_text
           player_name = (loot/"player").inner_text
           loot_time   = (loot/"time").inner_text
-          primary     = (loot/"note").inner_text == "s" ? false : true
+          status      = (loot/"note").inner_text == "s" ? "secondary" : "primary"
         
           unless player_name == "disenchant" || player_name == "bank"
             item = Item.find_by_id(item_id)

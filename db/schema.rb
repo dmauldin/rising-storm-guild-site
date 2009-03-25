@@ -9,7 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090302152543) do
+ActiveRecord::Schema.define(:version => 20090325093524) do
+
+  create_table "achievement_criterias", :id => false, :force => true do |t|
+    t.integer "achievement_id", :null => false
+    t.integer "criteria_id",    :null => false
+  end
+
+  create_table "achievements", :force => true do |t|
+    t.string   "title",       :null => false
+    t.string   "description"
+    t.integer  "category_id"
+    t.string   "icon"
+    t.integer  "points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "attendances", :force => true do |t|
     t.integer  "toon_id"
@@ -17,6 +32,15 @@ ActiveRecord::Schema.define(:version => 20090302152543) do
     t.boolean  "sat"
     t.datetime "joined_at"
     t.datetime "parted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "forums", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "parent_id"
+    t.boolean  "allow_topics"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -59,11 +83,21 @@ ActiveRecord::Schema.define(:version => 20090302152543) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "primary",    :default => true
+    t.string   "status"
   end
 
   create_table "mobs", :force => true do |t|
     t.string   "name"
     t.integer  "zone_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "posts", :force => true do |t|
+    t.string   "title"
+    t.integer  "topic_id"
+    t.integer  "user_id"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,6 +128,14 @@ ActiveRecord::Schema.define(:version => 20090302152543) do
     t.datetime "updated_at"
   end
 
+  create_table "toon_achievements", :force => true do |t|
+    t.integer  "toon_id",        :null => false
+    t.integer  "achievement_id", :null => false
+    t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "toons", :force => true do |t|
     t.string   "name"
     t.integer  "main_id"
@@ -103,6 +145,17 @@ ActiveRecord::Schema.define(:version => 20090302152543) do
     t.datetime "updated_at"
     t.string   "gender"
     t.string   "race"
+    t.integer  "rank"
+    t.boolean  "deleted",    :default => false
+  end
+
+  create_table "topics", :force => true do |t|
+    t.string   "title"
+    t.integer  "forum_id"
+    t.boolean  "locked"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

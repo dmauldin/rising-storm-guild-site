@@ -3,7 +3,7 @@
 <% form_for(@loot) do |f| %>
   <%= f.error_messages %>
   <p>Toon: <%= f.collection_select(:toon_id, Toon.find(:all, :order => 'name'), :id, :name) %></p>
-  <p>Primary: <%= f.check_box :primary %></p>
+  <p>Status: <%= f.select :status, %w(primary secondary banked disenchanted) %></p>
   <p>
     <%= f.submit "Update" %>
   </p>

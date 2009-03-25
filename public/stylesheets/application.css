@@ -1,135 +1,50 @@
-body {
-  background-color: #EEE;
+body, th, td { 
+  font-family: tahoma,helvetica,arial,sans-serif; font-size:14px;
 }
-#site {
-  background-color: white;
-  width:800px;
-	margin:0px;
-	margin-left:auto;
-	margin-right:auto;
-	font-family: "helvetica neue", verdana, sans-serif;
-	font-size: small;
-  border:1px solid #EBA;
+body { margin: 0px; }
+.head {
+  background-color: #DFDFDF; border-bottom: 1px solid black;
+  padding-bottom: 3px;
 }
-.content{margin:5px; background-color: white;}
-.footer{}
-.topbar{padding:5px;background-color:#FED;}
-.logo {
-	padding-left: 5px;
-	font-size: 36px;
-	color: #D63;
-	float: left;
+.head #site-name {
+  padding-left: 8px; padding-top:5px; letter-spacing: -3px;
+  font-size:42px; float: left; font-family: arial; line-height: 42px;
+  text-transform: uppercase;
 }
-.userbar {
-	float: right;
-	padding-right:10px;
-	padding-top:5px;
+.head #site-name a { text-decoration:none;color:#33F; }
+.head #login-status { float:right; padding: 5px; padding-right: 10px; }
+.menu { padding:3px; }
+.menu a {
+  margin-left: 2px; margin-right: 2px; text-decoration: none;
+  color: #000080; display: block; float: left;
+  padding-left:5px; padding-right:5px; padding-top:2px; padding-bottom:3px;
 }
-.endfloats { clear: both; }
-.navbar {
-	background-color: #FC8;
-	padding-left:10px;
-	padding-top:3px;
+.menu a.active {
+  background-color: #CCE; border: 1px solid #AAC;
+  padding-left:4px; padding-right:4px; padding-top:1px; padding-bottom:2px;
 }
-.navlink {
-	margin-bottom:4px;
-	margin-right:8px;
-	float: left;
+#menu1 {
+  background-color: #D8D8D8; border-bottom: 1px solid #222; padding:3px;
 }
-.inboxstatus {
-	float:right;
-	padding-right:8px;
-}
-.row-odd td { border: 1px solid #CACCCF; background-color: #EEE; }
-.row-even td { border: 1px solid #CFCCCA; background-color: #DDD; }
-.post {
-  margin-top:3px;
-  margin-bottom:3px;
-  padding:3px;
-  border:1px solid #AAB;
-  width:100%;
-  border-collapse: collapse;
-}
-.post td { padding:3px; }
-.post .body { vertical-align:top; }
-.post-title { font-size:larger; }
-.post .head { font-size:smaller; }
-.post .head .title { float:left;font-weight:bold; }
-.post .head .info { float:left;/* font-size:smaller;*/ }
-.post .head .buttons { float:right; }
-.post .author {
-  vertical-align:top;
-  width:170px;
-  font-size:smaller;
-}
-a{color:#732;}
-fieldset{display:inline;}
-.comment-form-title{width:400px;}
-input#comment_title,textarea#comment_content{width:100%;}
-textarea#comment_content{height:100px;}
-
-.forumtable {
-  margin-top:5px;
-  width:100%;
-  border-collapse: collapse;
-  border-width:0px;
-}
-.forumtable .category { background-color:#DCB; }
-.category_spacer td { border-width:0px; height: 5px;}
-.forumtable .forum { background-color: #FED; }
-.forumtable th {
-  text-align: left;
-}
-.forumtable td {
-  vertical-align:top;
-  border:1px solid #ECA;
-}
-.forumtable td, th {
-  padding-left:3px;
-}
-.new-comment {
-  float:left;
-}
-.textile-quickref {
-  float:right;
-}
-.quickref {
-  border-collapse: collapse;
-  border:1px solid #eca;
-}
-.quickref td {
-  padding-bottom:2px;
-  padding-left:3px;
-  padding-right:3px;
-  border-bottom:1px solid #ECA;
-}
-.message-index {
-  border-collapse: collapse;
-}
-.message-index td {
-  border:1px solid #ECA;
-  padding-bottom:2px;
-  padding-left:3px;
-  padding-right:3px;
+#menu2 {
+  background-color: #D0D0D0; border-bottom: 1px solid #444; padding:3px;
 }
 
-.message {
+.content { margin:10px; }
+
+#flash_notice {
+  background-color: #CFC; border: 1px solid #ACA; padding:5px; margin:5px;
+}
+#flash_error {
+  background-color: #FCC; border: 1px solid #CAA; padding:5px; margin:5px;
+}
+
+table {
   border-collapse: collapse;
 }
-.message th, .message td {
-  border:1px solid #ECA;
-  padding-bottom:2px;
-  padding-left:3px;
-  padding-right:3px;
+td {
+  border: 1px solid #777; padding-left: 3px; padding-right: 3px;
 }
-.message th {
-  width:60px;
-  text-align:right;
-}
-.profile-icon-placeholder {
-  border:1px solid #AAC;
-  width:80px;
-  height:80px;
-  margin-left:auto;
-  margin-right: auto;
-}
+
+a { text-decoration: none; }
+/*a:hover { background-color: #CCE;}*/

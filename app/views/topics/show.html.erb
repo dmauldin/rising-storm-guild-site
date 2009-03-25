@@ -1,0 +1,23 @@
+<div style="margin-bottom:8px;">
+  Forum: <%= link_to @topic.forum.title, forum_path(@topic.forum) %>
+  &raquo;
+  Topic: <%= @topic.title %>
+</div>
+
+<table>
+  <tr>
+    <th>Posts</th>
+    <th>Author</th>
+    <th>When</th>
+  </tr>
+  <% @topic.posts.each do |post| %>
+    <tr>
+      <td>
+        <div>Title: <%= post.title %></div>
+        <%= post.body %>
+      </td>
+      <td><%= post.user.email %></td>
+      <td><%= post.created_at %></td>
+    </tr>
+  <% end %>
+</table>

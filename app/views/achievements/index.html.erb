@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Toons without achievement</th>
+  </tr>
+  <% @achievements.each do |achievement| %>
+    <tr>
+      <td style="white-space:nowrap;"><%= achievement.title %></td>
+      <td><%= achievement.toons_without_achievement.map {|toon| toon.name}.join(', ') %></td>
+    </tr>
+  <% end %>
+</table>

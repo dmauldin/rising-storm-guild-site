@@ -1,0 +1,23 @@
+<p>
+  <%= link_to "Import New Raid from XML", new_raid_path %>
+</p>
+
+<table>
+  <tr>
+    <th>Start time</th>
+    <th>Zone</th>
+    <th>Loots</th>
+    <th>Actions</th>
+  </tr>
+  <% @raids.each do |raid| %>
+    <tr>
+      <td><%= link_to raid.start_at.to_s(:raid), raid %></td>
+      <td><%= raid.zone.name if raid.zone %></td>
+      <td><%= raid.loots.count %></td>
+      <td>
+        <%= link_to "Delete", raid_path(raid), :method => :delete, :confirm => "Are you sure? This will permanently destroy this raid." %>
+        <%= link_to "Loots" %>
+      </td>
+    </tr>
+  <% end %>
+</table>

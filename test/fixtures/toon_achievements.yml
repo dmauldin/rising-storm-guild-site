@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  toon_id: 1
+  achievement_id: 1
+  completed_at: 2009-03-24 17:05:28
+
+two:
+  toon_id: 1
+  achievement_id: 1
+  completed_at: 2009-03-24 17:05:28

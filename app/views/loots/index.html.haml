@@ -49,7 +49,7 @@
       %tr
         %td.toon_name= loot.toon.name
         %td.toon_job= formatted_job(loot.toon.job)
-        %td.priority= loot.primary ? "Primary" : "Secondary"
+        %td.priority= loot.status.capitalize
         %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
         %td.item_slot= inventory_type_name(loot.item.inventory_type)
         %td.item_subclass= loot.item.subclass_name

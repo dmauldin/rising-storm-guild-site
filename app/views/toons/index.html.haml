@@ -10,7 +10,7 @@
       %th Class
       %th Primaries
       %th Secondaries
-      %th Actions
+      %th Rank
   %tbody
     - @toons.each do |toon|
       %tr
@@ -18,3 +18,4 @@
         %td= formatted_job(toon.job)
         %td= toon.primary_loots.count
         %td= toon.secondary_loots.count
+        %td= RANKS[toon.rank] unless toon.rank.nil?

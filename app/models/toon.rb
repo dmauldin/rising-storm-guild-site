@@ -23,31 +23,36 @@ class Toon < ActiveRecord::Base
   has_many :attendances
   has_many :raids, :through => :attendances
 
-  has_many :primary_loots, :class_name => 'Loot', :conditions => {:primary => true}
-  has_many :secondary_loots, :class_name => 'Loot', :conditions => {:primary => false}
+  has_many :toon_achievements
+  has_many :achievements, :through => :toon_achievements
+
+  has_many :posts
+
+  has_many :primary_loots, :class_name => 'Loot', :conditions => {:status => "primary"}
+  has_many :secondary_loots, :class_name => 'Loot', :conditions => {:status => "secondary"}
   
   def last_primary
     self.loots.primary.first(:order => "looted_at desc")
   end
 
-  def after_create
-    update_from_armory
-    self.save
-  end
-  
-  def update_from_armory
-    wowr = Wowr::API.new(WOWR_DEFAULTS)
-    begin
-      toon = wowr.get_character(self.name)
-      if toon
-        self.level = toon.level
-        self.job_id = toon.klass_id
-        self.gender = toon.gender
-        self.race = toon.race
-        # add professions update here
-      end
-    rescue
-      nil
-    end
-  end
+  # def after_create
+  #   update_from_armory
+  #   self.save
+  # end
+  # 
+  # def update_from_armory
+  #   wowr = Wowr::API.new(WOWR_DEFAULTS)
+  #   begin
+  #     toon = wowr.get_character(self.name)
+  #     if toon
+  #       self.level = toon.level
+  #       self.job_id = toon.klass_id
+  #       self.gender = toon.gender
+  #       self.race = toon.race
+  #       # add professions update here
+  #     end
+  #   rescue
+  #     nil
+  #   end
+  # end
 end

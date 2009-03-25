@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>Forum</th>
+    <th>Topics</th>
+  </tr>
+  <% @forums.each do |forum| %>
+    <tr>
+      <td><%= link_to forum.title, forum_path(forum) %></td>
+      <td><%= forum.topics.size %></td>
+    </tr>
+  <% end %>
+</table>

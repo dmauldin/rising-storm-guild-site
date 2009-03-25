@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: Northrend Dungeon Hero
+  description: Complete the heroic Northrend dungeon achievements listed below.
+  category_id: 168
+  icon: ability_rogue_feigndeath
+  points: 20
+
+two:
+  title: Outland Dungeonmaster
+  description: Complete the Burning Crusade dungeon achievements listed below.
+  category_id: 168
+  icon: spell_holy_summonchampion
+  points: 10

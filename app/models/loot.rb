@@ -19,6 +19,8 @@ class Loot < ActiveRecord::Base
   belongs_to :toon
   belongs_to :item
   
-  named_scope :primary, :conditions => {:primary => true}
-  named_scope :secondary, :conditions => {:primary => false}
+  named_scope :primary, :conditions => {:status => 'primary'}
+  named_scope :secondary, :conditions => {:status => 'secondary'}
+  named_scope :banked, :conditions => {:status => 'banked'}
+  named_scope :disenchanted, :conditions => {:status => 'disenchanted'}
 end

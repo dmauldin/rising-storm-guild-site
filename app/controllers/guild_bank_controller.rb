@@ -1,0 +1,2 @@
+class GuildBankController < ApplicationController
+end

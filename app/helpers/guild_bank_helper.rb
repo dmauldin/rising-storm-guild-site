@@ -1,0 +1,2 @@
+module GuildBankHelper
+end

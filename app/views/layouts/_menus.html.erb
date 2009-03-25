@@ -1,0 +1,9 @@
+<div class="menu" id="menu1">
+  <%# %w(news forums galleries raids loots armory blogs links).each do |link| %>
+  <% MENU.each do |link, controllers| %>
+    <%= link_to link,
+                url_for(:controller => controllers.first),
+                :class => (controllers.include?(params[:controller]) ? 'active' : nil) %>
+  <% end %>
+  <div style="clear:both;"></div>
+</div>
