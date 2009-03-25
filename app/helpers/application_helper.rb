@@ -16,6 +16,11 @@ module ApplicationHelper
     end
   end
   
+  # expects an instance of Toon
+  def colored_toon_name(toon)
+    content_tag(:span, toon.name, :class => toon.job.name.downcase.sub(/ /, "_"))
+  end
+  
   def inventory_type_name(id)
     inv_type_hash = {
       1 => "Head",

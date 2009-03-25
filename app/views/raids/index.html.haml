@@ -1,8 +1,0 @@
-%p= link_to "Import New Raid from XML", new_raid_path
-
-- @raids.each do |raid|
-  .raid
-    = link_to raid.start_at, raid
-    = "[#{raid.loots.count}]"
-    = link_to "Delete", raid_path(raid), :method => :delete, :confirm => 'Are you sure you want to delete this raid?'
-

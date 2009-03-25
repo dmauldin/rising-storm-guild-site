@@ -35,7 +35,7 @@ body { margin: 0px; }
 #flash_notice {
   background-color: #CFC; border: 1px solid #ACA; padding:5px; margin:5px;
 }
-#flash_error {
+#flash_error, #flash_failure {
   background-color: #FCC; border: 1px solid #CAA; padding:5px; margin:5px;
 }
 
@@ -48,3 +48,5 @@ td {
 
 a { text-decoration: none; }
 /*a:hover { background-color: #CCE;}*/
+
+table.form td { border:none;}

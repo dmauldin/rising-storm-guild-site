@@ -6,7 +6,7 @@
   <% @achievements.each do |achievement| %>
     <tr>
       <td style="white-space:nowrap;"><%= achievement.title %></td>
-      <td><%= achievement.toons_without_achievement.map {|toon| toon.name}.join(', ') %></td>
+      <td><%= achievement.toons_without_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
     </tr>
   <% end %>
 </table>
