@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090325093524) do
+ActiveRecord::Schema.define(:version => 20090325210151) do
 
   create_table "achievement_criterias", :id => false, :force => true do |t|
     t.integer "achievement_id", :null => false
@@ -128,6 +128,16 @@ ActiveRecord::Schema.define(:version => 20090325093524) do
     t.datetime "updated_at"
   end
 
+  create_table "specs", :force => true do |t|
+    t.integer  "job_id",     :null => false
+    t.string   "name",       :null => false
+    t.string   "role",       :null => false
+    t.string   "damage",     :null => false
+    t.string   "distance",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "toon_achievements", :force => true do |t|
     t.integer  "toon_id",        :null => false
     t.integer  "achievement_id", :null => false
@@ -135,6 +145,17 @@ ActiveRecord::Schema.define(:version => 20090325093524) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "toon_specs", :force => true do |t|
+    t.integer  "toon_id",    :null => false
+    t.integer  "spec_id",    :null => false
+    t.boolean  "main",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "toon_specs", ["main"], :name => "index_toon_specs_on_main"
+  add_index "toon_specs", ["toon_id", "spec_id"], :name => "index_toon_specs_on_toon_id_and_spec_id"
 
   create_table "toons", :force => true do |t|
     t.string   "name"

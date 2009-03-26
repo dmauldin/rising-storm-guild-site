@@ -1,12 +1,110 @@
-<table>
+<%= stylesheet_link_tag 'tablesorter-style' %>
+<%= javascript_include_tag 'jquery.tablesorter.js' %>
+<div>
+  Toons that <span style="background-color: #FCC; padding-left:2px; padding-right:3px">NEED</span>
+  <%= link_to "Normal Glory of the Raider", "#normal_without" %> /
+  <%= link_to "Heroic Glory of the Raider", "#heroic_without" %> achievements
+</div>
+<div>
+  Toons that <span style="background-color: #CFC; padding-left:2px; padding-right:3px">HAVE</span>
+  <%= link_to "Normal Glory of the Raider", "#normal_with" %> /
+  <%= link_to "Heroic Glory of the Raider", "#heroic_with" %> achievements
+</div>
+<script>
+$(document).ready(function() 
+    { 
+        $("#normal_without").tablesorter(); 
+        $("#heroic_without").tablesorter(); 
+        $("#normal_with").tablesorter(); 
+        $("#heroic_with").tablesorter(); 
+    } 
+);
+</script>
+
+<table class="tablesorter" id="normal_without">
+  <caption>Toons that need Normal Glory of the Raider achievements</caption>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>#</th>
+      <th>%</th>
+      <th>Toons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @normal_achievements.each do |achievement| %>
+      <tr>
+        <td style="white-space:nowrap;"><%= achievement.title %></td>
+        <td><%= "%02d" % achievement.toons_without_achievement.size %>/<%= @total_toons.to_i %></td>
+        <td><%= (achievement.toons_without_achievement.size > 0) ? (achievement.toons_without_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
+        <td><%= achievement.toons_without_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table class="tablesorter" id="heroic_without">
+  <caption>Toons that need Heroic Glory of the Raider achievements</caption>
+  <thead>
   <tr>
     <th>Title</th>
-    <th>Toons without achievement</th>
+    <th>#</th>
+    <th>%</th>
+    <th>Toons</th>
   </tr>
-  <% @achievements.each do |achievement| %>
+  </thead>
+  <tbody>
+  <% @heroic_achievements.each do |achievement| %>
     <tr>
       <td style="white-space:nowrap;"><%= achievement.title %></td>
+      <td><%= "%02d" % achievement.toons_without_achievement.size %>/<%= @total_toons.to_i %></td>
+      <td><%= (achievement.toons_without_achievement.size > 0) ? (achievement.toons_without_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
       <td><%= achievement.toons_without_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
     </tr>
   <% end %>
+</tbody>
+</table>
+
+<table class="tablesorter" id="normal_with">
+  <caption>Toons that have Normal Glory of the Raider achievements</caption>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>#</th>
+    <th>%</th>
+    <th>Toons</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @normal_achievements.each do |achievement| %>
+    <tr>
+      <td style="white-space:nowrap;"><%= achievement.title %></td>
+      <td><%= "%02d" % achievement.toons_with_achievement.size %>/<%= @total_toons.to_i %></td>
+      <td><%= (achievement.toons_with_achievement.size > 0) ? (achievement.toons_with_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
+      <td><%= achievement.toons_with_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+
+<table class="tablesorter" id="heroic_with">
+  <caption>Toons that have Heroic Glory of the Raider achievements</caption>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>#</th>
+    <th>%</th>
+    <th>Toons</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @heroic_achievements.each do |achievement| %>
+    <tr>
+      <td style="white-space:nowrap;"><%= achievement.title %></td>
+      <td><%= "%02d" % achievement.toons_with_achievement.size %>/<%= @total_toons.to_i %></td>
+      <td><%= (achievement.toons_with_achievement.size > 0) ? (achievement.toons_with_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
+      <td><%= achievement.toons_with_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
+    </tr>
+  <% end %>
+</tbody>
 </table>

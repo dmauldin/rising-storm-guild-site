@@ -15,7 +15,11 @@ class Achievement < ActiveRecord::Base
   has_many :toons, :through => :toon_achievements
 
   def toons_without_achievement
-    toons = Toon.all(:conditions => { :rank => 0..4 }) # GM through Trial
+    toons = Toon.raiders
     toons.reject{|toon| self.toons.include?(toon)}
+  end
+  
+  def toons_with_achievement
+    self.toons.raiders
   end
 end

@@ -31,6 +31,12 @@ class Toon < ActiveRecord::Base
   has_many :primary_loots, :class_name => 'Loot', :conditions => {:status => "primary"}
   has_many :secondary_loots, :class_name => 'Loot', :conditions => {:status => "secondary"}
   
+  has_many :toon_specs
+  has_many :specs, :through => :toon_specs
+
+  # 0:GM, 1:Officer, 2:Organizer, 3:Raider, 4:Trial
+  named_scope :raiders, :conditions => {:rank => 0..4}
+
   def last_primary
     self.loots.primary.first(:order => "looted_at desc")
   end
