@@ -21,90 +21,26 @@ $(document).ready(function()
 );
 </script>
 
-<table class="tablesorter" id="normal_without">
-  <caption>Toons that need Normal Glory of the Raider achievements</caption>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>#</th>
-      <th>%</th>
-      <th>Toons</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @normal_achievements.each do |achievement| %>
-      <tr>
-        <td style="white-space:nowrap;"><%= achievement.title %></td>
-        <td><%= "%02d" % achievement.toons_without_achievement.size %>/<%= @total_toons.to_i %></td>
-        <td><%= (achievement.toons_without_achievement.size > 0) ? (achievement.toons_without_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
-        <td><%= achievement.toons_without_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render :partial => 'list', :locals => {
+  :list_id => "normal_without",
+  :list_title => "Toons that need Normal Glory of the Raider achievements",
+  :achievements => @normal_achievements,
+  :toon_method => "toons_without_achievement" } %>
 
-<table class="tablesorter" id="heroic_without">
-  <caption>Toons that need Heroic Glory of the Raider achievements</caption>
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>#</th>
-    <th>%</th>
-    <th>Toons</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @heroic_achievements.each do |achievement| %>
-    <tr>
-      <td style="white-space:nowrap;"><%= achievement.title %></td>
-      <td><%= "%02d" % achievement.toons_without_achievement.size %>/<%= @total_toons.to_i %></td>
-      <td><%= (achievement.toons_without_achievement.size > 0) ? (achievement.toons_without_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
-      <td><%= achievement.toons_without_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
-    </tr>
-  <% end %>
-</tbody>
-</table>
+<%= render :partial => 'list', :locals => {
+  :list_id => "normal_with",
+  :list_title => "Toons that have Normal Glory of the Raider achievements",
+  :achievements => @normal_achievements,
+  :toon_method => "toons_with_achievement" } %>
 
-<table class="tablesorter" id="normal_with">
-  <caption>Toons that have Normal Glory of the Raider achievements</caption>
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>#</th>
-    <th>%</th>
-    <th>Toons</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @normal_achievements.each do |achievement| %>
-    <tr>
-      <td style="white-space:nowrap;"><%= achievement.title %></td>
-      <td><%= "%02d" % achievement.toons_with_achievement.size %>/<%= @total_toons.to_i %></td>
-      <td><%= (achievement.toons_with_achievement.size > 0) ? (achievement.toons_with_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
-      <td><%= achievement.toons_with_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
-    </tr>
-  <% end %>
-</tbody>
-</table>
+<%= render :partial => 'list', :locals => {
+  :list_id => "heroic_without",
+  :list_title => "Toons that need Heroic Glory of the Raider achievements",
+  :achievements => @heroic_achievements,
+  :toon_method => "toons_without_achievement" } %>
 
-<table class="tablesorter" id="heroic_with">
-  <caption>Toons that have Heroic Glory of the Raider achievements</caption>
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>#</th>
-    <th>%</th>
-    <th>Toons</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @heroic_achievements.each do |achievement| %>
-    <tr>
-      <td style="white-space:nowrap;"><%= achievement.title %></td>
-      <td><%= "%02d" % achievement.toons_with_achievement.size %>/<%= @total_toons.to_i %></td>
-      <td><%= (achievement.toons_with_achievement.size > 0) ? (achievement.toons_with_achievement.size / @total_toons * 100).to_i : 0 %>%</td>
-      <td><%= achievement.toons_with_achievement.map {|toon| colored_toon_name(toon)}.join(', ') %></td>
-    </tr>
-  <% end %>
-</tbody>
-</table>
+<%= render :partial => 'list', :locals => {
+  :list_id => "heroic_with",
+  :list_title => "Toons that have Heroic Glory of the Raider achievements",
+  :achievements => @heroic_achievements,
+  :toon_method => "toons_with_achievement" } %>

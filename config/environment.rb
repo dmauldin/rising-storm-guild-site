@@ -13,7 +13,8 @@ Rails::Initializer.run do |config|
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
     :version => '>= 0.5.2'
-
+  config.gem "searchlogic"
+  
   config.action_controller.session = {
     :session_key => '_guild_session',
     :secret      => '2bf36eeeb12568f4d17fff024e73df0927fdd9291b57339985026b1f075bec4f21519ad19922624d5232d591858a85d496708ea3d2117ca014a9cc627eaee20d'

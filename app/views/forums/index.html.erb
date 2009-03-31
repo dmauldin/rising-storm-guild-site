@@ -1,3 +1,7 @@
+<% if show_admin_content? %>
+  Admin: <%= link_to "New Forum", new_forum_path %>
+<% end %>
+
 <table>
   <tr>
     <th>Forum</th>

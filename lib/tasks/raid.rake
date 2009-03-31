@@ -32,7 +32,7 @@ namespace :raid do
           loot_time = (loot/"Time").innerHTML.to_time
           primary = (loot/"Costs").innerHTML=="0" ? true : false
           
-          unless player_name == "disenchant" || player_name == "bank"
+          unless player_name == "disenchant" || player_name == "bank" || item_name == "Abyss Crystal"
             item = Item.find_by_id(item_id)
             unless item
               item = Item.new

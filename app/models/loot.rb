@@ -19,6 +19,8 @@ class Loot < ActiveRecord::Base
   belongs_to :toon
   belongs_to :item
   
+  validates_inclusion_of :status, :in => %w(primary secondary banked disenchanted)
+  
   named_scope :primary, :conditions => {:status => 'primary'}
   named_scope :secondary, :conditions => {:status => 'secondary'}
   named_scope :banked, :conditions => {:status => 'banked'}

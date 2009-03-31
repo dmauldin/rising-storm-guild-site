@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag 'tablesorter-style' %>
+<%= javascript_include_tag 'jquery.tablesorter.js' %>
+<script>
+  $(document).ready(function() { 
+    $("#toon_list").tablesorter(); 
+  });
+</script>
+<h3>Showing all toons</h3>
+
+<table class="tablesorter" id="toon_list">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Class</th>
+      <th>Pri/Sec</th>
+      <th>Rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @toons.each do |toon| %>
+      <tr>
+        <td><%= link_to toon.name, toon_path(toon) %></td>
+        <td><%= formatted_job(toon.job) %></td>
+        <td>
+          <%= link_to "%03d" % toon.primary_loots.count, loots_path(:search => {:conditions => {:status => 'primary', :toon => {:name => toon.name}}}) %>
+          /
+          <%= link_to "%03d" % toon.secondary_loots.count, toon_loots_path(toon, :status => 'primary') %>
+        </td>
+        <td><%= toon.rank ? "#{toon.rank}/#{RANKS[toon.rank]}" : "?/Unknown" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

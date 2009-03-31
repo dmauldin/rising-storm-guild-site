@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090325210151) do
+ActiveRecord::Schema.define(:version => 20090331111503) do
 
   create_table "achievement_criterias", :id => false, :force => true do |t|
     t.integer "achievement_id", :null => false
@@ -187,12 +187,14 @@ ActiveRecord::Schema.define(:version => 20090325210151) do
     t.datetime "token_expires_at"
     t.boolean  "email_confirmed",                   :default => false, :null => false
     t.boolean  "admin",                             :default => false, :null => false
+    t.boolean  "wants_achievements",                :default => false
   end
 
   add_index "users", ["admin"], :name => "index_users_on_admin"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["id", "token"], :name => "index_users_on_id_and_token"
   add_index "users", ["token"], :name => "index_users_on_token"
+  add_index "users", ["wants_achievements"], :name => "index_users_on_wants_achievements"
 
   create_table "zones", :force => true do |t|
     t.string   "name"

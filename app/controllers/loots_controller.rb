@@ -4,9 +4,11 @@ class LootsController < ApplicationController
   # GET /loots
   # GET /loots.xml
   def index
-    @loots = Loot.all(:include => [:toon, :item, :raid],
-        :conditions => {:raid => {:start_at => 2.months.ago..Time.now}},
-        :order => 'toons.name, raids.start_at desc, items.inventory_type')
+    @search = Loot.new_search(params[:search])
+    @search.conditions.raid.start_at_after = 2.months.ago unless params[:search]
+    @search.conditions.toon.id = params[:toon_id] if params[:toon_id]
+    @search.order_by ||= [{:raid => :start_at}, {:item => :inventory_type}]
+    @loots, @loots_count = @search.all, @search.count
     @raids = Raid.all(:conditions => {:id => @loots.map{|loot| loot.raid.id}.uniq})
     respond_to do |format|
       format.html # index.html.erb
