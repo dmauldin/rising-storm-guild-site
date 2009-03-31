@@ -75,6 +75,7 @@ namespace :site do
         puts "Processed achievements for #{toon.name}"
         sleep 1.5
       end
+      ApplicationController.expire_page :controller => 'achievements', :action => 'index'
     end
     
     task :update_item_xml, :needs => :environment do
