@@ -15,8 +15,8 @@ class Achievement < ActiveRecord::Base
   has_many :toons, :through => :toon_achievements
 
   def toons_without_achievement
-    toons = Toon.raiders
-    toons.reject{|toon| self.toons.include?(toon)}
+    Toon.raiders - self.toons_with_achievement
+    
   end
   
   def toons_with_achievement

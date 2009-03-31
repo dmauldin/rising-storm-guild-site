@@ -9,12 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090331111503) do
+ActiveRecord::Schema.define(:version => 20090331143045) do
 
   create_table "achievement_criterias", :id => false, :force => true do |t|
     t.integer "achievement_id", :null => false
     t.integer "criteria_id",    :null => false
   end
+
+  add_index "achievement_criterias", ["achievement_id", "criteria_id"], :name => "index_achievement_criterias_on_achievement_id_and_criteria_id"
 
   create_table "achievements", :force => true do |t|
     t.string   "title",       :null => false
@@ -146,6 +148,8 @@ ActiveRecord::Schema.define(:version => 20090331111503) do
     t.datetime "updated_at"
   end
 
+  add_index "toon_achievements", ["toon_id", "achievement_id"], :name => "index_toon_achievements_on_toon_id_and_achievement_id"
+
   create_table "toon_specs", :force => true do |t|
     t.integer  "toon_id",    :null => false
     t.integer  "spec_id",    :null => false
@@ -169,6 +173,8 @@ ActiveRecord::Schema.define(:version => 20090331111503) do
     t.integer  "rank"
     t.boolean  "deleted",    :default => false
   end
+
+  add_index "toons", ["rank"], :name => "index_toons_on_rank"
 
   create_table "topics", :force => true do |t|
     t.string   "title"
