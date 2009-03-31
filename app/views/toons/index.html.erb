@@ -24,7 +24,7 @@
         <td>
           <%= link_to "%03d" % toon.primary_loots.count, loots_path(:search => {:conditions => {:status => 'primary', :toon => {:name => toon.name}}}) %>
           /
-          <%= link_to "%03d" % toon.secondary_loots.count, toon_loots_path(toon, :status => 'primary') %>
+          <%= link_to "%03d" % toon.secondary_loots.count, loots_path(:search => {:conditions => {:status => 'secondary', :toon => {:name => toon.name}}}) %>
         </td>
         <td><%= toon.rank ? "#{toon.rank}/#{RANKS[toon.rank]}" : "?/Unknown" %></td>
       </tr>
