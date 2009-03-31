@@ -1,0 +1,22 @@
+<%# requires list_id, list_title, achievements, toon_method %>
+<table class="tablesorter" id="<%= list_id %>">
+  <caption><%= list_title %></caption>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>#</th>
+      <th>%</th>
+      <th>Toons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% achievements.each do |achievement| %>
+      <tr>
+        <td style="white-space:nowrap;"><%= link_to achievement.title, achievement_path(achievement) %></td>
+        <td><%= "%02d" % achievement.send(toon_method).size %>/<%= @total_toons.to_i %></td>
+        <td><%= (achievement.send(toon_method).size > 0) ? (achievement.send(toon_method).size / @total_toons * 100).to_i : 0 %>%</td>
+        <td><%= achievement.send(toon_method).map {|toon| colored_toon_name(toon)}.join(', ') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

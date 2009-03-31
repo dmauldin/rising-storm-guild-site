@@ -1,0 +1,14 @@
+<p>
+  Achievement: <%= @achievement.title %>
+</p>
+<p>
+  Description: <%= @achievement.description %>
+</p>
+<p>
+  Raiders that have:
+  <%= @achievement.toons_with_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
+</p>
+<p>
+  Raiders that need:
+  <%= @achievement.toons_without_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
+</p>
