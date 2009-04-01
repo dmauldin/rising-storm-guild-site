@@ -13,7 +13,7 @@ Rails::Initializer.run do |config|
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
     :version => '>= 0.5.2'
-  config.gem "searchlogic"
+#  config.gem "searchlogic"
   
   config.action_controller.session = {
     :session_key => '_guild_session',
@@ -41,6 +41,7 @@ Rails::Initializer.run do |config|
     'Calendar' => ['calendar'],
     'Achievements' => ['achievements']
   }
+  PUBLIC_MENUS = ['Toons', 'Achievements']
   RANKS = ['Guild Master', 'Officer', 'Organizer', 'Raider', 'Trial', 'Alt', 'Member']
   
 end

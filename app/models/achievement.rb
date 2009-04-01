@@ -16,7 +16,6 @@ class Achievement < ActiveRecord::Base
 
   def toons_without_achievement
     Toon.raiders - self.toons_with_achievement
-    
   end
   
   def toons_with_achievement

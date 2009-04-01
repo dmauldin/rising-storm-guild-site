@@ -4,6 +4,10 @@ module ApplicationHelper
     "http://www.wowhead.com/?item=#{wow_id}"
   end
   
+  def rank_name_from_id(id)
+    return ['Guild Master', 'Officer', 'Organizer', 'Raider', 'Trial', 'Alt', 'Member'][id]
+  end
+  
   def formatted_job(job)
     if job
       return content_tag(

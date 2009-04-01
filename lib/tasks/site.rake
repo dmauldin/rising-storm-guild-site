@@ -19,6 +19,16 @@ namespace :site do
     end
   end
   
+  task :verify_defaults, :needs => :environment do
+    Toon.all.each do |toon|
+      toon.update_attribute(:wants_achievements, false) if toon.wants_achievements.nil?
+      toon.update_attribute(:deleted, false) if toon.deleted.nil?
+    end
+    User.all.each do |user|
+      user.update_attribute(:wants_achievements, false) if user.wants_achievements.nil?
+    end
+  end
+
   namespace :armory do
     task :update_toons, :needs => :environment do
       wowr = Wowr::API.new(WOWR_DEFAULTS)

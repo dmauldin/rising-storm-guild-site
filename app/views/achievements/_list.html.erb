@@ -15,7 +15,7 @@
         <td style="white-space:nowrap;"><%= link_to achievement.title, achievement_path(achievement) %></td>
         <td><%= "%02d" % achievement.send(toon_method).size %>/<%= @total_toons.to_i %></td>
         <td><%= (achievement.send(toon_method).size > 0) ? (achievement.send(toon_method).size / @total_toons * 100).to_i : 0 %>%</td>
-        <td><%= achievement.send(toon_method).map {|toon| colored_toon_name(toon)}.join(', ') %></td>
+        <td><%= achievement.send(toon_method).map {|toon| content_tag(:span, colored_toon_name(toon), :class => (toon.name==params[:toon] ? "highlight" : nil))}.join(', ') %></td>
       </tr>
     <% end %>
   </tbody>
