@@ -22,7 +22,9 @@ module ApplicationHelper
   
   # expects an instance of Toon
   def colored_toon_name(toon)
-    content_tag(:span, toon.name, :class => toon.job.name.downcase.sub(/ /, "_"))
+    Rails.cache.fetch("colored_toon_name_#{toon.name}") {
+      content_tag(:span, toon.name, :class => toon.job.name.downcase.sub(/ /, "_"))
+    }
   end
   
   def inventory_type_name(id)

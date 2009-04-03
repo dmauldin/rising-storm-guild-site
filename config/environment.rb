@@ -43,5 +43,5 @@ Rails::Initializer.run do |config|
   }
   PUBLIC_MENUS = ['Toons', 'Achievements']
   RANKS = ['Guild Master', 'Officer', 'Organizer', 'Raider', 'Trial', 'Alt', 'Member']
-  
+  RAIDER_RANKS = [0, 2, 3, 4]
 end

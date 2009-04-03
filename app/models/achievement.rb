@@ -12,13 +12,13 @@ class Achievement < ActiveRecord::Base
                           :class_name => "Achievement",
                           :order => "title asc"
   has_many :toon_achievements
-  has_many :toons, :through => :toon_achievements
+  has_many :toons, :through => :toon_achievements, :include => :job
 
   def toons_without_achievement
     Toon.raiders - self.toons_with_achievement
   end
   
   def toons_with_achievement
-    self.toons.raiders
+    self.toons.select{|toon|RAIDER_RANKS.include?(toon.rank)}
   end
 end

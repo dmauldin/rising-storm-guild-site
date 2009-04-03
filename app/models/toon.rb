@@ -35,8 +35,9 @@ class Toon < ActiveRecord::Base
   has_many :specs, :through => :toon_specs
 
   # 0:GM, 1:GM Alt, 2:Organizer, 3:Raider, 4:Trial, 5:Alt, 6:Member
-  named_scope :raiders, :conditions => {:rank => [0, 2, 3, 4]}
-
+  named_scope :raiders, :conditions => {:rank => RAIDER_RANKS}, :include => :job
+    
+  end
   def last_primary
     self.loots.primary.first(:order => "looted_at desc")
   end
