@@ -1,0 +1,23 @@
+--- 
+javascripts: 
+- base: 
+  - tablefilter
+  - supernote
+#  - prototype
+  - misc
+  - jrails
+  - jquery
+  - jquery-ui
+  - jquery.tablesorter
+  - jquery.cookie
+  # - effects
+  # - dragdrop
+  # - controls
+  - application
+stylesheets: 
+- base: 
+  - application
+  # - base
+  # - scaffold
+  - tablesorter-style
+  - wow
