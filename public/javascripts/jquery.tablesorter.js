@@ -718,7 +718,7 @@
 	ts.addParser({
 		id: "currency",
 		is: function(s) {
-			return /^[£$€?.]/.test(s);
+			return RegExp(/^[£$€?.]/).test(s);
 		},
 		format: function(s) {
 			return $.tablesorter.formatFloat(s.replace(new RegExp(/[^0-9.]/g),""));
@@ -729,7 +729,7 @@
 	ts.addParser({
 		id: "ipAddress",
 		is: function(s) {
-			return /^\d{2,3}[\.]\d{2,3}[\.]\d{2,3}[\.]\d{2,3}$/.test(s);
+			return RegExp(/^\d{2,3}[\.]\d{2,3}[\.]\d{2,3}[\.]\d{2,3}$/).test(s);
 		},
 		format: function(s) {
 			var a = s.split("."), r = "", l = a.length;
@@ -749,7 +749,7 @@
 	ts.addParser({
 		id: "url",
 		is: function(s) {
-			return /^(https?|ftp|file):\/\/$/.test(s);
+			return RegExp(/^(https?|ftp|file):\/\/$/).test(s);
 		},
 		format: function(s) {
 			return jQuery.trim(s.replace(new RegExp(/(https?|ftp|file):\/\//),''));
@@ -760,7 +760,7 @@
 	ts.addParser({
 		id: "isoDate",
 		is: function(s) {
-			return /^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/.test(s);
+			return RegExp(/^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/).test(s);
 		},
 		format: function(s) {
 			return $.tablesorter.formatFloat((s != "") ? new Date(s.replace(new RegExp(/-/g),"/")).getTime() : "0");
@@ -771,7 +771,7 @@
 	ts.addParser({
 		id: "percent",
 		is: function(s) { 
-			return /\%$/.test($.trim(s));
+			return RegExp(/\%$/).test($.trim(s));
 		},
 		format: function(s) {
 			return $.tablesorter.formatFloat(s.replace(new RegExp(/%/g),""));
@@ -793,7 +793,7 @@
 	ts.addParser({
 		id: "shortDate",
 		is: function(s) {
-			return /\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s);
+			return RegExp(/\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/).test(s);
 		},
 		format: function(s,table) {
 			var c = table.config;
@@ -815,7 +815,7 @@
 	ts.addParser({
 	    id: "time",
 	    is: function(s) {
-	        return /^(([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(am|pm)))$/.test(s);
+	        return RegExp(/^(([0-2]?[0-9]:[0-5][0-9])|([0-1]?[0-9]:[0-5][0-9]\s(am|pm)))$/).test(s);
 	    },
 	    format: function(s) {
 	        return $.tablesorter.formatFloat(new Date("2000/01/01 " + s).getTime());
