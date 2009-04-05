@@ -1,15 +1,15 @@
 --- 
 javascripts: 
 - base: 
-  - supernote
+  - jrails
   - jquery
   - jquery-ui
-  - jrails
-  - jquery.tablesorter
   - jquery.cookie
   - tablefilter
   - misc
   - application
+  - supernote
+  - jquery.tablesorter
 stylesheets: 
 - base: 
   - tablesorter-style
