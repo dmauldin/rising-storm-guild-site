@@ -124,14 +124,13 @@ module Wowr
 		class	SearchCharacter < Character
 		end
 		
-		
-		# Full character details
-		# uses characterInfo element
+    # Character details without reputations
+    # uses characterInfo element
 		# Made up of two parts, character and charactertab
-		class FullCharacter < Character
+		class InfosCharacter < Character
 			
 			# character_info
-			attr_reader :char_url, :title,
+			attr_reader :char_url, :title, :known_titles,
 									:faction, :faction_id,
 			 						:arena_teams,
 									:last_modified
@@ -150,24 +149,20 @@ module Wowr
 									:talent_spec, :pvp,
 									:professions,
 									:items,
-									:buffs, :debuffs,
-									:skill_categories,
-									:reputation_categories
-			
-			alias_method :skills, :skill_categories
-			alias_method :rep, :reputation_categories
-			alias_method :reputation, :reputation_categories
+									:buffs, :debuffs
 			
 			# It's made up of two parts
 			# Don't care about battlegroups yet
 			# I don't think I can call stuff from the constructor?
-			def initialize(sheet, skills, reputation, api = nil)
+			def initialize(sheet, api = nil)
 				@api = api
 				
 				character_info(sheet%'character')
+				
+				# Check if characterTab is defined. If not, the character have no infos on the armory (not logged since last armory wipe)
+				raise Wowr::Exceptions::CharacterNoInfos.new(@name) if (sheet%'characterTab').nil?
+				
 				character_tab(sheet%'characterTab')
-				character_skills(skills)
-				character_reputation(reputation)
 			end
 			
 			# <character
@@ -237,11 +232,16 @@ module Wowr
 			end
 			
 			def character_tab(elem)
-				
 				# <title value=""/>
 				@title				= (elem%'title')[:value] == "" ? nil : (elem%'title')[:value]
-				#@known_titles = <knownTitles/>
-				
+			
+				@known_titles = []
+
+				@known_titles << @title if (@title)
+				(elem%'knownTitles'/:title).each do |entry|
+				  @known_titles << entry[:value] if (!@known_titles.include?(entry[:value]))
+				end
+
 				@health 		= (elem%'characterBars'%'health')[:effective].to_i
 				@second_bar = SecondBar.new(elem%'characterBars'%'secondBar')
 				
@@ -269,8 +269,6 @@ module Wowr
 				
 				@pvp = Pvp.new(elem%'pvp')
 								
-				# Also accessible from
-				# character.skills['professions']
 				@professions = []
 				(elem%'professions'/:skill).each do |skill|
 					@professions << Skill.new(skill)
@@ -291,23 +289,33 @@ module Wowr
 					@debuffs << Buff.new(debuff, @api)
 				end
 			end
-
-			# character-skills.xml
-			def character_skills(elem)
-				@skill_categories = {}
-				(elem/:skillCategory).each do |category|
-					@skill_categories[category[:key]] = SkillCategory.new(category)
-				end
+		end
+		
+		# Full character details with reputations
+		class FullCharacter < InfosCharacter
+		  attr_reader :reputation_categories
+			
+			alias_method :rep, :reputation_categories
+			alias_method :reputation, :reputation_categories
+			
+			def initialize(sheet, reputation, api = nil)
+				@api = api
+			
+			  # Build the InfosCharacter
+			  super(sheet, api)
+			  
+			  # Add reputations
+				character_reputation(reputation)
 			end
-
+			
 			# character-reputation.xml
 			def character_reputation(elem)
-				@reputation_categories = {}
-				(elem/:factionCategory).each do |category|
-					@reputation_categories[category[:key]] = RepFactionCategory.new(category)
-				end
+  			@reputation_categories = {}
+  			(elem/:factionCategory).each do |category|
+  				@reputation_categories[category[:key]] = RepFactionCategory.new(category)
+  			end
 			end
-		end
+	  end
 		
 		
 		# Second stat bar, depends on character class
@@ -481,7 +489,7 @@ module Wowr
 		end
 		
 		class WeaponPower
-			attr_reader :base, :effective, :increased_dps, :pet_attack, :pet_spell
+			attr_reader :base, :effective, :increased_dps, :pet_attack, :pet_spell, :haste_rating
 			
 			def initialize(elem)
 				@base 					= elem[:base].to_i
@@ -529,7 +537,7 @@ module Wowr
 		# merged it into one set of objects for each thing
 		class Spell
 			attr_reader :arcane, :fire, :frost, :holy, :nature, :shadow,
-									:hit_rating, :bonus_healing, :penetration, :mana_regen
+									:hit_rating, :bonus_healing, :penetration, :mana_regen, :speed
 			
 			def initialize(elem)
 				@arcane = SpellDamage.new(elem%'bonusDamage'%'arcane', elem%'critChance'%'arcane')
@@ -543,6 +551,7 @@ module Wowr
 				@penetration 		= (elem%'penetration')[:value].to_i
 				@hit_rating 		= WeaponHitRating.new(elem%'hitRating')
 				@mana_regen 		= ManaRegen.new(elem%'manaRegen')
+				@speed 			= SpellSpeed.new(elem%'hasteRating')
 				
 				# elements = %w[arcane fire frost holy nature shadow]
 				# elements.each do |element|
@@ -552,6 +561,15 @@ module Wowr
 				# 	# eval("@#{element} = SpellDamage.new((elem%'bonusDamage'%element)[:value].to_i,
 				# 	# 																						(elem%'critChance'%element)[:percent].to_f)")
 				# end
+			end
+		end
+
+		class SpellSpeed
+			attr_reader :percent_increase, :haste_rating
+	
+			def initialize(elem)
+				@percent_increase	= elem[:hastePercent].to_f
+				@haste_rating 	= elem[:hasteRating].to_i
 			end
 		end
 		
@@ -726,7 +744,7 @@ module Wowr
 				@gems[0]							= elem[:gem0Id].to_i == 0 ? nil : elem[:gem0Id].to_i
 				@gems[1]							= elem[:gem1Id].to_i == 0 ? nil : elem[:gem1Id].to_i
 				@gems[2]							= elem[:gem2Id].to_i == 0 ? nil : elem[:gem2Id].to_i
-				@permanent_enchant		= elem[:permanentEnchant].to_i
+				@permanent_enchant		= elem[:permanentenchant].to_i
 				@random_properties_id = elem[:randomPropertiesId] == 0 ? nil : elem[:randomPropertiesId].to_i
 				@seed									= elem[:seed].to_i # not sure if seed is so big it's overloading
 				@slot									= elem[:slot].to_i
@@ -734,33 +752,6 @@ module Wowr
 		end
 
 
-
-
-    # <skillCategory key="weaponskills" name="Weapon Skills">
-    #   <skill key="defense" max="350" name="Defense" value="348"/>
-    #   <skill key="maces" max="350" name="Maces" value="291"/>
-    #   <skill key="staves" max="350" name="Staves" value="234"/>
-    #   <skill key="two-handedmaces" max="350" name="Two-Handed Maces" value="189"/>
-    #   <skill key="unarmed" max="350" name="Unarmed" value="13"/>
-    # </skillCategory>
-
-		# General skill category
-		# eg Weapon Skills, Languages
-		class SkillCategory
-			attr_reader :key, :name, :skills
-			alias_method :to_s, :name
-			
-			def initialize(elem)
-				@key 	= elem[:key]
-				@name = elem[:name]
-
-				@skills = {}
-				(elem/:skill).each do |skill|
-					@skills[skill[:key]] = Skill.new(skill)
-				end
-			end
-		end
-		
 		# eg Daggers, Riding, Fishing, language
 		class Skill
 			attr_reader :key, :name, :value, :max

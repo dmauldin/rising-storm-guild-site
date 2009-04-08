@@ -55,6 +55,8 @@ table caption { font-size: 20px;}
 
 span.highlight { background-color: yellow; padding-left:2px; padding-right:2px;}
 
+.search_results .greyed { background-color: #CCC !important; }
+
 /* "fallback" links for non-CSS supporting browsers. */
 .fallback {
  display: none;

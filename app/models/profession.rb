@@ -13,4 +13,7 @@
 #
 
 class Profession < ActiveRecord::Base
+  belongs_to :skill
+  belongs_to :toon
+  validates_uniqueness_of :skill_id, :scope => :toon_id
 end

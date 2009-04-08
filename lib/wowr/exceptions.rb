@@ -4,6 +4,8 @@ module Wowr
 			case code
 				when "noCharacter"
 					raise CharacterNotFound.new("Character '#{options[:character_name]}' not found.")
+				when "belowMinLevel"
+				  raise CharacterBelowMinLevel.new("Character '#{options[:character_name]}' is below min level (10).")
 				else
 					raise StandardError.new("The XML returned an error: #{code.to_s}")
 			end
@@ -57,12 +59,30 @@ module Wowr
 			end
 		end
 		
+		class LoginRequiresAuthenticator < StandardError
+			def initialize
+				super "It was not possible to login using the username and password provided, because an authenticator code is required."
+			end
+		end		
+		
+		class LoginBroken < StandardError
+			def initialize
+				super "It was not possible to login due to a failure of login logic."
+			end
+		end		
+		
 		class InvalidArenaTeamSize < StandardError
 		end
 		
 		class RealmNotSet < StandardError
 			def initialize
 				super "Realm not set in options or API constructor."
+			end
+		end
+
+		class EventNotSet < StandardError
+			def initialize
+				super "Event not set in options or API constructor."
 			end
 		end
 		
@@ -90,6 +110,18 @@ module Wowr
 				super "Character not found with name '#{string}'."
 			end
 		end
+		
+		class CharacterBelowMinLevel < ElementNotFoundError
+			def initialize(string)
+				super "Character with name '#{string}' is below min level (10)."
+			end
+		end
+		
+		class CharacterNoInfos < StandardError
+		  def initialize(string)
+		    super "Character with name '#{string}' have no informations in the armory (not logged on WoW since last armory reset)"
+	    end
+    end
 		
 		class ItemNotFound < ElementNotFoundError
 			def initialize(string)
@@ -119,6 +151,12 @@ module Wowr
 		class InvalidIconType < StandardError
 			def initialize(array)
 				super "Icon type must be: #{array.keys.inspect}"
+			end
+		end
+
+		class NetworkTimeout < StandardError
+			def initialize(string)
+				super "Network timeout '#{string}'."
 			end
 		end
 	end

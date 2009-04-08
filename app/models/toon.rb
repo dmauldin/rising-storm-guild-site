@@ -18,7 +18,11 @@ class Toon < ActiveRecord::Base
   has_many :loots
   belongs_to :main, :class_name => "Toon"
   belongs_to :user
+  # profession = the toon's primary skill choices
+  # skill = the actual skill the profession uses
   has_many :professions
+  has_many :skills, :through => :professions
+  
   belongs_to :job
   has_many :attendances
   has_many :raids, :through => :attendances
@@ -47,20 +51,20 @@ class Toon < ActiveRecord::Base
   #   update_from_armory
   #   self.save
   # end
-  # 
-  # def update_from_armory
-  #   wowr = Wowr::API.new(WOWR_DEFAULTS)
-  #   begin
-  #     toon = wowr.get_character(self.name)
-  #     if toon
-  #       self.level = toon.level
-  #       self.job_id = toon.klass_id
-  #       self.gender = toon.gender
-  #       self.race = toon.race
-  #       # add professions update here
-  #     end
-  #   rescue
-  #     nil
-  #   end
-  # end
+
+  def update_from_armory
+    wowr = Wowr::API.new(WOWR_DEFAULTS)
+    begin
+      toon = wowr.get_character(self.name)
+      if toon
+        self.level = toon.level
+        self.job_id = toon.klass_id
+        self.gender = toon.gender
+        self.race = toon.race
+        # add professions update here
+      end
+    rescue
+      nil
+    end
+  end
 end

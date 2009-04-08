@@ -26,11 +26,22 @@
         </span>
       <% end %>
     </p>
+    <p>
+      Professions
+      <% @skills.each do |skill| %>
+        <span style="border:1px solid #777; padding-left:3px; padding-right:3px; margin:1px; padding-bottom:2px">
+          <%= check_box_tag "search[conditions][professions][skill][name][]", skill[:name],
+                @search.conditions.professions.skill.name.include?(skill[:name]),
+                :id => sanitize_to_id("search[conditions][professions][skill][name][#{skill[:name]}]")  %>
+          <%= label_tag "search[conditions][professions][skill][name][#{skill[:name]}]", skill.name.capitalize %>
+        </span>
+      <% end %>
+    </p>
   <% end %>
   <%= f.submit "Search" %>
 <% end %>
 
-<table class="tablesorter" id="toon_list">
+<table class="tablesorter search_results" id="toon_list">
   <thead>
     <tr>
       <th>Name</th>
@@ -39,6 +50,8 @@
       <th>Rank</th>
       <th>Normal Glory</th>
       <th>Heroic Glory</th>
+      <th>Profession 1</th>
+      <th>Profession 2</th>
     </tr>
   </thead>
   <tbody>
@@ -74,6 +87,18 @@
             achievements_path(:toon => toon.name),
             :class => ((@heroic_achievements.size - heroic_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}heroic" : nil %>
         </td>
+        <% content_tag :td, :class => @search.conditions.professions.skill.name.include?(toon.professions[0].skill[:name]) ? nil : "greyed" do -%>
+          <% if toon.professions[0] %>
+            <%= toon.professions[0].skill.name.capitalize %>
+            <%= toon.professions[0].level %> / <%= toon.professions[0].maxlevel %>
+          <% end %>
+        <% end -%>
+        <% content_tag :td, :class => @search.conditions.professions.skill.name.include?(toon.professions[1].skill[:name]) ? nil : "greyed" do -%>
+          <% if toon.professions[1] %>
+            <%= toon.professions[1].skill.name.capitalize %>
+            <%= toon.professions[1].level %> / <%= toon.professions[1].maxlevel %>
+          <% end %>
+        <% end -%>
       </tr>
     <% end %>
   </tbody>

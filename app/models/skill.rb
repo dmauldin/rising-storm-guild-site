@@ -11,4 +11,8 @@
 #
 
 class Skill < ActiveRecord::Base
+  has_many :professions
+  has_many :toons, :through => :professions
+  
+  validates_uniqueness_of :name
 end

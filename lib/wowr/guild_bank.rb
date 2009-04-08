@@ -54,7 +54,7 @@ module Wowr
 		
 		# Consists of multiple groups, each with 1000 entries
 		class GuildBankLog < GuildBank
-			attr_reader :entries
+			attr_reader :entries, :group_now, :group_next, :group_prev
 			
 			def initialize(elem, api = nil)
 				super(elem)
@@ -63,23 +63,10 @@ module Wowr
 				(elem%'banklogs'/:banklog).each do |entry|
 					@entries << GuildBankLogEntry.new(entry, self, api)
 				end
-			end
-			
-			
-			def next
-				
-			end
-			
-			def next!
-				
-			end
-			
-			def prev
-				
-			end
-			
-			def prev!
-				
+
+        @group_now = (elem%'banklogs')[:now].to_i
+        @group_next = (elem%'banklogs')[:next].to_i
+        @group_prev = (elem%'banklogs')[:prev].to_i
 			end
 		end
 		
@@ -103,7 +90,7 @@ module Wowr
 		# 	<item count="1" icon="inv_potion_92" id="12820" name="Winterfall Firewater" qi="1" subtype="" type="consumables"/>
 		# </banklog>
 		class GuildBankLogEntry
-			attr_reader :dtab, :money, :otab, :player, :rank_id, :ts, :type_id, :item
+			attr_reader :dtab, :money, :otab, :player, :rank_id, :ts, :type_id, :item, :unknown
 			
 			@@types = {
 				1 => 'Deposit Item',
@@ -111,7 +98,10 @@ module Wowr
 				3 => 'Move Item',
 				4 => 'Deposit Money',
 				5 => 'Withdraw Money',
-				6 => 'Repair'
+				6 => 'Repair',
+				7 => 'Move Item',
+				8 => 'Withdraw Money',
+				9 => 'Guild Bank Tab Purchase'
 			}
 			
 			def initialize(elem, bank = nil, api = nil)
@@ -121,6 +111,7 @@ module Wowr
 				@otab			= elem[:otab] == "" ? nil : elem[:otab].to_i 
 				@money		= Money.new(elem[:money].to_i)
 				@player 	= elem[:player]
+        @unknown  = elem[:unknown] == "1" ? true : false
 				@rank_id	= elem[:rank].to_i
 				@ts 			= elem[:ts].to_i # TODO: Check TS isn't overloading
 				@type_id	= elem[:type].to_i

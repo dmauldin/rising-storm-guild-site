@@ -3,10 +3,11 @@
 # http://wowr.rubyforge.org/
 # Written by Ben Humphreys
 # http://benhumphreys.co.uk/
+# Matained By Peter Wood
+# http://narwar.net/
 # 
 # Author:: Ben Humphreys
-# May not be used for commercial applications
-# 
+# Author:: Peter Wood
 
 begin
 	require 'hpricot' # version 0.6
@@ -18,6 +19,8 @@ require 'net/http'
 require 'net/https'
 require 'cgi'
 require 'fileutils'
+require 'json'
+
 
 $:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -25,6 +28,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'wowr/exceptions.rb'
 require 'wowr/extensions.rb'
 
+require 'wowr/calendar.rb'
 require 'wowr/character.rb'
 require 'wowr/guild.rb'
 require 'wowr/item.rb'
@@ -37,14 +41,21 @@ module Wowr
 		VERSION = '0.4.1'
 		
 		@@armory_base_url = 'wowarmory.com/'
+		@@login_base_url = 'battle.net/'
+		
+		@@persistant_cookie = 'COM-warcraft'
+		@@temporary_cookie = 'JSESSIONID'
 		
 		@@search_url = 'search.xml'
 		
 		@@character_sheet_url				= 'character-sheet.xml'
 		@@character_talents_url			= 'character-talents.xml'
-		@@character_skills_url			= 'character-skills.xml'
 		@@character_reputation_url	= 'character-reputation.xml'
-		
+
+                @@calendar_user_url = 'vault/calendar/month-user.json'
+                @@calendar_world_url = 'vault/calendar/month-world.json'
+                @@calendar_detail_url = 'vault/calendar/detail.json'
+
 		@@guild_info_url		= 'guild-info.xml'
 		
 		@@item_info_url			= 'item-info.xml'
@@ -55,7 +66,7 @@ module Wowr
 		@@guild_bank_contents_url = 'vault/guild-bank-contents.xml'
 		@@guild_bank_log_url      = 'vault/guild-bank-log.xml'
 		
-		@@login_url = 'login.xml'
+		@@login_url = 'login/login.xml'
 
 		@@dungeons_url = 'data/dungeons.xml'                	
 		@@dungeons_strings_url = 'data/dungeonStrings.xml'
@@ -71,7 +82,7 @@ module Wowr
 		@@cache_failed_requests = true # cache requests that resulted in an error from the armory
 		
 		cattr_accessor :armory_base_url, :search_url,
-									 :character_sheet_url, :character_talents_url, :character_skills_url, :character_reputation_url,
+									 :character_sheet_url, :character_talents_url, :character_reputation_url,
 									 :guild_info_url,
 									 :item_info_url, :item_tooltip_url,
 									 :arena_team_url,
@@ -80,7 +91,8 @@ module Wowr
 									 :dungeons_url, :dungeons_strings_url,
 									 :max_connection_tries,
 									 :cache_directory_path,
-									 :default_cache_timeout, :failed_cache_timeout, :cache_failed_requests
+		      							 :default_cache_timeout, :failed_cache_timeout, :cache_failed_requests,
+									 :calendar_user_url, :calendar_world_url, :calendar_detail_url, :persistant_cookie, :temporary_cookie
 		
 		@@search_types = {
 			:item => 'items',
@@ -91,6 +103,9 @@ module Wowr
 		
 		@@arena_team_sizes = [2, 3, 5]
 		
+		@@calendar_world_types = ['player', 'holiday', 'bg', 'darkmoon', 'raidLockout', 'raidReset', 'holidayWeekly']
+		@@calendar_user_types = ['raid', 'dungeon', 'pvp', 'meeting', 'other']
+
 		attr_accessor :character_name, :guild_name, :realm, :locale, :lang, :caching, :cache_timeout, :debug
 		
 		
@@ -211,13 +226,11 @@ module Wowr
 			end
 			
 			character_sheet = get_xml(@@character_sheet_url, options)
-			character_skills = get_xml(@@character_skills_url, options)
 			character_reputation = get_xml(@@character_reputation_url, options)
 			
 			# FIXME
 			if true
 				return Wowr::Classes::FullCharacter.new(character_sheet,
-																								character_skills,
 																								character_reputation,
 																								self)
 			else
@@ -232,16 +245,6 @@ module Wowr
 			return get_character(name, options)
 		end
 
-		# TODO
-		# def get_character_skills
-		# 	
-		# end
-		# 
-		# def get_character_reputation
-		# 	
-		# end
-		
-		
 		# Find all guilds with the given string, return array of Wowr::Classes::SearchGuild.
 		# Searches across all realms.
 		# Caching is disabled for searching.
@@ -518,7 +521,223 @@ module Wowr
 				raise Wowr::Exceptions::GuildBankNotFound.new(options[:guild_name])
 			end
 		end
-		
+
+
+		def get_complete_world_calendar(cookie, name = @character_name, realm = @realm, options = {})
+			if (cookie.is_a?(Hash))
+			  options = cookie
+			elsif (name.is_a?(Hash))
+			  options = name
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (realm.is_a?(Hash))
+			  options = realm
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => @realm)
+			else
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => realm)
+			end
+
+			options = merge_defaults(options)
+
+			events = []
+  
+			@@calendar_world_types.each do |type|
+			  options.merge!(:calendar_type => type)
+			  events = events.concat(get_world_calendar(options))
+			end
+
+			events.sort! { |a,b| a.start <=> b.start }
+
+			return events
+		end
+	
+
+		def get_world_calendar(cookie, name = @character_name, realm = @realm, options = {})
+			if (cookie.is_a?(Hash))
+			  options = cookie
+			elsif (name.is_a?(Hash))
+			  options = name
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (realm.is_a?(Hash))
+			  options = realm
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => @realm)
+			else
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => realm)
+			end
+
+			options = merge_defaults(options)
+
+			if options[:cookie].nil? || options[:cookie] == ""
+				raise Wowr::Exceptions::CookieNotSet.new
+			elsif options[:character_name].nil? || options[:guild_name] == ""
+				raise Wowr::Exceptions::CharacterNameNotSet.new
+			elsif options[:realm].nil? || options[:realm] == ""
+				raise Wowr::Exceptions::RealmNotSet.new
+			end
+			
+			options.merge!(:secure => true)
+
+			json = get_json(@@calendar_world_url, options)
+
+			if (!json["events"])
+				raise Wowr::Exceptions::EmptyPage
+			end
+
+			events = []
+
+			json["events"].each do |event|
+			    events << Wowr::Classes::WorldCalendar.new(event, nil)
+			end
+
+			return events
+		end
+
+
+                def get_full_user_calendar(cookie, name = @character_name, realm = @realm, options = {})
+			if (cookie.is_a?(Hash))
+			  options = cookie
+			elsif (name.is_a?(Hash))
+			  options = name
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (realm.is_a?(Hash))
+			  options = realm
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => @realm)
+			else
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => realm)
+			end
+
+			options = merge_defaults(options)
+
+			skel_events = get_user_calendar(options)
+			full_events = []
+
+			skel_events.each do |se|
+			  options.merge!(:event => se.id)
+			  full_events << get_calendar_event(options)
+			end
+
+			full_events.sort! { |a,b| a.start <=> b.start }
+
+			return full_events
+		end
+
+
+		def get_user_calendar(cookie, name = @character_name, realm = @realm, options = {})
+			if (cookie.is_a?(Hash))
+			  options = cookie
+			elsif (name.is_a?(Hash))
+			  options = name
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (realm.is_a?(Hash))
+			  options = realm
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => @realm)
+			else
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => realm)
+			end
+
+			options = merge_defaults(options)
+
+			if options[:cookie].nil? || options[:cookie] == ""
+				raise Wowr::Exceptions::CookieNotSet.new
+			elsif options[:character_name].nil? || options[:guild_name] == ""
+				raise Wowr::Exceptions::CharacterNameNotSet.new
+			elsif options[:realm].nil? || options[:realm] == ""
+				raise Wowr::Exceptions::RealmNotSet.new
+			end
+			
+			options.merge!(:secure => true)
+
+			json = get_json(@@calendar_user_url, options)
+
+			if (!json["events"])
+				raise Wowr::Exceptions::EmptyPage
+			end
+
+			events = []
+
+			json["events"].each do |event|
+			    events << Wowr::Classes::UserCalendar.new(event, nil)
+			end
+
+			return events
+		end
+
+
+		def get_calendar_event (cookie, event = nil, name = @character_name, realm = @realm, options = {})
+			if (cookie.is_a?(Hash))
+			  options = cookie
+			elsif (event.is_a?(Hash))
+			  options = event
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:event => nil)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (name.is_a?(Hash))
+			  options = name
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:event => event)
+			  options.merge!(:character_name => @character_name)
+			  options.merge!(:realm => @realm)
+			elsif (realm.is_a?(Hash))
+			  options = realm
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:event => event)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => @realm)
+			else
+			  options.merge!(:cookie => cookie)
+			  options.merge!(:event => event)
+			  options.merge!(:character_name => name)
+			  options.merge!(:realm => realm)
+			end
+
+			options = merge_defaults(options)
+
+			if options[:cookie].nil? || options[:cookie] == ""
+				raise Wowr::Exceptions::CookieNotSet.new
+			elsif options[:character_name].nil? || options[:guild_name] == ""
+				raise Wowr::Exceptions::CharacterNameNotSet.new
+			elsif options[:realm].nil? || options[:realm] == ""
+				raise Wowr::Exceptions::RealmNotSet.new
+			elsif options[:event].nil? || options[:event] == ""
+				raise Wowr::Exceptions::EventNotSet.new
+			end
+			
+			options.merge!(:secure => true)
+
+			json = get_json(@@calendar_detail_url, options)
+
+			if (!json.is_a?(Hash))
+				raise Wowr::Exceptions::EmptyPage
+			end
+
+			return Wowr::Classes::UserDetailCalendar.new(json, nil)
+		end
+
+
 		# Get complete list of dungeons.
 		# WARNING: This gets two 6k xml files so it's not that fast
 		# Takes 0.2s with cache, 2s without
@@ -563,62 +782,129 @@ module Wowr
 		end
 
 		
-		# Logs the user into the armory using their main world of warcraft username and password.
-		# Returns a cookie string used for secure requests like get_guild_bank_contents and get_guild_bank_log.
-		# Uses SSH to send details to the login page.
-		def login(username, password)
-			# url = 'https://eu.wowarmory.com/guild-bank-contents.xml?n=Rawr&r=Trollbane'
-			url = base_url(@locale, {:secure => true}) + @@login_url
+		# Logs the user into the armory using their main world of warcraft username, password and authenticator if given/required.
+		# Uses SSL to send details to the login page. Both must be set to true in order to recieve the long life cookie as the second value.
+		#
+		# short = api.login("username", "password")
+		# short, long = api.login("username", "password", nil, true)
+		#
+		def login(username, password, authenticator = nil, both = false)
+			# Create the base URL we will be POSTing to.
+			authentication_url = base_url(@locale, {:secure => true, :login => true}) + @@login_url + "?app=armory"
 			
-			req = Net::HTTP::Post.new(url)
-			req["user-agent"] = "Mozilla/5.0 Gecko/20070219 Firefox/2.0.0.2" # ensure returns XML
-			req["cookie"] = "cookieMenu=all; cookies=true;"
-			
-			uri = URI.parse(url)
-			
-			http = Net::HTTP.new(uri.host, uri.port)
-			
-			# Suppress "warning: peer certificate won't be verified in this SSL session"
-			http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-			http.use_ssl = true
-			
-			req.set_form_data({'accountName' => username, 'password' => password}, '&')
-			
-			
-			http.start do
-				res = http.request(req)
+			# Ensure we add the correct bounce point.
+			if (@locale == "www")
+			  authentication_url += "&ref=http://www.wowarmory.com/index.xml"
+			else
+			  authentication_url += "&ref=http://#{@locale}.wowarmory.com/index.xml"
+			end
+		
+			# Ensure we have no final stage.
+			redirectstage = nil
+		
+			# Post the first stage
+			stage1 = login_http(authentication_url, true, nil, { 'accountName' => username, 'password' => password }, true)
+
+			# Check what happened.
+			if (stage1.code == "200")
+				# We didn't pass, but we didn't fail yet if we need an authenticator.
+				stage1doc = Hpricot.XML(stage1.body)
 				
-				tries = 0
-				response = case res
-					when Net::HTTPSuccess, Net::HTTPRedirection
-						res.body
-					else
-						tries += 1
-						if tries > @@max_connection_tries
-							raise Wowr::Exceptions::NetworkTimeout.new('Timed out')
-						else
-							retry
-						end
-					end
-				
-				doc = Hpricot.XML(response)
-				
-				# error = 0 nothing provided
-				# error = 1 invalid credentials
-				# TODO: Detect different kinds of errors
-				if (doc%'login')
-					raise Wowr::Exceptions::InvalidLoginDetails
-				else
-					cookie = nil
-					res.header['set-cookie'].scan(/JSESSIONID=(.*?);/) {
-						cookie = 'JSESSIONID=' + $1 + ';'
-					}
-					return cookie
+				# Check to see if our details were incorrect.
+				if (stage1doc.at("tas:accountName")['error'])
+					# We have had an error returned to us with regards to our username or password.
+					raise Wowr::Exceptions::InvalidLoginDetails 
 				end
+				
+				# Okey do we require an authenticator?
+				if (!stage1doc.at("tas:authType")['value'] || stage1doc.at("tas:authType")['value'] != "BA")
+					# Ummm, we're not invalid nor do we have no clue about the authType required now.
+					raise Wowr::Exceptions::LoginBroken 
+				end
+				
+				# Do we have an authenticator code to use?
+				raise Wowr::Exceptions::LoginRequiresAuthenticator if (!authenticator)
+				
+				stage1cookie = nil
+				
+				# Get the *authentication sites* JSESSIONID.
+				stage1.header['set-cookie'].scan(/JSESSIONID=(.*?);/) {
+				    stage1cookie = $1
+				}				
+
+				# Let's post the authenticator and the session for this login.
+				stage2 = login_http(authentication_url, true, { 'JSESSIONID' => stage1cookie }, { 'authValue' => authenticator }, true)
+
+				# So now we check what happened.
+				if (stage2.code == "200")
+					# This isn't a good sign, we should have redirected now.
+					stage2doc = Hpricot.XML(stage2.body)
+					
+					# Error is obvious
+					if (stage2doc.at("tas:accountName")['error'])
+						# We have had an error returned to us with regards to our username or password.
+						raise Wowr::Exceptions::InvalidLoginDetails 
+					end					
+					
+					# Error isn't obvious, we can't continue.
+					raise Wowr::Exceptions::LoginBroken
+				elsif (stage2.code == "302")
+					redirectstage = stage2
+				end
+			elsif (stage1.code == "302")
+				redirectstage = stage1
+			end
+			
+			# We should have been redirected by now.
+			if (!redirectstage)
+				raise Wowr::Exceptions::LoginBroken
+			end
+			
+			# Time to obtain our next URL and our long term cookie.
+			long_cookie = nil
+			
+			redirectstage.header['set-cookie'].scan(/#{@@persistant_cookie}=(.*?);/) {
+			    long_cookie = $1
+			}
+			
+			# Let's bounce to our page that will give us our short term cookie, URL has Kerbrose style ticket.
+			short_cookie = login_final_bounce(redirectstage.header['location'])
+			
+			# So what does the user want?
+			if (both)
+				return short_cookie, long_cookie
+			else
+				return short_cookie
 			end
 		end
 		
-		
+		# Reobtains a short term cookie by using the given long life cookie.
+		def refresh_login(long_life_cookie)
+			# Create the base URL we will be POSTing to.
+			authentication_url = base_url(@locale, {:secure => true, :login => true}) + @@login_url + "?app=armory"
+			
+			# Ensure we add the correct bounce point.
+			if (@locale == "www")
+			  authentication_url += "&ref=http://www.wowarmory.com/index.xml"
+			else
+			  authentication_url += "&ref=http://#{@locale}.wowarmory.com/index.xml"
+			end
+			
+			# All we need to do is goto the armory login page passing our long life cookie, we should get 302 instantly.
+			stage1 = login_http(authentication_url, true, { @@persistant_cookie => long_life_cookie })
+			
+			# Let's see
+			if (stage1.code == "200")
+				# It's no good, our cookie doesn't work anymore.
+				raise Wowr::Exceptions::InvalidLoginDetails 
+			elsif (stage1.code == "302")
+				# Let's bounce to our page that will give us our short term cookie, URL has Kerbrose style ticket.
+				return login_final_bounce(stage1.header['location'])
+			end
+			
+			# Finally we didn't get 302 or 200?
+			raise Wowr::Exceptions::LoginBroken
+		end
 		
 		# Clear the cache, optional directory name.
 		# * cache_path (String) Relative path of the cache directory to be deleted
@@ -643,9 +929,15 @@ module Wowr
 			end
 			
 			if (locale == 'us')
-				str += 'www.' + @@armory_base_url
+				str += 'www.'
 			else
-				str += locale + '.' + @@armory_base_url
+				str += locale + "."
+			end
+			
+			if (options[:login] == true)
+			        str += @@login_base_url
+			else
+				str += @@armory_base_url
 			end
 			
 			return str
@@ -670,46 +962,11 @@ module Wowr
 			# overwrite defaults with any given options
 			defaults.merge!(options)
 		end
+
 		
-    public
-    
 		# Return an Hpricot document for the given URL
-		# TODO: Tidy up?
 		def get_xml(url, options = {})
-			
-			# better way of doing this?
-			# Map custom keys to the HTTP request values
-			reqs = {
-				:character_name => 'n',
-				:realm => 'r',
-				:search => 'searchQuery',
-				:type => 'searchType',
-				:guild_name => 'n',
-				:item_id => 'i',
-				:team_size => 'ts',
-				:team_name => 't',
-				:group => 'group'
-			}
-			
-			
-			params = []
-			options.each do |key, value|
-				params << "#{reqs[key]}=#{u(value)}" if reqs[key]
-			end
-			
-			query = ''
-			query = query + '?' + params.join('&') if params.size > 0
-			#query = '?' + params.join('&') if params.size > 0
-			
-			base = self.base_url(options[:locale], options)
-			full_query = base + url + query
-			
-			if options[:caching]
-				response = get_cache(full_query, options)
-			else
-				response = http_request(full_query, options)
-			end
-						
+			response = get_file(url, options)
 			doc = Hpricot.XML(response)
 			errors = doc.search("*[@errCode]")
 			if errors.size > 0
@@ -725,9 +982,58 @@ module Wowr
 				return (doc%'page')
 			end
 		end
+
+		# Return an array of hashes for the given URL
+		def get_json(url, options = {})
+			response = get_file(url, options)
+			raw_json = response.scan(/\w+\((.+)\);\z/)[0][0]
+			return JSON.parse(raw_json)
+		end
+	
+
+		# Return an raw document for the given URL
+		# TODO: Tidy up?
+		def get_file(url, options = {})
+			
+			# better way of doing this?
+			# Map custom keys to the HTTP request values
+			reqs = {
+				:character_name => 'n',
+				:realm => 'r',
+				:search => 'searchQuery',
+				:type => 'searchType',
+				:guild_name => 'n',
+				:item_id => 'i',
+				:team_size => 'ts',
+				:team_name => 't',
+				:group => 'group',
+				:callback => 'callback',
+				:calendar_type => 'type',
+				:month => 'month',
+				:year => 'year',
+				:event => 'e',
+        :now => 'now'
+                        }    
+			
+			params = []
+			options.each do |key, value|
+				params << "#{reqs[key]}=#{u(value)}" if reqs[key]
+			end
+			
+			query = ''
+			query = query + '?' + params.join('&') if params.size > 0
+			#query = '?' + params.join('&') if params.size > 0
+			
+			base = self.base_url(options[:locale], options)
+			full_query = base + url + query
+
+			if options[:caching]
+				response = get_cache(full_query, options)
+			else
+				response = http_request(full_query, options)
+			end
+		end
 		
-		
-		protected
 		
 		# Perform an HTTP request and return the contents of the document
 		def http_request(url, options = {})
@@ -736,7 +1042,7 @@ module Wowr
 			req["cookie"] = "cookieMenu=all; cookieLangId=" + options[:lang] + "; cookies=true;"
 			
 			req["cookie"] += options[:cookie] if options[:cookie]
-			
+
 			uri = URI.parse(url)
 			
 			http = Net::HTTP.new(uri.host, uri.port)
@@ -752,6 +1058,7 @@ module Wowr
 			begin
 				tries = 0
 			  http.start do
+			    puts "starting http request"
 			    res = http.request req
 					# response = res.body
 					
@@ -763,12 +1070,15 @@ module Wowr
 							if tries > @@max_connection_tries
 								raise Wowr::Exceptions::NetworkTimeout.new('Timed out')
 							else
+                puts "doing http retry"
 								retry
 							end
 						end
 			  end
 			rescue 
 				raise Wowr::Exceptions::ServerDoesNotExist.new('Specified server at ' + url + ' does not exist.');
+                        rescue Timeout::Error => e
+                                raise Wowr::Exceptions::NetworkTimeout.new('Timed out - Timeout::Error Exception')
 			end
 		end
 		
@@ -843,5 +1153,63 @@ module Wowr
 				return str
 			end
 		end
+		
+		def login_final_bounce(url)
+			# Let's bounce to our page that will give us our short term cookie, URL has Kerbrose style ticket.
+			finalstage = login_http(url)
+			
+			# Did we get a 200?
+			if (finalstage.code == "200")
+				# Get the short term cookie at last
+				short_cookie = nil
+				finalstage.header['set-cookie'].scan(/#{@@temporary_cookie}=(.*?);/) {
+					short_cookie = $1
+				}
+				
+				return short_cookie
+			end
+
+			# Finally we didn't get 200?
+			raise Wowr::Exceptions::LoginBroken
+		end
+		
+		def login_http(url, ssl = false, cookie = nil, data = nil, post = false)
+			if (post)
+				req = Net::HTTP::Post.new(url)
+			else
+				req = Net::HTTP::Get.new(url)
+			end
+			
+			req["user-agent"] = "Mozilla/5.0 Gecko/20070219 Firefox/2.0.0.2" # ensure returns XML
+			req["cookie"] = "cookieMenu=all; cookies=true;"
+			req["cookie"] += cookie.collect { |key, value| "#{key}=#{value};"}.join(" ") if cookie
+			
+			uri = URI.parse(url)
+			http = Net::HTTP.new(uri.host, uri.port)
+			
+			if (ssl)
+				http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+				http.use_ssl = true
+			end
+			
+			req.set_form_data(data, '&') if data
+			
+			http.start do
+				res = http.request(req)
+				
+				tries = 0
+				response = case res
+					when Net::HTTPSuccess, Net::HTTPRedirection
+						return res
+					else
+						tries += 1
+						if tries > @@max_connection_tries
+							raise Wowr::Exceptions::NetworkTimeout.new('Timed out')
+						else
+							retry
+						end
+					end
+			end				
+		end		
 	end
 end

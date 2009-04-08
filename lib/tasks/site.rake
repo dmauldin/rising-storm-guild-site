@@ -31,10 +31,28 @@ namespace :site do
 
   namespace :armory do
     task :update_toons, :needs => :environment do
-      wowr = Wowr::API.new(WOWR_DEFAULTS)
+      armory_throttle_time = 3.0
+      def time_to_usec(time)
+        (time.usec.to_f / 1000000) + time.sec + (time.min*60) + (time.hour*3600)
+      end
+      def current_time
+        time_to_usec(Time.new)
+      end
+      def wait_until(dest_time)
+        while dest_time > current_time do
+          sleep 0.1
+        end
+        return current_time
+      end
+      def log(event)
+        puts event
+        LogEntry.create(:comment => event)
+      end
+      wowr = Wowr::API.new(WOWR_DEFAULTS.merge(:debug => true))
+      last_open = current_time
       guild = wowr.get_guild
       new_members = guild.members.keys - Toon.all.map {|toon| toon.name}
-      puts "Found #{guild.members.size} guild members"
+      log "Found #{guild.members.size} guild members"
       guild.members.each do |name, character|
         toon = Toon.find_by_name(name) || Toon.create(:name => name)
         toon.level = character.level
@@ -43,49 +61,89 @@ namespace :site do
         toon.race = character.race
         toon.rank = character.rank
         toon.save
-      end
-      sleep 1.5
-      agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6) Gecko/20050317 Firefox/1.0.2"
-      accept = "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8 "
-      charset = "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
-      open_options = {
-        "User-Agent" => agent,
-        "Accept" => accept,
-        "Accept-Charset" => charset
-      }
-      Toon.all.each do |toon|
-        achievement_url = "http://www.wowarmory.com/character-achievements.xml?r=Lightbringer&n=#{toon.name}&c=168"
-        achievement_xml = open(achievement_url, open_options)
-        doc = Hpricot::XML(achievement_xml)
-        # normal_glory = doc.at "//achievement[@id='2137']"
-        # heroic_glory = doc.at "//achievement[@id='2138']"
-        # a = Achievement.find(2137) || Achievement.create(:title => normal_glory[:title], :description => )
-        achievements = doc.search "//achievement"
-        achievements.each do |a|
-          achievement = Achievement.find_by_id(a[:id]) || Achievement.new
-          achievement.id = a[:id]
-          achievement.title = a[:title]
-          achievement.description = a[:desc]
-          achievement.category_id = a[:categoryId]
-          achievement.points = a[:points]
-          achievement.icon = a[:icon]
-          achievement.save # this should only save if any columns were changed
-          # update completed status for toon here (create toon_achievement)
-          if a[:dateCompleted]
-            achievement.toon_achievements.create(:toon_id => toon.id, :completed_at => a[:dateCompleted])
-          end
-          # loop through criteria elements and add links to child achievements
-          (a/:criteria).each do |criteria|
-            ca = Achievement.find_by_title(criteria[:name])
-            if ca
-              achievement.criterias.find_by_id(ca) || achievement.criterias << ca
+        # wow armory request throttling
+        if true # process professions
+          # guild.members apparently doesn't return full character records
+          begin
+            puts "Getting #{character.name}"
+            last_open = wait_until(last_open + armory_throttle_time)
+            wc = wowr.get_character(character.name)
+            puts "Armory data obtained for #{character.name}"
+            # remove professions the character no longer has
+            toon.professions.each do |toon_prof|
+              toon_prof.destroy unless wc.professions.map{|p|p.key}.include?(toon_prof.skill.name)
             end
+            # find or create the toon's profession, then update stats from armory
+            wc.professions.each do |prof|
+              # find or create the skill
+              skill = Skill.find_by_name(prof.key)
+              log "Found new skill, #{prof.key.capitalize}" unless skill
+              skill ||= Skill.create(:name => prof.key, :maxlevel => prof.max)
+              # bump the max level up if we need to
+              log "Found new max level (#{prof.max}) for #{prof.key.capitalize}" if prof.max > skill.maxlevel
+              skill.update_attribute(:maxlevel, prof.max) if prof.max > skill.maxlevel
+              # create or update the toon's profession
+              toon_prof = toon.professions.find_by_skill_id(skill[:id])
+              log "#{toon.name} has gained the profession #{prof.key.capitalize} (#{prof.value})" unless toon_prof
+              toon_prof ||= toon.professions.create(:skill_id => skill[:id], :maxlevel => prof.max, :level => prof.value)
+              log "#{toon.name} has gone from #{toon_prof.level} to #{prof.value} in #{prof.key.capitalize}" if prof.value > toon_prof.level
+              toon_prof.maxlevel = prof.max
+              toon_prof.level = prof.value
+              toon_prof.save if toon_prof.changed?
+            end
+          rescue Wowr::Exceptions::CharacterNoInfos
+            log "Character #{character.name} failed to load from Armory"
           end
         end
-        puts "Processed achievements for #{toon.name}"
-        sleep 1.5
       end
-      ApplicationController.expire_page '/achievements'
+      if true # process achievements
+        # wowr does't have a way to grab achievements yet, so we do this manually
+        agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6) Gecko/20050317 Firefox/1.0.2"
+        accept = "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8 "
+        charset = "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+        open_options = {
+          "User-Agent" => agent,
+          "Accept" => accept,
+          "Accept-Charset" => charset
+        }
+        all_achievements = Achievement.find(:all, :include => [:criterias, :toon_achievements])
+        Toon.all.each do |toon|
+          achievement_url = "http://www.wowarmory.com/character-achievements.xml?r=Lightbringer&n=#{toon.name}&c=168"
+          last_open = wait_until(last_open + armory_throttle_time)
+          achievement_xml = open(URI.escape(achievement_url), open_options)
+          doc = Hpricot::XML(achievement_xml)
+          # normal_glory = doc.at "//achievement[@id='2137']"
+          # heroic_glory = doc.at "//achievement[@id='2138']"
+          # a = Achievement.find(2137) || Achievement.create(:title => normal_glory[:title], :description => )
+          achievements = doc.search "//achievement"
+          achievements.each do |a|
+            # get and update the actual achievement record from the db
+            achievement = all_achievements.select{ |aa| aa[:id] == a[:id].to_i}.first
+            achievement = Achievement.new unless achievement
+            achievement.id = a[:id]
+            achievement.title = a[:title]
+            achievement.description = a[:desc]
+            achievement.category_id = a[:categoryId]
+            # TODO figure out how to deal with achievements like "250 emblems"
+            # where it's 1 achievement id with multiple point values
+            achievement.points = nil # a[:points] 
+            achievement.icon = a[:icon]
+            achievement.save if achievement.changed? # this should only save if any columns were changed
+            # update completed status for toon here (create toon_achievement)
+            if a[:dateCompleted] && achievement.toon_achievements.select{|ta|ta[:toon_id]==toon[:id]}.first.nil?
+              achievement.toon_achievements.create(:toon_id => toon.id, :completed_at => a[:dateCompleted])
+            end
+            # loop through criteria elements and add links to child achievements
+            (a/:criteria).each do |criteria|
+              ca = all_achievements.select{|aa|aa.title==criteria[:name]}.first
+              if ca
+                achievement.criterias.select{|c|c[:id]==ca[:id]}.first || achievement.criterias << ca
+              end
+            end
+          end
+          log "Processed achievements for #{toon.name}"
+        end
+      end
     end
     
     task :update_item_xml, :needs => :environment do
