@@ -11,4 +11,8 @@
 #
 
 class Job < ActiveRecord::Base
+  JOBS = ['Warrior', 'Paladin', 'Hunter', 'Rogue', 'Priest', 'Death Knight',
+          'Shaman', 'Mage', 'Warlock', nil, 'Druid']
+  JOB_COLORS = ['#C79C6E', '#F58CBA', '#ABD473', '#FFF569', '#FFFFFF',
+                '#C41F3B', '#2459FF', '#69CCF0', '#9482C9', nil, '#FF7D0A']
 end

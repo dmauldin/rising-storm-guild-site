@@ -65,7 +65,7 @@ class Raid < ActiveRecord::Base
             end
             toon = Toon.find_or_create_by_name(player_name)
             raid.loots.create(:toon_id => toon.id, :item_id => item.id,
-                              :looted_at => loot_time, :primary => primary)
+                              :looted_at => loot_time, :status => status)
           end # player_name = disenchanted or banked
         end # note = d or b
       end # each loot

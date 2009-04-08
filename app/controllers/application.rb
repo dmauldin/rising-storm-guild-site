@@ -25,4 +25,10 @@ class ApplicationController < ActionController::Base
   def admin_only
     deny_access("Please Login as an administrator to Access that Feature.") unless signed_in_as_admin?
   end
+  
+  def deny_access(flash_message = nil, opts = {})
+    store_location
+    flash[:failure] = flash_message if flash_message
+    redirect_to new_session_path #, :status => :unauthorized
+  end
 end

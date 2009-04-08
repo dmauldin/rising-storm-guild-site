@@ -2,7 +2,7 @@ class RaidsController < ApplicationController
   before_filter :admin_only
   
   def index
-    @raids = Raid.all(:order => 'start_at desc')
+    @raids = Raid.all(:order => 'start_at desc', :include => [:loots, :attendances, :zone])
   end
   
   def show
@@ -20,7 +20,7 @@ class RaidsController < ApplicationController
       return
     end
     @raid = Raid.create_from_xml(params[:raid_xml])
-    flash[:notice] = "New raid created."
+    flash[:notice] = "New raid created for #{@raid.zone.name} raid on #{@raid.start_at.to_s(:raid)}. #{@raid.loots.size} loots and #{@raid.toons.size} attendees recorded."
     redirect_to raids_path
   end
   

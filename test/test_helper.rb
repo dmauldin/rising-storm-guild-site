@@ -39,3 +39,7 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
   # include Clearance::Test::TestHelper
 end
+
+Webrat.configure do |config|
+  config.mode = :rails
+end

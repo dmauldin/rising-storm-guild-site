@@ -20,7 +20,7 @@
       <div id="site-name">
         <%= link_to GUILD_NAME, root_path %>
       </div>
-      <%= render :partial => 'sessions/status' %>
+      <%= render :partial => 'sessions/status' if signed_in? %>
       <div style="clear:both;"></div>
     </div>
     <%= render :partial => 'layouts/menus' %>

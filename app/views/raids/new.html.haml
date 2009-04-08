@@ -4,4 +4,4 @@
 
 - form_tag raids_path do
   %p= text_area_tag :raid_xml, nil, :size => "30x5"
-  %p= submit_tag "Import"
+  %p= submit_tag "Import", :disable_with => "Please wait..."

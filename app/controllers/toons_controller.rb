@@ -3,7 +3,7 @@ class ToonsController < ApplicationController
     @normal_achievements = Achievement.find(2137, :include => {:criterias => :toons}).criterias
     @heroic_achievements = Achievement.find(2138, :include => {:criterias => :toons}).criterias
     
-    @skills = Skill.all(:conditions => {:name => ['alchemy', 'tailoring', 'leatherworking', 'skinning', 'enchanting', 'herbalism', 'blacksmithing', 'mining', 'jewelcrafting']}, :order => 'name asc')
+    @skills = Skill.all(:conditions => {:name => ['alchemy', 'tailoring', 'leatherworking', 'skinning', 'enchanting', 'herbalism', 'blacksmithing', 'mining', 'jewelcrafting', 'engineering']}, :order => 'name asc')
 
     @search = Toon.new_search(params[:search])
     @search.conditions.deleted_not = true

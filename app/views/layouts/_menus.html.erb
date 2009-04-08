@@ -1,11 +1,11 @@
 <div class="menu" id="menu1">
   <%# %w(news forums galleries raids loots armory blogs links).each do |link| %>
   <% MENU.each do |link, controllers| %>
-    <% if PUBLIC_MENUS.include?(link) || show_admin_content? %>
+    <%# if PUBLIC_MENUS.include?(link) || show_admin_content? %>
       <%= link_to link,
         url_for(:controller => controllers.first),
         :class => (controllers.include?(params[:controller]) ? 'active' : nil) %>
-    <% end %>
+    <%# end %>
   <% end %>
   <div style="clear:both;"></div>
 </div>
