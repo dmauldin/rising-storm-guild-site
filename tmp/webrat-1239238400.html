@@ -1,0 +1,203 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Action Controller: Exception caught</title>
+  <style>
+    body { background-color: #fff; color: #333; }
+
+    body, p, ol, ul, td {
+      font-family: verdana, arial, helvetica, sans-serif;
+      font-size:   13px;
+      line-height: 18px;
+    }
+
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      font-size: 11px;
+    }
+
+    a { color: #000; }
+    a:visited { color: #666; }
+    a:hover { color: #fff; background-color:#000; }
+  </style>
+</head>
+<body>
+
+<h1>
+  ActiveRecord::RecordNotFound
+  
+    in ToonsController#index
+  
+</h1>
+<pre>Couldn't find Achievement with ID=2137</pre>
+
+
+
+<p><code>RAILS_ROOT: /Users/davem/rails/guild</code></p>
+
+<div id="traces">
+  
+    
+    <a href="#" onclick="document.getElementById('Framework-Trace').style.display='none';document.getElementById('Full-Trace').style.display='none';document.getElementById('Application-Trace').style.display='block';; return false;">Application Trace</a> |
+  
+    
+    <a href="#" onclick="document.getElementById('Application-Trace').style.display='none';document.getElementById('Full-Trace').style.display='none';document.getElementById('Framework-Trace').style.display='block';; return false;">Framework Trace</a> |
+  
+    
+    <a href="#" onclick="document.getElementById('Application-Trace').style.display='none';document.getElementById('Framework-Trace').style.display='none';document.getElementById('Full-Trace').style.display='block';; return false;">Full Trace</a> 
+  
+
+  
+    <div id="Application-Trace" style="display: block;">
+      <pre><code>/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:1528:in `find_one'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:1511:in `find_from_ids'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:590:in `find_without_searchlogic'
+app/controllers/toons_controller.rb:3:in `index'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:1253:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:1253:in `perform_action_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:617:in `call_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/rescue.rb:136:in `perform_action_without_caching'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/caching/sql_cache.rb:13:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/query_cache.rb:8:in `cache'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/caching/sql_cache.rb:12:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:524:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:524:in `process_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:606:in `process_without_session_management_support'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/session_management.rb:134:in `sass_old_process'
+/Library/Ruby/Gems/1.8/gems/haml-2.0.9/lib/sass/plugin/rails.rb:19:in `process_without_test'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/test_process.rb:18:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:392:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:279:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:185:in `get'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:447:in `__send__'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:447:in `get'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:70:in `send'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:70:in `do_request'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:35:in `get'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:104:in `send'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:104:in `request_page'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:205:in `visit'
+(eval):2:in `visit'
+test/integration/toons_test.rb:6:in `test_displaying_toon_list_with_a_toon_with_no_professions'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.2.2/lib/active_support/testing/setup_and_teardown.rb:60:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.2.2/lib/active_support/testing/setup_and_teardown.rb:60:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:597:in `run'
+/Library/Ruby/Gems/1.8/gems/rake-0.8.4/lib/rake/rake_test_loader.rb:5</code></pre>
+    </div>
+  
+    <div id="Framework-Trace" style="display: none;">
+      <pre><code>vendor/plugins/searchlogic/lib/searchlogic/active_record/base.rb:23:in `find'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:293:in `measure'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:183:in `handle_request'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:110:in `dispatch_unlocked'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:123:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:122:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:122:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:141:in `call'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit.rb:278</code></pre>
+    </div>
+  
+    <div id="Full-Trace" style="display: none;">
+      <pre><code>/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:1528:in `find_one'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:1511:in `find_from_ids'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/base.rb:590:in `find_without_searchlogic'
+vendor/plugins/searchlogic/lib/searchlogic/active_record/base.rb:23:in `find'
+app/controllers/toons_controller.rb:3:in `index'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:1253:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:1253:in `perform_action_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:617:in `call_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:293:in `measure'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/rescue.rb:136:in `perform_action_without_caching'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/caching/sql_cache.rb:13:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.2.2/lib/active_record/query_cache.rb:8:in `cache'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/caching/sql_cache.rb:12:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:524:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:524:in `process_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/filters.rb:606:in `process_without_session_management_support'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/session_management.rb:134:in `sass_old_process'
+/Library/Ruby/Gems/1.8/gems/haml-2.0.9/lib/sass/plugin/rails.rb:19:in `process_without_test'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/test_process.rb:18:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/base.rb:392:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:183:in `handle_request'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:110:in `dispatch_unlocked'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:123:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:122:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:122:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/dispatcher.rb:141:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:279:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:185:in `get'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:447:in `__send__'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:447:in `get'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:70:in `send'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:70:in `do_request'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/rails.rb:35:in `get'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:104:in `send'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:104:in `request_page'
+/Library/Ruby/Gems/1.8/gems/webrat-0.4.4/lib/webrat/core/session.rb:205:in `visit'
+(eval):2:in `visit'
+test/integration/toons_test.rb:6:in `test_displaying_toon_list_with_a_toon_with_no_professions'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.2.2/lib/active_support/testing/setup_and_teardown.rb:60:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.2.2/lib/active_support/testing/setup_and_teardown.rb:60:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.2.2/lib/action_controller/integration.rb:597:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit.rb:278
+/Library/Ruby/Gems/1.8/gems/rake-0.8.4/lib/rake/rake_test_loader.rb:5</code></pre>
+    </div>
+  
+</div>
+
+
+
+
+
+
+<h2 style="margin-top: 30px">Request</h2>
+<p><b>Parameters</b>: <pre>None</pre></p>
+
+<p><a href="#" onclick="document.getElementById('session_dump').style.display='block'; return false;">Show session dump</a></p>
+<div id="session_dump" style="display:none"><pre class='debug_dump'>--- 
+flash: !map:ActionController::Flash::FlashHash {}
+
+</pre></div>
+
+
+<h2 style="margin-top: 30px">Response</h2>
+<p><b>Headers</b>: <pre>{&quot;cookie&quot;=&gt;[],
+ &quot;Content-Type&quot;=&gt;&quot;&quot;,
+ &quot;Cache-Control&quot;=&gt;&quot;no-cache&quot;}</pre></p>
+
+
+
+</body>
+</html>

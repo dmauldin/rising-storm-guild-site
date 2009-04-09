@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.gem "thoughtbot-clearance", 
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
-    :version => '>= 0.5.3'
+    :version => '0.5.3'
 #  config.gem "searchlogic"
   
   config.action_controller.session = {

@@ -38,6 +38,15 @@ class Toon < ActiveRecord::Base
   has_many :toon_specs
   has_many :specs, :through => :toon_specs
 
+  validates_presence_of :name
+  validates_presence_of :job
+  validates_inclusion_of :level, :in => 1..80
+  
+  # TODO: enable this validation for primary professions when they're in
+  # def validate
+  #   errors.add("Toons can only have 0, 1 or 2 professions") unless [0,1,2].include?(self.professions.length)
+  # end
+  
   # 0:GM, 1:GM Alt, 2:Organizer, 3:Raider, 4:Trial, 5:Alt, 6:Member
   named_scope :raiders, :conditions => {:rank => RAIDER_RANKS}, :include => :job
 
