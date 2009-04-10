@@ -18,6 +18,7 @@ class Loot < ActiveRecord::Base
   belongs_to :raid
   belongs_to :toon
   belongs_to :item
+  belongs_to :mob
   
   validates_inclusion_of :status, :in => %w(primary secondary banked disenchanted)
   
