@@ -89,7 +89,7 @@
             :class => ((@heroic_achievements.size - heroic_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}heroic" : nil %>
         </td>
         <% if toon.professions[0] %>
-          <% content_tag :td, :class => @search.conditions.professions.skill.name.include?(toon.professions[0].skill[:name]) ? nil : "greyed" do -%>
+          <% content_tag :td do -%>
             <%= toon.professions[0].skill.name.capitalize %>
             <%= toon.professions[0].level %> / <%= toon.professions[0].maxlevel %>
           <% end -%>
@@ -97,7 +97,7 @@
           <td></td>
         <% end %>
         <% if toon.professions[1] %>
-          <% content_tag :td, :class => @search.conditions.professions.skill.name.include?(toon.professions[1].skill[:name]) ? nil : "greyed" do -%>
+          <% content_tag :td do -%>
             <%= toon.professions[1].skill.name.capitalize %>
             <%= toon.professions[1].level %> / <%= toon.professions[1].maxlevel %>
           <% end -%>
