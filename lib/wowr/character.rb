@@ -24,6 +24,7 @@ module Wowr
 									:realm,
 									:battle_group, :last_login,
 									:relevance, :search_rank,
+									:achievement_points,
 									
 									:season_games_played, :season_games_won, :team_rank, :contribution # From ArenaTeam info
 			
@@ -63,6 +64,9 @@ module Wowr
 				
 				@relevance 		= elem[:relevance].to_i
 				@search_rank 	= elem[:searchRank].to_i
+				
+				@achievement_points = elem[:points].to_i if elem[:points]
+				@achievement_points = elem[:achPoints].to_i if elem[:achPoints]
 				
 				# Incoming string is 2007-02-24 20:33:04.0, parse to datetime
 				#@last_login 	= elem[:lastLoginDate] == "" ? nil : DateTime.parse(elem[:lastLoginDate])
@@ -146,7 +150,7 @@ module Wowr
 			
 			attr_reader :melee, :ranged, :spell,
 									:defenses, :resistances,
-									:talent_spec, :pvp,
+									:talent_spec, :all_talent_specs, :pvp,
 									:professions,
 									:items,
 									:buffs, :debuffs
@@ -155,6 +159,8 @@ module Wowr
 			# Don't care about battlegroups yet
 			# I don't think I can call stuff from the constructor?
 			def initialize(sheet, api = nil)
+				super(sheet%'character', api)
+				
 				@api = api
 				
 				character_info(sheet%'character')
@@ -265,7 +271,14 @@ module Wowr
 					@resistances[res] = Resistance.new(elem%'resistances'%res)
 				end
 				
-				@talent_spec = TalentSpec.new(elem%'talentSpec')
+				@all_talent_specs = []
+				
+				(elem%'talentSpecs'/:talentSpec).each do |spec|
+				   new_spec = TalentSpec.new(spec)
+				   @all_talent_specs << new_spec
+				   
+				   @talent_spec = new_spec if (new_spec.active)
+				end
 				
 				@pvp = Pvp.new(elem%'pvp')
 								
@@ -673,13 +686,16 @@ module Wowr
 		
 		# Note the list of talent trees starts at 1. This is quirky, but that's what's used in the XML
 		class TalentSpec
-			attr_reader :trees
+			attr_reader :trees, :active, :group, :primary
 
 			def initialize(elem)
 				@trees = []
 				@trees[1] = elem[:treeOne].to_i
 				@trees[2] = elem[:treeTwo].to_i
 				@trees[3] = elem[:treeThree].to_i
+				@active = (elem[:active].to_i == 1 ? true : false)
+				@group = elem[:group].to_i
+				@primary = elem[:prim]
 			end
 		end
 		

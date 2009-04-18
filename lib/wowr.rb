@@ -285,7 +285,7 @@ module Wowr
 			
 			xml = get_xml(@@guild_info_url, options)
 			
-			if (xml%'guildKey') && !(xml%'guildInfo').children.empty?
+			if !(xml%'guildInfo').children.empty?
 				return Wowr::Classes::FullGuild.new(xml)
 			else
 				raise Wowr::Exceptions::GuildNotFound.new(options[:guild_name])
@@ -1002,7 +1002,7 @@ module Wowr
 				:realm => 'r',
 				:search => 'searchQuery',
 				:type => 'searchType',
-				:guild_name => 'n',
+				:guild_name => 'gn',
 				:item_id => 'i',
 				:team_size => 'ts',
 				:team_name => 't',
@@ -1058,7 +1058,6 @@ module Wowr
 			begin
 				tries = 0
 			  http.start do
-			    puts "starting http request"
 			    res = http.request req
 					# response = res.body
 					
@@ -1070,7 +1069,6 @@ module Wowr
 							if tries > @@max_connection_tries
 								raise Wowr::Exceptions::NetworkTimeout.new('Timed out')
 							else
-                puts "doing http retry"
 								retry
 							end
 						end
