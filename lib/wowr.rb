@@ -1037,6 +1037,7 @@ module Wowr
 		
 		# Perform an HTTP request and return the contents of the document
 		def http_request(url, options = {})
+		  puts "Doing HTTP Request"
 			req = Net::HTTP::Get.new(url)
 			req["user-agent"] = @@user_agent # ensure returns XML
 			req["cookie"] = "cookieMenu=all; cookieLangId=" + options[:lang] + "; cookies=true;"

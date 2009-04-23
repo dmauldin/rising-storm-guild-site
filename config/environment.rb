@@ -14,6 +14,7 @@ Rails::Initializer.run do |config|
     :source  => 'http://gems.github.com', 
     :version => '0.5.3'
 #  config.gem "searchlogic"
+  config.gem "httparty", :version => ">= 0.4.2"
   
   config.action_controller.session = {
     :session_key => '_guild_session',

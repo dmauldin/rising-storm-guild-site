@@ -39,6 +39,23 @@ body { margin: 0px; }
   background-color: #FCC; border: 1px solid #CAA; padding:5px; margin:5px;
 }
 
+input:focus { }
+
+.form-field { margin: 3px; vertical-align: top; clear:both; }
+.form-field * { display:block; float:left; }
+.form-field label { width: 80px; }
+.form-field input[type=submit] {  }
+
+ul.path > li {
+  display: inline;
+  list-style-type: none;
+}
+ul.path li.link:after {
+   content: "\00BB";
+   font-family: "Times New Roman", serif;
+   font-size: 14px;
+   padding-left: 6px;
+}
 table {
   border-collapse: collapse;
 }

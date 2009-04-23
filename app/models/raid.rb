@@ -39,7 +39,8 @@ class Raid < ActiveRecord::Base
     
     (doc/"playerinfos/player").each do |player|
       player_name = (player/"name").inner_text
-      toon = Toon.find_or_create_by_name(player_name)
+      # player/"class" is the wow class id, our db was manipulated to also use as id
+      toon = Toon.find_or_create_by_name(:name => player_name, :job_id => (player/"class"), :level => 80)
       raid.attendances.create(:toon_id => toon.id)
     end
 
@@ -62,7 +63,7 @@ class Raid < ActiveRecord::Base
             item.save
           end
           mob = Mob.find_by_name(mob_name) || Mob.create(:name => mob_name, :zone_id => raid.zone.id)
-          toon = Toon.find_or_create_by_name(player_name)
+          toon = Toon.find_by_name(player_name) # already in db from attendance loop
           unless Loot.find(:first, :conditions => {:toon_id => toon.id,
               :item_id => item.id, :looted_at_after => loot_time - 3,
               :looted_at_before => loot_time + 3, :mob_id => mob.id})

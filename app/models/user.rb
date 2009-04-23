@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090302152543
+# Schema version: 20090409013015
 #
 # Table name: users
 #
@@ -11,6 +11,7 @@
 #  token_expires_at   :datetime
 #  email_confirmed    :boolean(1)      not null
 #  admin              :boolean(1)      not null
+#  wants_achievements :boolean(1)
 #
 
 class User < ActiveRecord::Base

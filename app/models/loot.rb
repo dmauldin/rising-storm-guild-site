@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090302152543
+# Schema version: 20090409013015
 #
 # Table name: loots
 #
@@ -12,6 +12,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  primary    :boolean(1)      default(TRUE)
+#  status     :string(255)
 #
 
 class Loot < ActiveRecord::Base

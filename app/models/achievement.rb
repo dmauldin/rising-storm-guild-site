@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20090409013015
+#
+# Table name: achievements
+#
+#  id          :integer(4)      not null, primary key
+#  title       :string(255)     not null
+#  description :string(255)
+#  category_id :integer(4)
+#  icon        :string(255)
+#  points      :integer(4)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Achievement < ActiveRecord::Base
   has_and_belongs_to_many :criterias, 
                           :join_table => "achievement_criterias",

@@ -1,8 +1,4 @@
-<div style="margin-bottom:8px;">
-  Forum: <%= link_to @topic.forum.title, forum_path(@topic.forum) %>
-  &raquo;
-  Topic: <%= @topic.title %>
-</div>
+<%= render :partial => 'forums/trail' %>
 
 <table>
   <tr>
