@@ -1,0 +1,11 @@
+<ul class="path">
+  <li class="link"><%= link_to "Forums", forums_path %></li>
+  <%- if @forum -%>
+    <%- if @topic -%>
+      <li class="link"><%= link_to @forum.title, forum_path(@forum) %></li>
+      <li><%= @topic.title %></li>
+    <%- else -%>
+      <li><%= @forum.title %></li>
+    <%- end -%>
+  <%- end -%>
+</ul>
