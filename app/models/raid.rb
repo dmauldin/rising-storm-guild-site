@@ -41,7 +41,8 @@ class Raid < ActiveRecord::Base
       (doc/"playerinfos/player").each do |player|
         player_name = (player/"name").inner_text
         # player/"class" is the wow class id, our db was manipulated to also use as id
-        toon = Toon.find_or_create_by_name(:name => player_name, :job_id => Job::MLDKP_TRANS[(player/"class").to_i], :level => 80)
+        toon = Toon.find_or_create_by_name(:name => player_name, :job_id => Job::MLDKP_TRANS[(player/"class").inner_text.to_i], :level => 80)
+        raise "Unable to create toon with name:'#{player_name}' and job_id:'#{Job::MLDKP_TRANS[(player/"class").inner_text.to_i]}'" if toon.new_record?
         raid.attendances.create(:toon_id => toon.id)
       end
 
@@ -75,8 +76,6 @@ class Raid < ActiveRecord::Base
         end # note = d or b
       end # each loot
       return raid
-    rescue
-      # could not create raid for whatever reason
     end
   end
 end

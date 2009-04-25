@@ -15,5 +15,5 @@ class Job < ActiveRecord::Base
           'Shaman', 'Mage', 'Warlock', nil, 'Druid']
   JOB_COLORS = ['#C79C6E', '#F58CBA', '#ABD473', '#FFF569', '#FFFFFF',
                 '#C41F3B', '#2459FF', '#69CCF0', '#9482C9', nil, '#FF7D0A']
-  MLDKP_TRANS = [1, 4, 3, 2, 7, 11, 9, 8, 5, 6]
+  MLDKP_TRANS = [0, 1, 4, 3, 2, 7, 11, 9, 8, 5, 6]
 end

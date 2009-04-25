@@ -11,6 +11,15 @@ class TopicsController < ApplicationController
   
   def create
     @topic = Topic.create(:forum_id => params[:forum_id], :title => params[:post][:title])
-    @post = @topic.posts.create(params[:post], :user_id => current_user)
+    @post = Post.new(params[:post])
+    if @topic.new_record?
+      flash[:error] = @topic.errors.full_messages.join("<br/>")
+      render :action => 'new'
+      return
+    else
+      @post.topic = @topic
+      @post.save
+    end
+    redirect_to topic_path(@topic) << "##{@post.id}"
   end
 end

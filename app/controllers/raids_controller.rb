@@ -20,6 +20,11 @@ class RaidsController < ApplicationController
       return
     end
     @raid = Raid.create_from_xml(params[:raid_xml])
+    if @raid.new_record?
+      flash[:error] = @raid.errors.full_messages.join("<br/>")
+      render :action => 'new'
+      return
+    end
     flash[:notice] = "New raid created for #{@raid.zone.name} raid on #{@raid.start_at.to_s(:raid)}. #{@raid.loots.size} loots and #{@raid.toons.size} attendees recorded."
     redirect_to raids_path
   end
