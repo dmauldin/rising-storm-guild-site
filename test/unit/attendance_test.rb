@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class AttendanceTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
+  should_belong_to :toon
+  should_belong_to :raid
+  
+  should_validate_presence_of :toon_id
+  should_validate_presence_of :raid_id
 end

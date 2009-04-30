@@ -16,4 +16,7 @@
 class Attendance < ActiveRecord::Base
   belongs_to :toon
   belongs_to :raid
+  
+  validates_presence_of :toon_id
+  validates_presence_of :raid_id
 end
