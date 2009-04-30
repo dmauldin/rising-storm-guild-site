@@ -1,5 +1,5 @@
 class LootsController < ApplicationController
-  before_filter :admin_only
+  # before_filter :admin_only
 
   # GET /loots
   # GET /loots.xml

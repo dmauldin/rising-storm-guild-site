@@ -34,12 +34,12 @@ Rails::Initializer.run do |config|
     :caching        => false
   }
   MENU = {
-    'Forums' => ['forums', 'topics', 'posts'],
+#    'Forums' => ['forums', 'topics', 'posts'],
     'Raids' => ['raids'],
     'Loots' => ['loots'],
     'Toons' => ['toons'],
-    'Guild Bank' => ['guild_bank'],
-    'Calendar' => ['calendar'],
+#    'Guild Bank' => ['guild_bank'],
+#    'Calendar' => ['calendar'],
     'Achievements' => ['achievements']
   }
   PUBLIC_MENUS = ['Toons', 'Achievements']

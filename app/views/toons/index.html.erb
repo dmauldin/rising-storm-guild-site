@@ -17,7 +17,7 @@
     <p>
       Ranks
       <% (0..6).each do |rank| %>
-        <span style="border:1px solid #777; padding-left:3px; padding-right:3px; margin:1px; padding-bottom:2px">
+        <span style="border:1px solid #777; padding-left:3px; padding-right:3px; margin:1px; padding-bottom:2px; padding-top:2px;">
           <%= check_box_tag "search[conditions][rank][]", rank,
                 @search.conditions.rank.include?(rank),
                 :id => sanitize_to_id("search[conditions][rank][#{rank}]")  %>
