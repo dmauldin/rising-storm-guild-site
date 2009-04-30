@@ -19,6 +19,11 @@ class Raid < ActiveRecord::Base
   has_many :attendances
   has_many :toons, :through => :attendances
   
+  validates_uniqueness_of :key
+  validates_presence_of :key
+  validates_presence_of :start_at
+  validates_presence_of :zone_id
+  
   def formatted_start_at
     self.start_at.to_s(:raid)
   end

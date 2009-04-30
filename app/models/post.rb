@@ -17,4 +17,8 @@ class Post < ActiveRecord::Base
   belongs_to :topic
   belongs_to :user
   belongs_to :toon
+  
+  validates_presence_of :user_id
+  validates_presence_of :topic_id
+  validates_presence_of :body
 end

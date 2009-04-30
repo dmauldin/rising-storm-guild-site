@@ -2,25 +2,22 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <% if false # this is still breaking tablesorter %>
-      <%= javascript_include_merged :base %>
-      <%= stylesheet_link_merged :base %>
-    <% end %>
     <%= stylesheet_link_tag "application" %>
     <%= stylesheet_link_tag 'wow' %>
-    <%= javascript_include_tag "http://www.wowhead.com/widgets/power.js" %>
-    <%= javascript_include_tag :defaults %>
-    <%= javascript_include_tag 'misc' %>
     <%= stylesheet_link_tag 'tablesorter-style' %>
+    <%= javascript_include_tag :defaults %>
     <%= javascript_include_tag 'jquery.tablesorter.js' %>
-    <%= javascript_include_tag 'supernote' %>
+    
+    <%= javascript_include_tag "http://www.wowhead.com/widgets/power.js" %>
+    <%= javascript_include_tag 'misc' %>
+    <%#= javascript_include_tag 'supernote' %>
   </head>
   <body>
     <div class="head">
       <div id="site-name">
         <%= link_to GUILD_NAME, root_path %>
       </div>
-      <%= render :partial => 'sessions/status' if signed_in? %>
+      <%= render :partial => 'sessions/status' %>
       <div style="clear:both;"></div>
     </div>
     <%= render :partial => 'layouts/menus' %>

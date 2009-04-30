@@ -1,8 +1,14 @@
 require 'test_helper'
 
 class RaidTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
+  should_have_many :loots
+  should_have_many :attendances
+  should_have_many :toons, :through => :attendances
+  should_belong_to :zone
+  
+  should_validate_presence_of :zone_id
+  should_validate_presence_of :key
+  should_validate_presence_of :start_at
+  
+  should_validate_uniqueness_of :key
 end

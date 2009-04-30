@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
   def admin?
     self.admin
   end
+  
+  def name
+    self.email
+  end
 end

@@ -134,3 +134,11 @@ span.highlight { background-color: yellow; padding-left:2px; padding-right:2px;}
 .snb-pinned .note-close {
  visibility: inherit;
 }
+
+.thread .post { background-color: #EEF; margin:5px; padding:5px; }
+.thread .post .title { font-weight: bold; font-family: Arial; letter-spacing: -1px; font-size: 1.2em; float: left; }
+.thread .post .title a { color: #008; }
+.thread .post .actions { float: left; margin-left: 10px; font-size: 0.9em; }
+.thread .post .actions a { margin-left:5px; }
+.thread .post .info { font-size: 0.85em; clear: both; }
+.thread .post .body { margin: 5px; }

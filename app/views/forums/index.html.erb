@@ -6,11 +6,28 @@
   <tr>
     <th>Forum</th>
     <th>Topics</th>
+    <th>Last Post</th>
   </tr>
   <% @forums.each do |forum| %>
     <tr>
-      <td><%= link_to forum.title, forum_path(forum) %></td>
+      <td>
+        <div class="title"><%= link_to forum.title, forum_path(forum) %></div>
+        <div class="description">
+          <%= forum.description %>
+        </div>
+      </td>
       <td><%= forum.topics.size %></td>
+      <td>
+        <% if forum.last_post %>
+          <div>
+            <% if forum.last_post != forum.last_post.topic.posts.first(:order => "created_at asc") %>
+            Re:
+            <% end %>
+            <%= forum.last_post.title %>
+          </div>
+          <div>by <%= forum.last_post.user.name %>, <%= time_ago_in_words(forum.last_post.updated_at) %> ago</div>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

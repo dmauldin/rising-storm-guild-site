@@ -1,4 +1,6 @@
 class TopicsController < ApplicationController
+  before_filter :users_only, :except => :show
+  
   def show
     @topic = Topic.find(params[:id], :include => [:posts])
     @forum = @topic.forum
@@ -18,6 +20,7 @@ class TopicsController < ApplicationController
       return
     else
       @post.topic = @topic
+      @post.user = current_user
       @post.save
     end
     redirect_to topic_path(@topic) << "##{@post.id}"
