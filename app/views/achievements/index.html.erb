@@ -1,44 +1,18 @@
-<div>
-  Toons that <span style="background-color: #FCC; padding-left:2px; padding-right:3px">NEED</span>
-  <%= link_to "Normal Glory of the Raider", "#normal_without" %> /
-  <%= link_to "Heroic Glory of the Raider", "#heroic_without" %> achievements
-</div>
-<div>
-  Toons that <span style="background-color: #CFC; padding-left:2px; padding-right:3px">HAVE</span>
-  <%= link_to "Normal Glory of the Raider", "#normal_with" %> /
-  <%= link_to "Heroic Glory of the Raider", "#heroic_with" %> achievements
-</div>
-<script>
-$(document).ready(function() 
-    { 
-        $("#normal_without").tablesorter(); 
-        $("#heroic_without").tablesorter(); 
-        $("#normal_with").tablesorter(); 
-        $("#heroic_with").tablesorter(); 
-    } 
-);
-</script>
-
-<%= render :partial => 'list', :locals => {
-  :list_id => "normal_without",
-  :list_title => "Toons that need Normal Glory of the Raider achievements",
-  :achievements => @normal_achievements,
-  :toon_method => "toons_without_achievement" } %>
-
-<%= render :partial => 'list', :locals => {
-  :list_id => "normal_with",
-  :list_title => "Toons that have Normal Glory of the Raider achievements",
-  :achievements => @normal_achievements,
-  :toon_method => "toons_with_achievement" } %>
-
-<%= render :partial => 'list', :locals => {
-  :list_id => "heroic_without",
-  :list_title => "Toons that need Heroic Glory of the Raider achievements",
-  :achievements => @heroic_achievements,
-  :toon_method => "toons_without_achievement" } %>
-
-<%= render :partial => 'list', :locals => {
-  :list_id => "heroic_with",
-  :list_title => "Toons that have Heroic Glory of the Raider achievements",
-  :achievements => @heroic_achievements,
-  :toon_method => "toons_with_achievement" } %>
+<table class="achievements sortable">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @achievements.each do |achievement| %>
+      <tr>
+        <td><%= link_to achievement.title, achievement_path(achievement) %></td>
+        <td><%= achievement.description %></td>
+        <td><%= achievement.toon_achievements.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

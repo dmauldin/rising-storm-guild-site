@@ -7,6 +7,15 @@
     <%= f.text_field :title %>
   </p>
   <p>
+    <%= f.label :allow_topics %>
+    <%= f.check_box :allow_topics %>
+    <%# put checkbox for allow_topics %>
+  </p>
+  <p>
+    
+    <%# put drop down list for parent here, include none as option %>
+  </p>
+  <p>
     <%= f.submit "Create" %>
   </p>
 <% end %>

@@ -1,3 +1,5 @@
+This isn't your average read me as this is really a private project for just one site.  In the future, I'll make this into something other people can use to set this site up with their own hosting.  For now just notice that there are some initializers you'll need to configure for your specific instance.
+
 Forums
   splitting a single post into multiple posts
   silent edits
@@ -5,3 +7,6 @@ Forums
   showing posts as unread after being edited
 Guides
   each guide should have a forum thread
+Loots
+  search by slot
+  search by type
