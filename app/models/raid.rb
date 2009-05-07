@@ -41,7 +41,7 @@ class Raid < ActiveRecord::Base
       raid.start_at = Time.at((doc/"raidinfo/start").inner_text.to_i)
       raid.end_at   = Time.at((doc/"raidinfo/end").inner_text.to_i)
       raid.zone     = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
-      raid.save
+      raid.save!
     
       (doc/"playerinfos/player").each do |player|
         player_name = (player/"name").inner_text
