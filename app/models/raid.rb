@@ -19,7 +19,8 @@ class Raid < ActiveRecord::Base
   has_many :attendances
   has_many :toons, :through => :attendances
   
-  validates_uniqueness_of :key
+  # this is actually being used for the instance_id
+  # validates_uniqueness_of :key
   validates_presence_of :key
   validates_presence_of :start_at
   validates_presence_of :zone_id
