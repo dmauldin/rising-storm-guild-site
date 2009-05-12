@@ -9,24 +9,27 @@ require 'wowr'
 
 Rails::Initializer.run do |config|
   config.time_zone = 'Pacific Time (US & Canada)'
-  config.gem "thoughtbot-clearance", 
+  config.gem 'thoughtbot-clearance', 
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
     :version => '0.5.3'
-#  config.gem "searchlogic"
-  config.gem "httparty", :version => ">= 0.4.2"
-  
+  config.gem 'searchlogic', :version => '1.6.6'
+  config.gem 'httparty', :version => '>= 0.4.2'
+  config.gem 'pwood-wowr',
+    :lib => 'wowr',
+    :source => 'http://gems.github.com',
+    :version => '>= 0.5.1'
   config.action_controller.session = {
     :session_key => '_guild_session',
     :secret      => '2bf36eeeb12568f4d17fff024e73df0927fdd9291b57339985026b1f075bec4f21519ad19922624d5232d591858a85d496708ea3d2117ca014a9cc627eaee20d'
   }
   
-  DO_NOT_REPLY = "admin@wheee.org"
-  HOST = "wheee.org"
+  DO_NOT_REPLY = 'admin@wheee.org'
+  HOST = 'wheee.org'
   
-  GUILD_NAME = "Rising Storm"
-  REALM_NAME = "Lightbringer"
-  API_CHARACTER_NAME = "Kemnon"
+  GUILD_NAME = 'Rising Storm'
+  REALM_NAME = 'Lightbringer'
+  API_CHARACTER_NAME = 'Kemnon'
   WOWR_DEFAULTS = {
     :character_name => API_CHARACTER_NAME,
     :guild_name     => GUILD_NAME,

@@ -19,4 +19,6 @@ class Attendance < ActiveRecord::Base
   
   validates_presence_of :toon_id
   validates_presence_of :raid_id
+  
+  attr_accessible :toon_id, :raid_id, :sat, :joined_at, :parted_at
 end

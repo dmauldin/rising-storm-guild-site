@@ -50,11 +50,37 @@ class Item < ActiveRecord::Base
         self.subclass_name = item_tooltip.equip_data.subclass_name
         self.required_level = item_tooltip.required_level
       end
-      logger.debug("Item updated!")
       return true
     rescue
-      logger.debug("Uhh, something went wrong")
       return false
     end
   end
+  
+  INV_TYPE_HASH = {
+    1 => "Head",
+    2 => "Neck",
+    3 => "Shoulder",
+    4 => "Shirt",
+    5 => "Chest",
+    6 => "Waist",
+    7 => "Legs",
+    8 => "Feet",
+    9 => "Wrist",
+    10 => "Hands",
+    11 => "Ring",
+    12 => "Trinket",
+    13 => "One-Hand",
+    14 => "Off-Hand",
+    15 => "Ranged",
+    16 => "Back",
+    17 => "Two-Hand",
+    21 => "Main-Hand",
+    23 => "Held in off-hand",
+    26 => "Wand",
+    28 => "Ranged",
+  }
+
+  SUBCLASSES = ["Plate", "Dagger", "Mail", "Cloth", "Leather", "Staff",
+    "Totem", "Wand", "Sword", "Mace", "Idol", "Libram", "Fist Weapon",
+    "Shield", "Sigil", "Axe", "Bag", "Polearm", "Crossbow", "Thrown", "Bow"]
 end

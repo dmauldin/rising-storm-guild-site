@@ -45,7 +45,7 @@ class ContainsAny < Searchlogic::Condition::Base
       strs << "#{column_sql} #{like_condition_name} ?"
       subs << "%#{search_part}%"
     end
-    [strs.join(" OR "), *subs]
+    ["(" << strs.join(" OR ") << ")", *subs]
   end
   
   private

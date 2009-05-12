@@ -30,6 +30,10 @@ body { margin: 0px; }
   background-color: #D0D0D0; border-bottom: 1px solid #444; padding:3px;
 }
 
+.page_links {margin-top:4px; margin-bottom:4px;}
+.page_links .page {padding:2px}
+.page_links .current_page {border:1px solid #CCE;}
+
 .content { margin:10px; }
 
 #flash_notice {

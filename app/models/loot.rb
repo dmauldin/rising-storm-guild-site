@@ -21,7 +21,9 @@ class Loot < ActiveRecord::Base
   belongs_to :item
   belongs_to :mob
   
-  validates_inclusion_of :status, :in => %w(primary secondary banked disenchanted)
+  STATUSES = %w(primary secondary banked disenchanted)
+
+  validates_inclusion_of :status, :in => STATUSES
   
   named_scope :primary, :conditions => {:status => 'primary'}
   named_scope :secondary, :conditions => {:status => 'secondary'}

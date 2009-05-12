@@ -29,6 +29,8 @@ class Achievement < ActiveRecord::Base
   has_many :toon_achievements
   has_many :toons, :through => :toon_achievements, :include => :job
 
+  attr_accessible :title, :description, :category_id, :icon, :points
+  
   def toons_without_achievement
     Toon.raiders - self.toons_with_achievement
   end

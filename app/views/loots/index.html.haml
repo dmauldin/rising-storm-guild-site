@@ -1,63 +1,52 @@
-= javascript_include_tag 'tablefilter'
-%p
-  Toon:
-  %input{:type => 'text', :name => 'toon_filter', :id => 'toon_filter', :size => '20'}
-
-  &nbsp;&nbsp;
-
-  Item:
-  %input{:type => 'text', :name => 'item_filter', :id => 'item_filter', :size => '20'}
-
-  &nbsp;&nbsp;
-
-  Raid:
-  = select_tag 'raid_filter', '<option value="all">All</option>' + options_from_collection_for_select(@raids, "id", "formatted_start_at"), :class => 'raid_filter'
-
-  %br
-  %br
-
-  Primary:
-  %input{:type => 'checkbox', :id => 'primary_filter', :name => 'primary_filter', :checked => true, :style => 'vertical-align:middle'}
-
-  &nbsp;&nbsp;
-
-  Secondary:
-  %input{:type => 'checkbox', :id => 'secondary_filter', :name => 'secondary_filter', :checked => true, :style => 'vertical-align:middle'}
-  
-  &nbsp;&nbsp;
-
-  %input{:type => 'button', :value => 'Reset Filters', :name => 'reset_filters', :onclick => "reset_filters();"}
-
-%table#loot.tablesorter
-  %thead
+- form_for @search do |f|
+  %fieldset
+    %legend Loot search
+    - f.fields_for @search.conditions do |loots|
+      .form_row
+        - loots.fields_for loots.object.toon do |toon|
+          = toon.label :name_contains_any, "Toon"
+          = toon.text_field :name_contains_any
+        - loots.fields_for loots.object.item do |item|
+          = item.label :name_contains_any, "Item"
+          = item.text_field :name_contains_any
+      .form_row
+        = loots.label :status
+        = loots.select :status, Loot::STATUSES, :include_blank => "any"
+        - loots.fields_for loots.object.item do |item|
+          = item.label :inventory_type
+          = item.select :inventory_type, Item::INV_TYPE_HASH.invert.sort, :include_blank => "any"
+          = item.label :subclass_name
+          = item.select :subclass_name, Item::SUBCLASSES.sort, :include_blank => "any"
+          
+    = f.submit "Search"
+    = link_to "Reset fields", loots_path
+- if @loots_count == 0
+  No recourds found.
+- else
+  = search_records_summary(@search)
+  == &nbsp;&nbsp;&nbsp; Show #{@search.per_page==50 ? 50 : per_page_link(50)} / #{@search.per_page==200 ? 200 : per_page_link(200)} per page.
+  .page_links= page_links
+  %table
     %tr
-      %th Toon
-      %th Class
-      %th Priority
-      %th Name
-      %th Slot
-      %th Subclass
+      %th= order_by_link({:toon => :name}, :text => "Toon")
+      %th= order_by_link({:toon => {:job => :name}}, :text => "Class")
+      %th= order_by_link(:status, :text => "Priority")
+      %th= order_by_link({:item => :name}, :text => "Item")
+      %th= order_by_link({:item => :subclass_name}, :text => "Type")
+      %th= order_by_link({:item => :inventory_type}, :text => "Inv Slot")
       %th Actions
       / %th PC
       / %th SC
-      %th Raid Date
-  %tbody.filterable
+      %th= order_by_link({:raid => :start_at}, :text => "Raid Date")
     - @loots.each do |loot|
       %tr
-        %td.toon_name= loot.toon.name
-        %td.toon_job= formatted_job(loot.toon.job)
-        %td.priority= loot.status.capitalize
-        %td.item_name= link_to loot.item.name, wowhead_url(loot.item_id)
-        %td.item_slot= inventory_type_name(loot.item.inventory_type)
+        %td= loot.toon.name
+        %td= formatted_job(loot.toon.job)
+        %td= loot.status.capitalize
+        %td= loot.item.name
         %td.item_subclass= loot.item.subclass_name
-        / %td= link_to loot.item.name, item_path(loot.item_id)
+        %td.item_slot= inventory_type_name(loot.item.inventory_type)
         %td
-          - if show_admin_content?
-            = link_to "Edit", edit_loot_path(loot)
-            = link_to "Remove", loot_path(loot), :method => :delete, :confirm => 'Are you sure you want to delete this loot?'
-          - else
-            = link_to "Show", loot_path(loot)
-        / %td= loot.toon.loots.count(:conditions => {:primary => true})
-        / %td= loot.toon.loots.count(:conditions => {:primary => false})
-        %td.raid_date= loot.raid.start_at.to_s(:raid)
-        %td.raid_id{:style => "display:none"}= loot.raid.id
+        %td= loot.raid.start_at.to_s(:raid)
+  .page_links= page_links
+  

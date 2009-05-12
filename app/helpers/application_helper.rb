@@ -28,30 +28,7 @@ module ApplicationHelper
   end
   
   def inventory_type_name(id)
-    inv_type_hash = {
-      1 => "Head",
-      2 => "Neck",
-      3 => "Shoulder",
-      4 => "Shirt",
-      5 => "Chest",
-      6 => "Waist",
-      7 => "Legs",
-      8 => "Feet",
-      9 => "Wrist",
-      10 => "Hands",
-      11 => "Ring",
-      12 => "Trinket",
-      13 => "One-Hand",
-      14 => "Off-Hand",
-      15 => "Ranged",
-      16 => "Back",
-      17 => "Two-Hand",
-      21 => "Main-Hand",
-      23 => "Held in off-hand",
-      26 => "Wand",
-      28 => "Ranged",
-    }
-    return inv_type_hash[id]
+    return Item::INV_TYPE_HASH[id]
   end
   
   def navtab(link_title, link_path)
@@ -64,4 +41,7 @@ module ApplicationHelper
     signed_in_as_admin?
   end
   
+  def search_records_summary(search)
+    "Displaying #{search.per_page*(search.page-1)+1} to #{search.per_page*(search.page-1)+search.per_page} out of #{search.count}."
+  end
 end
