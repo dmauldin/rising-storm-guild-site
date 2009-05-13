@@ -36,23 +36,23 @@ class Item < ActiveRecord::Base
     save
   end
 
+  # can't remember why I split the save off into a different method
   def update_from_armory
     wowr = Wowr::API.new(WOWR_DEFAULTS)
     begin
+      # no need to check if the assignment succeeded.  raises error if not
       item_info = wowr.get_item_info(self.id)
-      if item_info
-        self.level = item_info.level
-      end
+      self.level = item_info.level
 
       item_tooltip = wowr.get_item_tooltip(self.id)
-      if item_tooltip
-        self.inventory_type = item_tooltip.equip_data.inventory_type
-        self.subclass_name = item_tooltip.equip_data.subclass_name
-        self.required_level = item_tooltip.required_level
-      end
-      return true
+      self.inventory_type = item_tooltip.equip_data.inventory_type
+      self.subclass_name = item_tooltip.equip_data.subclass_name
+      self.required_level = item_tooltip.required_level
+      
+      self.armory_updated_at = Time.now
+    # TODO should specifically rescue Wowr item not found errors
     rescue
-      return false
+      false
     end
   end
   

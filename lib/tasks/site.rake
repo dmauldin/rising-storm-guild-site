@@ -162,7 +162,7 @@ namespace :site do
     task :update_item_data, :needs => :environment do
       item_count = Item.count
       Item.all.each_with_index do |item, i|
-        item.update_from_armory
+        item.update_from_armory!
         puts "[#{'%05d' % i}/#{'%05d' % item_count}] [id:#{item[:id]}] [name:\"#{item[:name]}\"]"
         sleep 3
       end
