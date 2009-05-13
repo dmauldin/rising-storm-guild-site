@@ -19,9 +19,7 @@ class Raid < ActiveRecord::Base
   has_many :attendances
   has_many :toons, :through => :attendances
   
-  # this is actually being used for the instance_id
-  # validates_uniqueness_of :key
-  validates_presence_of :key
+  validates_presence_of :instance_id
   validates_presence_of :start_at
   validates_presence_of :zone_id
   
@@ -37,11 +35,10 @@ class Raid < ActiveRecord::Base
     
       zone_name = (doc/"raidinfo/zone").inner_text
     
-      instance_id = (doc/"raidinfo/instanceid").inner_text.to_i
-      raid.key      = instance_id
-      raid.start_at = Time.at((doc/"raidinfo/start").inner_text.to_i)
-      raid.end_at   = Time.at((doc/"raidinfo/end").inner_text.to_i)
-      raid.zone     = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
+      raid.instance_id = (doc/"raidinfo/instanceid").inner_text.to_i
+      raid.start_at    = Time.at((doc/"raidinfo/start").inner_text.to_i)
+      raid.end_at      = Time.at((doc/"raidinfo/end").inner_text.to_i)
+      raid.zone        = (Zone.find_by_name(zone_name) || Zone.create(:name => zone_name))
       raid.save!
     
       (doc/"playerinfos/player").each do |player|

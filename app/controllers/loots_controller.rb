@@ -12,7 +12,7 @@ class LootsController < ApplicationController
     @search.order_as ||= 'DESC'
     # TODO I don't remember why I was ordering by inventory_type, maybe this should be removed
     # @search.order_with_ordering = "raids.start_at desc, items.inventory_type asc"
-    @search.include = [:item, {:toon => :job}]
+    @search.include = [:item, {:toon => :job}, {:raid => :zone}]
     @loots = @search.all
     @loots_count = @search.count
     # @raids = Raid.all(:conditions => {:id => @loots.map{|loot| loot.raid.id}.uniq})

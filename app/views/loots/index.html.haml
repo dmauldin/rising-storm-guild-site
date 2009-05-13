@@ -32,21 +32,25 @@
       %th= order_by_link({:toon => {:job => :name}}, :text => "Class")
       %th= order_by_link(:status, :text => "Priority")
       %th= order_by_link({:item => :name}, :text => "Item")
-      %th= order_by_link({:item => :subclass_name}, :text => "Type")
-      %th= order_by_link({:item => :inventory_type}, :text => "Inv Slot")
+      %th= order_by_link({:item => :inventory_type}, :text => "Inv Type")
+      %th= order_by_link({:item => :subclass_name}, :text => "Subclass")
       %th Actions
       / %th PC
       / %th SC
+      %th Zone
+      %th Raid ID
       %th= order_by_link({:raid => :start_at}, :text => "Raid Date")
     - @loots.each do |loot|
       %tr
         %td= loot.toon.name
         %td= formatted_job(loot.toon.job)
         %td= loot.status.capitalize
-        %td= loot.item.name
-        %td.item_subclass= loot.item.subclass_name
+        %td= link_to loot.item.name, wowhead_url(loot.item_id)
         %td.item_slot= inventory_type_name(loot.item.inventory_type)
+        %td.item_subclass= loot.item.subclass_name
         %td
+        %td= loot.raid.zone.name unless loot.raid.zone.nil?
+        %td= loot.raid.instance_id
         %td= loot.raid.start_at.to_s(:raid)
   .page_links= page_links
   
