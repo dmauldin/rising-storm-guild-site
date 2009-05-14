@@ -1,10 +1,26 @@
 <h1>New loot</h1>
 
-<% form_for(@loot) do |f| %>
-  <%= f.error_messages %>
+<% form_tag @loot do %>
+  <div>
+    <%= label_tag :toon_name, 'Toon name' %>
+    <%= text_field_tag :toon_name %>
+  </div>
+  <div>
+    <%= label :loot, :raid_id, 'Raid' %>
+    <%= select :loot, :raid_id, @raids.collect {|r| ["#{r.start_at.to_s(:raid)} (#{r.zone.name})", r.id]} %>
+  </div>
+  <div>
+    <%= label_tag :item_id, 'Item id' %>
+    <%= text_field_tag :item_id %>
+  </div>
+  <div>
+    <%= label :loot, :status %>
+    <%= select :loot, :status, Loot::STATUSES %>
+  </div>
+  <%# status (primary, secondary, etc) %>
 
   <p>
-    <%= f.submit "Create" %>
+    <%= submit_tag "Create" %>
   </p>
 <% end %>
 

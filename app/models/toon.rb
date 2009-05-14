@@ -65,6 +65,11 @@ class Toon < ActiveRecord::Base
   #   self.save
   # end
 
+  def update_from_armory!
+    self.update_from_armory
+    self.save
+  end
+  
   def update_from_armory
     wowr = Wowr::API.new(WOWR_DEFAULTS)
     begin

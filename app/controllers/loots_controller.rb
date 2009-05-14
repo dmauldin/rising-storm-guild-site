@@ -37,7 +37,8 @@ class LootsController < ApplicationController
   # GET /loots/new.xml
   def new
     @loot = Loot.new
-
+    @raids = Raid.all(:order => 'start_at desc', :limit => 15, :include => :zone)
+      
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @loot }
@@ -53,7 +54,14 @@ class LootsController < ApplicationController
   # POST /loots.xml
   def create
     @loot = Loot.new(params[:loot])
-
+    item = Item.find_by_id(params[:item_id])
+    unless item
+      item = Item.new
+      item[:id] = params[:item_id]
+      item.update_from_armory!
+    end
+    toon = Toon.find_by_name(params[:toon_name]) || Toon.new(:name => params[:toon_name]).update_from_armory!
+    @loot.update_attributes({:toon_id => toon[:id], :item_id => item[:id]})
     respond_to do |format|
       if @loot.save
         flash[:notice] = 'Loot was successfully created.'

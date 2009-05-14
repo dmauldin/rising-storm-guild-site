@@ -42,6 +42,7 @@ class Item < ActiveRecord::Base
     begin
       # no need to check if the assignment succeeded.  raises error if not
       item_info = wowr.get_item_info(self.id)
+      self.name = item_info.name
       self.level = item_info.level
 
       item_tooltip = wowr.get_item_tooltip(self.id)
