@@ -1,4 +1,6 @@
 class ForumsController < ApplicationController
+  before_filter :admin_only, :except => [:index, :show]
+  
   # GET /forums
   # GET /forums.xml
   def index
