@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090513212412) do
+ActiveRecord::Schema.define(:version => 20090513235651) do
 
   create_table "achievement_criterias", :id => false, :force => true do |t|
     t.integer "achievement_id", :null => false
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20090513212412) do
     t.datetime "armory_updated_at"
   end
 
+  add_index "items", ["inventory_type"], :name => "index_items_on_inventory_type"
+  add_index "items", ["subclass_name"], :name => "index_items_on_subclass_name"
   add_index "items", ["token_cost_id"], :name => "index_items_on_token_cost_id"
 
   create_table "jobs", :force => true do |t|
@@ -97,6 +99,9 @@ ActiveRecord::Schema.define(:version => 20090513212412) do
     t.boolean  "primary",    :default => true
     t.string   "status"
   end
+
+  add_index "loots", ["raid_id"], :name => "index_loots_on_raid_id"
+  add_index "loots", ["toon_id"], :name => "index_loots_on_toon_id"
 
   create_table "mobs", :force => true do |t|
     t.string   "name"
@@ -133,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20090513212412) do
     t.datetime "updated_at"
     t.string   "instance_id"
   end
+
+  add_index "raids", ["start_at"], :name => "index_raids_on_start_at"
 
   create_table "skills", :force => true do |t|
     t.string   "name"
@@ -187,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20090513212412) do
     t.integer  "user_id"
   end
 
+  add_index "toons", ["name"], :name => "index_toons_on_name"
   add_index "toons", ["rank"], :name => "index_toons_on_rank"
   add_index "toons", ["user_id"], :name => "index_toons_on_user_id"
   add_index "toons", ["wants_achievements"], :name => "index_toons_on_wants_achievements"
