@@ -18,7 +18,7 @@
       <td><%= raid.attendances.size>0 ? raid.attendances.size : "N/A" %></td>
       <td>
         <%= link_to "Delete", raid_path(raid), :method => :delete, :confirm => "Are you sure? This will permanently destroy this raid." %>
-        <%= link_to "Loots" %>
+        <%= link_to "Loots", loots_path + "?search[conditions][raid_id]=#{raid.id}" %>
       </td>
     </tr>
   <% end %>
