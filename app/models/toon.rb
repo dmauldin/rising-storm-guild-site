@@ -28,7 +28,7 @@ class Toon < ActiveRecord::Base
   has_many :skills, :through => :professions
   
   belongs_to :job
-  has_many :attendances
+  has_many :attendances, :dependent => :destroy
   has_many :raids, :through => :attendances
 
   has_many :toon_achievements
@@ -65,6 +65,17 @@ class Toon < ActiveRecord::Base
   #   self.save
   # end
 
+  def attendance_since(day)
+    raids = Raid.all(:conditions => {:start_at_after => day})
+    raid_ids = raids.collect(&:id)
+    self.attendances.select {|a| raid_ids.include?(a.raid_id)}.size / raid_ids.size
+  end
+
+  def last(days)
+    raid_count = Raid.all(:conditions => {:start_at_after => days.days.ago}).map(&:id).size
+    attendance_count - self.attendances.map(&:raid_id).size
+  end
+  
   def update_from_armory!
     self.update_from_armory
     self.save

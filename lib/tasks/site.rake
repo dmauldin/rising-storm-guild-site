@@ -18,6 +18,16 @@ namespace :site do
       end
     end
   end
+
+  namespace :clean do
+    task :attendances, :needs => :environment do
+      Attendance.all.each do |attendance|
+        if attendance.raid.nil?
+          attendance.destroy
+        end
+      end
+    end
+  end
   
   task :verify_defaults, :needs => :environment do
     Toon.all.each do |toon|

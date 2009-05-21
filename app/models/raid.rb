@@ -16,7 +16,7 @@
 class Raid < ActiveRecord::Base
   has_many :loots, :dependent => :destroy
   belongs_to :zone
-  has_many :attendances
+  has_many :attendances, :dependent => :destroy
   has_many :toons, :through => :attendances
   
   validates_presence_of :instance_id

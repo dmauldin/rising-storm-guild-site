@@ -14,6 +14,8 @@
 #
 
 class Attendance < ActiveRecord::Base
+  # TODO: attendance records need to be deleted if the raid or toon is deleted
+
   belongs_to :toon
   belongs_to :raid
   
