@@ -4,11 +4,14 @@
 <p>
   Description: <%= @achievement.description %>
 </p>
+<% if @achievement.criterias %>
+  <%= render :partial => 'achievements', :object => @achievement.criterias %>
+<% end %>
 <p>
   Raiders that have:
-  <%= @achievement.toons_with_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
+  <%= @achievement.raiders_with_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
 </p>
 <p>
   Raiders that need:
-  <%= @achievement.toons_without_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
+  <%= @achievement.raiders_without_achievement.sort{|a,b| a.name<=>b.name}.map {|toon| colored_toon_name(toon)}.join(', ') %>
 </p>

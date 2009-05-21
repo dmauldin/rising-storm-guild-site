@@ -1,7 +1,7 @@
 class ToonsController < ApplicationController
   def index
-    @normal_achievements = Achievement.find_by_id(2137, :include => {:criterias => :toons}).criterias
-    @heroic_achievements = Achievement.find_by_id(2138, :include => {:criterias => :toons}).criterias
+    @normal_achievements = Achievement.find_by_id(2957, :include => {:criterias => :toons}).criterias
+    @heroic_achievements = Achievement.find_by_id(2958, :include => {:criterias => :toons}).criterias
     
     #@skills = Skill.all(:conditions => {:name => ['alchemy', 'tailoring', 'leatherworking', 'skinning', 'enchanting', 'herbalism', 'blacksmithing', 'mining', 'jewelcrafting', 'engineering']}, :order => 'name asc')
 

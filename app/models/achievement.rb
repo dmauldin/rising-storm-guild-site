@@ -31,11 +31,19 @@ class Achievement < ActiveRecord::Base
 
   attr_accessible :title, :description, :category_id, :icon, :points
   
+  def raiders_without_achievement
+    Toon.raiders - self.raiders_with_achievement
+  end
+  
+  def raiders_with_achievement
+    self.toons.select{|toon|RAIDER_RANKS.include?(toon.rank)}
+  end
+
   def toons_without_achievement
-    Toon.raiders - self.toons_with_achievement
+    Toon.all - self.toons_with_achievement
   end
   
   def toons_with_achievement
-    self.toons.select{|toon|RAIDER_RANKS.include?(toon.rank)}
+    self.toons
   end
 end

@@ -23,22 +23,22 @@ $(document).ready(function()
   :list_id => "normal_without",
   :list_title => "Toons that need Normal Glory of the Raider achievements",
   :achievements => @normal_achievements,
-  :toon_method => "toons_without_achievement" } %>
+  :toon_method => "raiders_without_achievement" } %>
 
 <%= render :partial => 'list', :locals => {
   :list_id => "normal_with",
   :list_title => "Toons that have Normal Glory of the Raider achievements",
   :achievements => @normal_achievements,
-  :toon_method => "toons_with_achievement" } %>
+  :toon_method => "raiders_with_achievement" } %>
 
 <%= render :partial => 'list', :locals => {
   :list_id => "heroic_without",
   :list_title => "Toons that need Heroic Glory of the Raider achievements",
   :achievements => @heroic_achievements,
-  :toon_method => "toons_without_achievement" } %>
+  :toon_method => "raiders_without_achievement" } %>
 
 <%= render :partial => 'list', :locals => {
   :list_id => "heroic_with",
   :list_title => "Toons that have Heroic Glory of the Raider achievements",
   :achievements => @heroic_achievements,
-  :toon_method => "toons_with_achievement" } %>
+  :toon_method => "raiders_with_achievement" } %>

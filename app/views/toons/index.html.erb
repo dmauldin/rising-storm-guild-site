@@ -53,6 +53,9 @@
       <th>Heroic Glory</th>
       <th>Profession 1</th>
       <th>Profession 2</th>
+      <th>30d</th>
+      <th>60d</th>
+      <th>90d</th>
     </tr>
   </thead>
   <tbody>
@@ -91,7 +94,7 @@
         <% if toon.professions[0] %>
           <% content_tag :td do -%>
             <%= toon.professions[0].skill.name.capitalize %>
-            <%= toon.professions[0].level %> / <%= toon.professions[0].maxlevel %>
+            <%= toon.professions[0].level %>
           <% end -%>
         <% else %>
           <td></td>
@@ -99,21 +102,25 @@
         <% if toon.professions[1] %>
           <% content_tag :td do -%>
             <%= toon.professions[1].skill.name.capitalize %>
-            <%= toon.professions[1].level %> / <%= toon.professions[1].maxlevel %>
+            <%= toon.professions[1].level %>
           <% end -%>
         <% else %>
           <td></td>
         <% end %>
+        <td align='right'><%= toon.attendance_since(30.days.ago) %></td>
+        <td align='right'><%= toon.attendance_since(60.days.ago) %></td>
+        <td align='right'><%= toon.attendance_since(90.days.ago) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
 <% @toons.each do |toon| %>
   <% normal_achievements_remaining = (@normal_achievements - toon.achievements) %>
   <% if (1..4).include? normal_achievements_remaining.size %>
     <div  id="supernote-note-toon<%= toon.id %>normal" class="snp-mouseoffset notedefault">
       <% normal_achievements_remaining.each do |achievement| %>
-        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.toons_without_achievement.size %>]</div>
+        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
       <% end %>
     </div>
   <% end %>
@@ -121,7 +128,7 @@
   <% if (1..4).include? heroic_achievements_remaining.size %>
     <div  id="supernote-note-toon<%= toon.id %>heroic" class="snp-mouseoffset notedefault">
       <% heroic_achievements_remaining.each do |achievement| %>
-        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.toons_without_achievement.size %>]</div>
+        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
       <% end %>
     </div>
   <% end %>

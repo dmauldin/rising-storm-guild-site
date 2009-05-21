@@ -1,18 +1,1 @@
-<table class="achievements sortable">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @achievements.each do |achievement| %>
-      <tr>
-        <td><%= link_to achievement.title, achievement_path(achievement) %></td>
-        <td><%= achievement.description %></td>
-        <td><%= achievement.toon_achievements.count %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render :partial => 'achievements', :object => @achievements %>

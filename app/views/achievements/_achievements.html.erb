@@ -1,0 +1,18 @@
+<table class="achievements sortable">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Count</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% achievements.each do |achievement| %>
+      <tr>
+        <td><%= link_to achievement.title, achievement_path(achievement) %></td>
+        <td><%= achievement.raiders_with_achievement.size %></td>
+        <td><%= achievement.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
