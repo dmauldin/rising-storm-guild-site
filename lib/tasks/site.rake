@@ -40,8 +40,9 @@ namespace :site do
   end
 
   namespace :armory do
+    task :update_all => [:update_toons, :update_item_data]
     task :update_toons, :needs => :environment do
-      do_professions = false
+      do_professions = true
       do_achievements = true
       armory_throttle_time = 1.5
       def time_to_usec(time)
@@ -58,15 +59,16 @@ namespace :site do
       end
       def log(event)
         LogEntry.create(:comment => event)
+        puts event
       end
       wowr = Wowr::API.new(WOWR_DEFAULTS.merge(:debug => true))
       last_open = current_time
       guild = wowr.get_guild
       new_members = guild.members.keys - Toon.all.map {|toon| toon.name}
       log "Found #{new_members.size} new guild members."
-      log "Processing #{guild.members.size} guild members."
+      puts "Processing #{guild.members.size} guild members."
       guild.members.each do |name, character|
-        log "Processing #{character.name}"
+        puts "Processing basic information for #{character.name}"
         toon = Toon.find_by_name(name) || Toon.create(:name => name)
         toon.level = character.level
         toon.job_id = character.klass_id
@@ -78,9 +80,11 @@ namespace :site do
         if do_professions # process professions
           # guild.members apparently doesn't return full character records
           begin
-            last_open = wait_until(last_open + armory_throttle_time)
+            last_open = wait_until(last_open + (armory_throttle_time * 2))
+            # get_character gets info and reputations as two requests now
+            # argh, we don't even need reptutations here...
             wc = wowr.get_character(character.name)
-            log "Armory data obtained for #{character.name}"
+            puts "Armory data obtained for #{character.name}"
             # remove professions the character no longer has
             toon.professions.each do |toon_prof|
               unless wc.professions.map{|p|p.key}.include?(toon_prof.skill.name)
@@ -106,7 +110,8 @@ namespace :site do
               toon_prof.level = prof.value
               toon_prof.save if toon_prof.changed?
             end
-          rescue Wowr::Exceptions::CharacterNoInfos
+            puts "Armory data processed for #{character.name}"
+          rescue Wowr::Exceptions::CharacterNoInfo
             log "Character #{character.name} failed to load from Armory"
           end
         end
@@ -139,6 +144,9 @@ namespace :site do
               # get and update the actual achievement record from the db
               achievement = all_achievements.select{|aa| aa[:id] == a[:id].to_i}.first
               achievement = Achievement.new if achievement.nil?
+              if achievement.new_record?
+                log "Found new achievement: #{a[:title]} - #{a[:desc]}"
+              end
               # achievement = Achievement.find_by_id(a[:id], :include => [:criterias, :toon_achievements]) || Achievement.new
               achievement.id = a[:id] unless achievement.id == a[:id]
               achievement.title = a[:title] unless achievement.title == a[:title]
@@ -162,6 +170,7 @@ namespace :site do
                 end
               end
             end
+            puts "Processed achievements for #{toon.name}"
           rescue
             log "Failed to retrieve/process achievements for #{toon.name}"
           end
