@@ -50,6 +50,11 @@
         %td.item_slot= inventory_type_name(loot.item.inventory_type)
         %td.item_subclass= loot.item.subclass_name
         %td
+          - if show_admin_content?
+            = link_to "Edit", edit_loot_path(loot)
+            = link_to "Remove", loot_path(loot), :method => :delete, :confirm => 'Are you sure you want to delete this loot?'
+          - else
+            = link_to "Show", loot_path(loot)
         %td= loot.raid.zone.name unless loot.raid.zone.nil?
         %td= loot.raid.instance_id
   .page_links= page_links

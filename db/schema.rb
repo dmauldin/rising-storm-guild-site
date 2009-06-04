@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090513235651) do
+ActiveRecord::Schema.define(:version => 20090601032628) do
 
   create_table "achievement_criterias", :id => false, :force => true do |t|
     t.integer "achievement_id", :null => false
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(:version => 20090513235651) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "attendances", ["raid_id"], :name => "index_attendances_on_raid_id"
 
   create_table "forums", :force => true do |t|
     t.string   "title"
