@@ -14,13 +14,13 @@
 
 class Forum < ActiveRecord::Base
   acts_as_tree
-  has_many :topics
+  has_many :topics, :dependent => :destroy
   has_many :posts, :through => :topics
-  
+
   validates_presence_of :title
   validates_uniqueness_of :title
   
   def last_post
-    posts.find(:first, :order => "updated_at desc")
+    posts.first(:order => "updated_at desc")
   end
 end

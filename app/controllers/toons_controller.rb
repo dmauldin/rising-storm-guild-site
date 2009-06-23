@@ -1,8 +1,13 @@
 class ToonsController < ApplicationController
   def index
-    @normal_achievements = Achievement.find_by_id(2957, :include => {:criterias => :toons}).criterias
-    @heroic_achievements = Achievement.find_by_id(2958, :include => {:criterias => :toons}).criterias
-    
+    if Achievement.find_by_id(2957)
+      @normal_achievements = Achievement.find_by_id(2957, :include => {:criterias => :toons}).criterias
+      @heroic_achievements = Achievement.find_by_id(2958, :include => {:criterias => :toons}).criterias
+    else
+      @normal_achievements = nil
+      @heroic_achievements = nil
+      flash[:notice] = "Missing Ulduar meta-achievements.  Please update achievements through 'rake site:armory:update_all'"
+    end    
     #@skills = Skill.all(:conditions => {:name => ['alchemy', 'tailoring', 'leatherworking', 'skinning', 'enchanting', 'herbalism', 'blacksmithing', 'mining', 'jewelcrafting', 'engineering']}, :order => 'name asc')
 
     @search = Toon.new_search(params[:search])

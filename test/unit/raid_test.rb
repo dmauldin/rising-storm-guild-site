@@ -7,8 +7,6 @@ class RaidTest < ActiveSupport::TestCase
   should_belong_to :zone
   
   should_validate_presence_of :zone_id
-  should_validate_presence_of :key
+  should_validate_presence_of :instance_id
   should_validate_presence_of :start_at
-  
-  should_validate_uniqueness_of :key
 end

@@ -68,7 +68,9 @@ class Toon < ActiveRecord::Base
   def attendance_since(day)
     raid_ids = Raid.all(:conditions => {:start_at_after => day}).collect(&:id)
     attendance_ids = self.attendances.select {|a| raid_ids.include?(a.raid_id)}.collect(&:id)
-    "%03d%" % ((attendance_ids.size.to_f / raid_ids.size.to_f) * 100)
+    unless attendance_ids.empty?
+      "%03d%" % ((attendance_ids.size.to_f / raid_ids.size.to_f) * 100)
+    end
   end
 
   def last(days)

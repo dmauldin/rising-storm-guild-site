@@ -20,7 +20,7 @@ class LootsControllerTest < ActionController::TestCase
       setup do
         post :create
       end
-      should_deny_access
+      should_deny_access(:flash => "Please Login as an administrator to Access that Feature.")
     end
   end
 

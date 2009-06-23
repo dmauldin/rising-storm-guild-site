@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.gem 'thoughtbot-clearance', 
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
-    :version => '0.5.3'
+    :version => '0.5.6'
   config.gem 'searchlogic', :version => '1.6.6'
   config.gem 'httparty', :version => '>= 0.4.2'
   config.gem 'pwood-wowr',
@@ -37,12 +37,12 @@ Rails::Initializer.run do |config|
     :caching        => false
   }
   MENU = {
-#    'Forums' => ['forums', 'topics', 'posts'],
+    'Forums' => ['forums', 'topics', 'posts'],
     'Raids' => ['raids'],
     'Loots' => ['loots'],
     'Toons' => ['toons'],
-#    'Guild Bank' => ['guild_bank'],
-#    'Calendar' => ['calendar'],
+    # 'Guild Bank' => ['guild_bank'],
+    # 'Calendar' => ['calendar'],
     'Achievements' => ['achievements']
   }
   PUBLIC_MENUS = ['Toons', 'Achievements']

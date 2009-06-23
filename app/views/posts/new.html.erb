@@ -1,5 +1,6 @@
 <% form_for(@post) do |f| %>
   <%= f.error_messages %>
+  <%= f.hidden_field :topic_id %>
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>

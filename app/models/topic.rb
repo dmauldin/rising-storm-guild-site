@@ -19,4 +19,8 @@ class Topic < ActiveRecord::Base
   
   validates_presence_of :title
   validates_uniqueness_of :title, :scope => :forum_id
+  
+  def last_post
+    posts.last
+  end
 end

@@ -22,6 +22,6 @@ class User < ActiveRecord::Base
   end
   
   def name
-    self.email
+    self.email.split(/@/).first
   end
 end

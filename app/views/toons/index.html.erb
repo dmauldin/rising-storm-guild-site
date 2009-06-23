@@ -72,24 +72,28 @@
         <% end %>
         <td><%= toon.rank ? "#{toon.rank}/#{RANKS[toon.rank]}" : "?/Unknown" %></td>
         <td> 
-          <% normal_achievements_complete = @normal_achievements.all(:conditions => {:toons => {:id => toon.id}}) %>
-          <%= "<!-- %02d -->" % normal_achievements_complete.size %>
-          <%= link_to "%02d / %02d [%02d%%]" %
-            [ normal_achievements_complete.size,
-              @normal_achievements.size.to_s,
-              normal_achievements_complete.size.to_f / @normal_achievements.size * 100 ],
-            achievements_path(:toon => toon.name),
-            :class => ((@normal_achievements.size - normal_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}normal" : nil %>
+          <% unless @normal_achievements.nil? %>
+            <% normal_achievements_complete = @normal_achievements.all(:conditions => {:toons => {:id => toon.id}}) %>
+            <%= "<!-- %02d -->" % normal_achievements_complete.size %>
+            <%= link_to "%02d / %02d [%02d%%]" %
+              [ normal_achievements_complete.size,
+                @normal_achievements.size.to_s,
+                normal_achievements_complete.size.to_f / @normal_achievements.size * 100 ],
+              achievements_path(:toon => toon.name),
+              :class => ((@normal_achievements.size - normal_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}normal" : nil %>
+          <% end %>
         </td>
         <td>
-          <% heroic_achievements_complete = @heroic_achievements.all(:conditions => {:toons => {:id => toon.id}}) %>
-          <%= "<!-- %02d -->" % heroic_achievements_complete.size %>
-          <%= link_to "%02d / %02d [%02d%%]" %
-            [ heroic_achievements_complete.size,
-              @heroic_achievements.size.to_s,
-              heroic_achievements_complete.size.to_f / @heroic_achievements.size * 100 ],
-            achievements_path(:toon => toon.name),
-            :class => ((@heroic_achievements.size - heroic_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}heroic" : nil %>
+          <% unless @heroic_achievements.nil? %>
+            <% heroic_achievements_complete = @heroic_achievements.all(:conditions => {:toons => {:id => toon.id}}) %>
+            <%= "<!-- %02d -->" % heroic_achievements_complete.size %>
+            <%= link_to "%02d / %02d [%02d%%]" %
+              [ heroic_achievements_complete.size,
+                @heroic_achievements.size.to_s,
+                heroic_achievements_complete.size.to_f / @heroic_achievements.size * 100 ],
+              achievements_path(:toon => toon.name),
+              :class => ((@heroic_achievements.size - heroic_achievements_complete.size) < 4) ? "supernote-hover-toon#{toon.id}heroic" : nil %>
+          <% end %>
         </td>
         <% if toon.professions[0] %>
           <% content_tag :td do -%>
@@ -115,21 +119,23 @@
   </tbody>
 </table>
 
-<% @toons.each do |toon| %>
-  <% normal_achievements_remaining = (@normal_achievements - toon.achievements) %>
-  <% if (1..4).include? normal_achievements_remaining.size %>
-    <div  id="supernote-note-toon<%= toon.id %>normal" class="snp-mouseoffset notedefault">
-      <% normal_achievements_remaining.each do |achievement| %>
-        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
-      <% end %>
-    </div>
-  <% end %>
-  <% heroic_achievements_remaining = (@heroic_achievements - toon.achievements) %>
-  <% if (1..4).include? heroic_achievements_remaining.size %>
-    <div  id="supernote-note-toon<%= toon.id %>heroic" class="snp-mouseoffset notedefault">
-      <% heroic_achievements_remaining.each do |achievement| %>
-        <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
-      <% end %>
-    </div>
+<% unless @normal_achievements.nil? %>
+  <% @toons.each do |toon| %>
+    <% normal_achievements_remaining = (@normal_achievements - toon.achievements) %>
+    <% if (1..4).include? normal_achievements_remaining.size %>
+      <div  id="supernote-note-toon<%= toon.id %>normal" class="snp-mouseoffset notedefault">
+        <% normal_achievements_remaining.each do |achievement| %>
+          <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
+        <% end %>
+      </div>
+    <% end %>
+    <% heroic_achievements_remaining = (@heroic_achievements - toon.achievements) %>
+    <% if (1..4).include? heroic_achievements_remaining.size %>
+      <div  id="supernote-note-toon<%= toon.id %>heroic" class="snp-mouseoffset notedefault">
+        <% heroic_achievements_remaining.each do |achievement| %>
+          <div><%= link_to achievement.title, achievement_path(achievement) %> [<%= achievement.raiders_without_achievement.size %>]</div>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

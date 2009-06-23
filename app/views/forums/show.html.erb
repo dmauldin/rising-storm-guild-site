@@ -1,16 +1,24 @@
 <%= render :partial => 'forums/trail' %>
 
-<%= link_to "New Topic", new_forum_topic_path(@forum) %>
+<%= link_to "Create New Topic", new_forum_topic_path(@forum) %>
 
-<table>
+<table class="topics">
   <tr>
-    <th>Topic</th>
-    <th>Posts</th>
+    <th class="title">Topic</th>
+    <th class="replies">Replies</th>
+    <th class="views">Views</th>
+    <th class="last">Last Post</th>
   </tr>
   <% @forum.topics.each do |topic| %>
     <tr>
-      <td><%= link_to topic.title, topic_path(topic) %></td>
-      <td><%= topic.posts.size %></td>
+      <td class="title"><%= link_to topic.title, topic_path(topic) %></td>
+      <td class="replies"><%= topic.posts.size - 1 %></td>
+      <td class="views"><%= topic.view_count %></td>
+      <td class="last">
+        <%= link_to topic.posts.last.title, topic_post_path(topic, topic.posts.last) %>
+        by <%= link_to topic.posts.last.user.name, user_path(topic.posts.last.user) %>
+        <%= time_ago_in_words(topic.posts.last.created_at) %> ago
+      </td>
     </tr>
   <% end %>
 </table>

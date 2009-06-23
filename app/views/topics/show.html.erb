@@ -1,13 +1,13 @@
 <%= render :partial => 'forums/trail' %>
 
 <div>
-  <%= link_to "Post Reply" %>
+  <%= link_to "Post Reply", new_topic_post_path(@topic) %>
 </div>
 
 <div class="thread">
   <% @topic.posts.each do |post| -%>
       <div class="post">
-        <div class="title"><%= link_to post.title, topic_path(@topic).concat("##{post[:id]}") %></div>
+        <div class="title"><%= link_to post.title.blank? ? "(no title)" : post.title, topic_path(@topic).concat("##{post[:id]}") %></div>
         <div class="actions">::
           <%= link_to "Edit", edit_post_path(post) if post.user == current_user %>
           <!-- <%= link_to "Quote" %> -->

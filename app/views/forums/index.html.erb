@@ -2,30 +2,30 @@
   Admin: <%= link_to "New Forum", new_forum_path %>
 <% end %>
 
-<table>
+<table class='forum-list'>
   <tr>
-    <th>Forum</th>
-    <th>Topics</th>
-    <th>Last Post</th>
+    <th class='title'>Forum</th>
+    <th class='topic-count'>Topics</th>
+    <th class='post-count'>Posts</th>
+    <th class='last-post'>Last Post</th>
   </tr>
   <% @forums.each do |forum| %>
     <tr>
-      <td>
+      <td class='title'>
         <div class="title"><%= link_to forum.title, forum_path(forum) %></div>
         <div class="description">
           <%= forum.description %>
         </div>
       </td>
-      <td><%= forum.topics.size %></td>
-      <td>
+      <td class='topic-count'><%= forum.topics.size %></td>
+      <td class='post-count'><%= forum.posts.count %></td>
+      <td class='last-post'>
         <% if forum.last_post %>
           <div>
-            <% if forum.last_post != forum.last_post.topic.posts.first(:order => "created_at asc") %>
-            Re:
-            <% end %>
-            <%= forum.last_post.title %>
+            <%= link_to forum.posts.last.title, topic_post_path(forum.posts.last.topic, forum.posts.last) %>
+            by <%= link_to forum.posts.last.user.name, user_path(forum.posts.last.user) %>
+            <%= time_ago_in_words(forum.posts.last.created_at) %> ago
           </div>
-          <div>by <%= forum.last_post.user.name %>, <%= time_ago_in_words(forum.last_post.updated_at) %> ago</div>
         <% end %>
       </td>
     </tr>

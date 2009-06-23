@@ -4,6 +4,7 @@ class TopicsController < ApplicationController
   def show
     @topic = Topic.find(params[:id], :include => [:posts])
     @forum = @topic.forum
+    @topic.increment! :view_count
   end
 
   def new

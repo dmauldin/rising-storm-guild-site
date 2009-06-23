@@ -146,3 +146,12 @@ span.highlight { background-color: yellow; padding-left:2px; padding-right:2px;}
 .thread .post .actions a { margin-left:5px; }
 .thread .post .info { font-size: 0.85em; clear: both; }
 .thread .post .body { margin: 5px; }
+
+.topics { }
+.topics .title { min-width: 300px; }
+.topics td.replies, .topics td.views { text-align: center; }
+
+.forum-list { }
+.forum-list th { background-color: gray; color: white; }
+.forum-list .title { min-width: 300px; }
+.forum-list .post-count, .forum-list .topic-count { text-align: center; }

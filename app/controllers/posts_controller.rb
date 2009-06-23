@@ -2,13 +2,15 @@ class PostsController < ApplicationController
   before_filter :users_only
   
   def new
-    @post = Post.new
+    @topic = Topic.find(params[:topic_id])
+    @post = Post.new(:topic_id => params[:topic_id], :title => "re: #{@topic.title}")
   end
   
   # POST /posts
   # POST /posts.xml
   def create
-    @post = post.new(params[:post])
+    @post = Post.new(params[:post])
+    @post.user = current_user
 
     respond_to do |format|
       if @post.save
@@ -38,5 +40,9 @@ class PostsController < ApplicationController
         format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def show
+    redirect_to topic_path(params[:topic_id]).concat("##{params[:id]}")
   end
 end
