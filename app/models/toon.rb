@@ -65,19 +65,22 @@ class Toon < ActiveRecord::Base
   #   self.save
   # end
 
+  # this gives the attendance based on days attended, not raids
+  # there can be multiple raids and attendances per day
+  # ex: toon.attendance_since(90.days.ago) returns "085%"
   def attendance_since(day)
-    raid_ids = Raid.all(:conditions => {:start_at_after => day}).collect(&:id)
-    attendance_ids = self.attendances.select {|a| raid_ids.include?(a.raid_id)}.collect(&:id)
-    unless attendance_ids.empty?
-      "%03d%" % ((attendance_ids.size.to_f / raid_ids.size.to_f) * 100)
+    raids = Raid.all(:select => 'distinct start_at, id', :conditions => {:start_at_after => day, :official => true})
+    unless raids.empty?
+      attendances = self.attendances.all(
+        :select => 'id, distinct raids.start_at',
+        :include => :raid,
+        :conditions => {:raid => {:start_at => raids.collect(&:start_at)}})
+      unless attendances.empty?
+        "%03d%" % ((attendances.size.to_f / raids.size.to_f) * 100)
+      end
     end
   end
 
-  def last(days)
-    raid_count = Raid.all(:conditions => {:start_at_after => days.days.ago}).map(&:id).size
-    attendance_count - self.attendances.map(&:raid_id).size
-  end
-  
   def update_from_armory!
     self.update_from_armory
     self.save
