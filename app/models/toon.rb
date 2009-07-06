@@ -69,10 +69,10 @@ class Toon < ActiveRecord::Base
   # there can be multiple raids and attendances per day
   # ex: toon.attendance_since(90.days.ago) returns "085%"
   def attendance_since(day)
-    raids = Raid.all(:select => 'distinct start_at, id', :conditions => {:start_at_after => day, :official => true})
+    raids = Raid.all(:select => 'distinct date(start_at), id', :conditions => {:start_at_after => day, :official => true})
     unless raids.empty?
       attendances = self.attendances.all(
-        :select => 'id, distinct raids.start_at',
+        :select => 'id, distinct date(raids.start_at)',
         :include => :raid,
         :conditions => {:raid => {:start_at => raids.collect(&:start_at)}})
       unless attendances.empty?
