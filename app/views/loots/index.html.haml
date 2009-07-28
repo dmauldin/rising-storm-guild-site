@@ -43,10 +43,13 @@
     - @loots.each do |loot|
       %tr
         %td= loot.raid.start_at.to_s(:raid)
-        %td= loot.toon.name
+        %td= link_to loot.toon.name, loot.toon
         %td= formatted_job(loot.toon.job)
         %td= loot.status.capitalize
-        %td= link_to loot.item.name, wowhead_url(loot.item_id)
+        %td
+          .item{:style => 'float:left'}= link_to loot.item.name, wowhead_url(loot.item_id)
+          .history{:style => 'float:right; margin-left:8px;'}= link_to "hist", loot.item
+          .clear_both
         %td.item_slot= inventory_type_name(loot.item.inventory_type)
         %td.item_subclass= loot.item.subclass_name
         %td

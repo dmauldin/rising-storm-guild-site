@@ -35,3 +35,12 @@ task :after_update_code do
   run "ln -s #{shared_path}/config/initializers/site_keys.rb #{release_path}/config/initializers/site_keys.rb"
   run "ln -s #{shared_path}/config/initializers/hoptoad.rb #{release_path}/config/initializers/hoptoad.rb"
 end
+
+after "deploy:symlink", "deploy:update_crontab"
+
+namespace :deploy do
+  desc "update crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
+end

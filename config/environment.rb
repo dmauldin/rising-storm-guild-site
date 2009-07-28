@@ -2,23 +2,27 @@ RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 
-require 'rubygems'
-require 'open-uri'
-require 'hpricot'
-require 'wowr'
+# require 'rubygems'
+# require 'open-uri'
+# require 'hpricot'
+# require 'wowr'
 
 Rails::Initializer.run do |config|
   config.time_zone = 'Pacific Time (US & Canada)'
+  config.gem 'javan-whenever',
+    :lib => false,
+    :source => 'http://gems.github.com'
   config.gem 'thoughtbot-clearance', 
     :lib     => 'clearance', 
     :source  => 'http://gems.github.com', 
     :version => '0.5.6'
   config.gem 'searchlogic', :version => '1.6.6'
   config.gem 'httparty', :version => '>= 0.4.2'
-  config.gem 'pwood-wowr',
-    :lib => 'wowr',
-    :source => 'http://gems.github.com',
-    :version => '>= 0.5.1'
+  # config.gem 'wowr',
+  #   :lib => 'wowr',
+  #   :source => 'http://gems.github.com',
+  #   :version => '>= 0.5.3'
+  config.gem 'less', :version => '1.1.3'
   config.action_controller.session = {
     :session_key => '_guild_session',
     :secret      => '2bf36eeeb12568f4d17fff024e73df0927fdd9291b57339985026b1f075bec4f21519ad19922624d5232d591858a85d496708ea3d2117ca014a9cc627eaee20d'

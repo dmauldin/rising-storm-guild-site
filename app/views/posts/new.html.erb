@@ -1,15 +1,5 @@
-<% form_for(@post) do |f| %>
-  <%= f.error_messages %>
-  <%= f.hidden_field :topic_id %>
-  <div>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-  </div>
-  <div>
-    <%= f.submit "Create" %>
-  </div>
-<% end %>
+<%= render :partial => 'forums/trail' %>
+
+<h3>New Post</h3>
+
+<%= render :partial => 'form' %>

@@ -61,7 +61,7 @@ namespace :site do
         LogEntry.create(:comment => event)
         puts event
       end
-      wowr = Wowr::API.new(WOWR_DEFAULTS.merge(:debug => true))
+      wowr = Wowr::API.new(WOWR_DEFAULTS.merge(:debug => true, :rate_limit => true))
       last_open = current_time
       guild = wowr.get_guild
       new_members = guild.members.keys - Toon.all.map {|toon| toon.name}
@@ -80,7 +80,7 @@ namespace :site do
         if do_professions # process professions
           # guild.members apparently doesn't return full character records
           begin
-            last_open = wait_until(last_open + (armory_throttle_time * 2))
+            # last_open = wait_until(last_open + (armory_throttle_time * 2))
             # get_character gets info and reputations as two requests now
             # argh, we don't even need reptutations here...
             wc = wowr.get_character(character.name)
@@ -111,7 +111,7 @@ namespace :site do
               toon_prof.save if toon_prof.changed?
             end
             puts "Armory data processed for #{character.name}"
-          rescue Wowr::Exceptions::CharacterNoInfo
+          rescue Wowr::Exceptions::CharacterNotFound
             log "Character #{character.name} failed to load from Armory"
           end
         end

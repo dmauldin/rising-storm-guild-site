@@ -1,8 +1,12 @@
 .item
   .name
     Name:
-    = @item.name
-  .times_looted
-    Times looted:
-    = @item.loots.count
+    = link_to @item.name, wowhead_url(@item.id)
+  .looted_by
+    Looted by:
+    %table{:style => 'margin-left: 15px;'}
+      - @item.loots.each do |loot|
+        %tr
+          %td= link_to loot.toon.name, loot.toon
+          %td= loot.raid.start_at.to_s(:raid)
   

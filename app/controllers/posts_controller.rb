@@ -2,8 +2,9 @@ class PostsController < ApplicationController
   before_filter :users_only
   
   def new
-    @topic = Topic.find(params[:topic_id])
+    @topic = Topic.find(params[:topic_id], :include => [:forum])
     @post = Post.new(:topic_id => params[:topic_id], :title => "re: #{@topic.title}")
+    @forum = @topic.forum
   end
   
   # POST /posts
@@ -25,7 +26,9 @@ class PostsController < ApplicationController
   end
   
   def edit
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id], :include => [{:topic => :forum}])
+    @topic = @post.topic
+    @forum = @topic.forum
   end
   
   def update
