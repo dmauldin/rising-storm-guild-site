@@ -2,9 +2,9 @@ RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 
-# require 'rubygems'
-# require 'open-uri'
-# require 'hpricot'
+require 'rubygems'
+require 'open-uri'
+require 'hpricot'
 # require 'wowr'
 
 Rails::Initializer.run do |config|
