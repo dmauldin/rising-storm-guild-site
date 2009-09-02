@@ -102,4 +102,14 @@ class LootsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def toggle_status
+    @loot = Loot.find(params[:id], :include => [:item, {:toon => :job}, {:raid => :zone}])
+    @loot.status = @loot.status=="primary" ? "secondary" : "primary"
+    @loot.save
+    respond_to do |format|
+      format.xml { head :ok }
+      format.html { render :partial => 'loot', :layout => false, :object => @loot }
+    end
+  end
 end

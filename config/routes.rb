@@ -3,7 +3,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :has_one => [:password, :confirmation]
   map.resources :passwords
-  map.resources :loots, :items, :raids
+  map.resources :loots, :member => {:toggle_status => :post}
+  map.resources :items, :raids
   map.resources :toons, :has_many => :loots
   map.resource :session
   map.resources :forums, :has_many => :topics

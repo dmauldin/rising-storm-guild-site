@@ -1,0 +1,18 @@
+%td= loot.raid.start_at.to_s(:raid)
+%td= link_to loot.toon.name, loot.toon
+%td= formatted_job(loot.toon.job)
+%td= link_to_remote loot.status.capitalize, :url => toggle_status_loot_path(loot), :method => :post, :update => "#loot_#{loot.id}"
+%td
+  .item{:style => 'float:left'}= link_to loot.item.name, wowhead_url(loot.item_id)
+  .history{:style => 'float:right; margin-left:8px;'}= link_to "hist", loot.item
+  .clear_both
+%td.item_slot= inventory_type_name(loot.item.inventory_type)
+%td.item_subclass= loot.item.subclass_name
+%td
+  - if show_admin_content?
+    = link_to "Edit", edit_loot_path(loot)
+    = link_to_remote "Remove", :url => loot_path(loot), :method => :delete, :confirm => "Delete #{loot.item.name} from loots?", :success => "$('#loot_#{loot.id}').remove();"
+  - else
+    = link_to "Show", loot_path(loot)
+%td= loot.raid.zone.name unless loot.raid.zone.nil?
+%td= loot.raid.instance_id
