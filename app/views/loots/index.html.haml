@@ -41,7 +41,7 @@
       %th Zone
       %th Raid ID
     - @loots.each do |loot|
-      %tr
+      %tr{:id => "loot_#{loot.id}"}
         %td= loot.raid.start_at.to_s(:raid)
         %td= link_to loot.toon.name, loot.toon
         %td= formatted_job(loot.toon.job)
@@ -55,7 +55,9 @@
         %td
           - if show_admin_content?
             = link_to "Edit", edit_loot_path(loot)
-            = link_to "Remove", loot_path(loot), :method => :delete, :confirm => 'Are you sure you want to delete this loot?'
+            = link_to_remote "Remove", :url => loot_path(loot), :method => :delete, :confirm => "Delete #{loot.item.name} from loots?", :success => "$('#loot_#{loot.id}').remove();"
+            / = link_to "Pri"
+            / = link_to "Sec"
           - else
             = link_to "Show", loot_path(loot)
         %td= loot.raid.zone.name unless loot.raid.zone.nil?
