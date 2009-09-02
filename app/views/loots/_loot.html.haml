@@ -1,7 +1,11 @@
 %td= loot.raid.start_at.to_s(:raid)
 %td= link_to loot.toon.name, loot.toon
 %td= formatted_job(loot.toon.job)
-%td= link_to_remote loot.status.capitalize, :url => toggle_status_loot_path(loot), :method => :post, :update => "#loot_#{loot.id}"
+%td
+  - if show_admin_content?
+    = link_to_remote loot.status.capitalize, :url => toggle_status_loot_path(loot), :method => :post, :update => "#loot_#{loot.id}"
+  - else
+    = loot.status.capitalize
 %td
   .item{:style => 'float:left'}= link_to loot.item.name, wowhead_url(loot.item_id)
   .history{:style => 'float:right; margin-left:8px;'}= link_to "hist", loot.item
