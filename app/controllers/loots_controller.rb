@@ -5,7 +5,6 @@ class LootsController < ApplicationController
   # GET /loots.xml
   def index
     @search = Loot.new_search(params[:search])
-    @search.per_page ||= 50
     # @search.conditions.raid.start_at_after = 2.months.ago unless params[:search]
     # @search.conditions.toon.id = params[:toon_id] if params[:toon_id]
     @search.order_by ||= {:raid => :start_at}
@@ -13,7 +12,19 @@ class LootsController < ApplicationController
     # TODO I don't remember why I was ordering by inventory_type, maybe this should be removed
     # @search.order_with_ordering = "raids.start_at desc, items.inventory_type asc"
     @search.include = [:item, {:toon => :job}, {:raid => :zone}]
-    @loots = @search.all
+    @search.distinct = "raid_id"
+    if params[:show_last_per_toon]
+      @loots = @search.all
+    else
+      @loots = @search.all
+    end
+    class <<@loots
+      def hash
+        self.toon.hash
+      end
+      alias eql? ==
+    end
+    @loots = @loots.uniq
     @loots_count = @search.count
     # @raids = Raid.all(:conditions => {:id => @loots.map{|loot| loot.raid.id}.uniq})
     respond_to do |format|

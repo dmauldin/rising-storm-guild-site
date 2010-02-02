@@ -1,0 +1,5 @@
+This is pwood/wowr from github with a modification to the default settings to include a rate_limit option, which defaults to false so that all will work as it normally would.  In the case of doing mass imports, the rate limit can be enable to place a 1.5 seconds pause after every http request.  This is to avoid being banned by Blizzard's armory server which has a 1.3s rate limit on it (1.5 is used just here, to be safe).
+
+This can be enabled like so:
+
+wowr = Wowr::API.new(WOWR_DEFAULTS.merge(:debug => true, :rate_limit => true))

@@ -9,6 +9,8 @@
         - loots.fields_for loots.object.item do |item|
           = item.label :name_contains_any, "Item"
           = item.text_field :name_contains_any
+        = check_box_tag :show_last_per_toon, true, params[:show_last_per_toon]
+        = label_tag :show_last_per_toon, "Show only last loot for each toon"
       .form_row
         = loots.label :status
         = loots.select :status, Loot::STATUSES, :include_blank => "any"

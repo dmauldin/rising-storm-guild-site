@@ -202,11 +202,47 @@ module Wowr
 				@bonuses = {}
 				
 				bonus_stats = {
-					:strength => :bonusStrength,
-					:agility => :bonusAgility,
-					:stamina => :bonusStamina,
-					:intellect => :bonusIntellect,
-					:spirit => :bonusSpirit
+          :strength           => :bonusStrength,
+          :agility            => :bonusAgility,
+          :stamina            => :bonusStamina,
+          :intellect          => :bonusIntellect,
+          :spirit             => :bonusSpirit,
+
+          # http://www.wowarmory.com/_layout/items/tooltip.xsl defines these bonuses as well
+          :defense            => :bonusDefenseSkillRating,
+          :dodge              => :bonusDodgeRating,
+          :parry              => :bonusParryRating,
+          :block              => :bonusBlockRating,
+          :melee_hit          => :bonusHitMeleeRating,
+          :ranged_hit         => :bonusHitRangedRating,
+          :spell_hit          => :bonusHitSpellRating,
+          :melee_crit         => :bonusCritMeleeRating,
+          :ranged_crit        => :bonusCritRangedRating,
+          :spell_crit         => :bonusCritSpellRating,
+          # :bonusHitTakenMeleeRating,
+          # :bonusHitTakenRangedRating,
+          # :bonusHitTakenSpellRating,
+          # :bonusCritTakenMeleeRating,
+          # :bonusCritTakenRangedRating,
+          # :bonusCritTakenSpellRating,
+          :melee_haste        => :bonusHasteMeleeRating,
+          :ranged_haste       => :bonusHasteRangedRating,
+          :spell_haste        => :bonusHasteSpellRating,
+          :hit                => :bonusHitRating,
+          :crit               => :bonusCritRating,
+          # :bonusHitTakenRating,
+          # :bonusCritTakenRating,
+          :resilience         => :bonusResilienceRating,
+          :haste              => :bonusHasteRating,
+          :spell_power        => :bonusSpellPower,
+          :attack_power       => :bonusAttackPower,
+          :feral_attack_power => :bonusFeralAttackPower,
+          :mana_regen         => :bonusManaRegen,
+          :armor_penetration  => :bonusArmorPenetration,
+          :block_value        => :bonusBlockValue,
+          :health_regen       => :bonusHealthRegen,
+          :spell_penetration  => :bonusSpellPenetration,
+          :expertise          => :bonusExpertiseRating,
 				}
 				bonus_stats.each do |stat, xml_elem|
 					@bonuses[stat] = test_stat(elem/xml_elem) if test_stat(elem/xml_elem)
@@ -245,6 +281,19 @@ module Wowr
 					@spells = []
 					(elem%'spellData'/:spell).each do |spell|
 						@spells << ItemSpell.new(spell)
+					end
+					
+					# Convert specific spell descriptions into bonus values
+					regex = {
+					  :spell_power => /^Increases spell power by ([0-9]+)\.$/,
+					  :mana_regen  => /^Restores ([0-9]+) mana per 5 sec\.$/,
+					}
+					@spells.each do |spell|
+						regex.each do |bonus, exp|
+							if spell.description =~ exp
+								@bonuses[bonus] = spell.description.gsub(exp, '\1').to_i
+							end
+						end
 					end
 				end
 				
