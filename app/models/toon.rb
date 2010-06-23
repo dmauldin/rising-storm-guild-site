@@ -52,7 +52,7 @@ class Toon < ActiveRecord::Base
   # end
   
   # 0:GM, 1:GM Alt, 2:Organizer, 3:Raider, 4:Trial, 5:Alt, 6:Member
-  named_scope :raiders, :conditions => {:rank => RAIDER_RANKS}, :include => :job
+  named_scope :raiders, :conditions => ['rank in (?) and name not in (?)', RAIDER_RANKS, RAIDER_EXCLUSIONS], :include => :job
 
   def last_primary
     self.loots.primary.first(:order => "looted_at desc")

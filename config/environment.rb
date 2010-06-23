@@ -50,6 +50,7 @@ Rails::Initializer.run do |config|
     'Achievements' => ['achievements']
   }
   PUBLIC_MENUS = ['Toons', 'Achievements']
-  RANKS = ['Guild Master', 'Officer', 'Organizer', 'Raider', 'Trial', 'Alt', 'Member']
-  RAIDER_RANKS = [0, 2, 3, 4]
+  RANKS = ['Guild Master', "Xig's Alts", 'Officer', 'Raider', 'Old Raider', 'Trial', 'Member']
+  RAIDER_RANKS = [0, 2, 3, 5]
+  RAIDER_EXCLUSIONS = %w(Dreadbringer Azshardalon Bitten Nobis Diig Digs Theldraskien)
 end
