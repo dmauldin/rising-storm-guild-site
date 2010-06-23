@@ -36,7 +36,7 @@ class Achievement < ActiveRecord::Base
   end
   
   def raiders_with_achievement
-    self.toons.select{|toon|RAIDER_RANKS.include?(toon.rank)}
+    self.toons & Toon.raiders
   end
 
   def toons_without_achievement
